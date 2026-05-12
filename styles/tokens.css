@@ -1,0 +1,69 @@
+/*
+ * winemine — Design Tokens
+ *
+ * 랜딩 페이지(`src/app/globals.css`)에서 추출한 디자인 토큰만 담는다.
+ * 랜딩 전용 keyframe(mapSlideLeft, scanLine 등)과 섹션별 미디어쿼리는 제외했다.
+ * 앱 프로토타입에서 `@import "tailwindcss"` 다음에 import하여 사용.
+ */
+
+:root {
+  /* ── Primary ───────────────────────────── */
+  --color-wine-red:        #8B1A2A;
+  --color-wine-red-hover:  #A02030;
+  --color-gold:            #C9A84C;
+  --color-cream:           #F5F0E8;
+
+  /* ── Background ────────────────────────── */
+  --color-bg-deepest:      #05020A;
+  --color-bg-deep:         #0A050F;
+  --color-bg-map:          #1A0A1E;
+  --color-surface:         #0F0718;
+
+  /* ── Text ──────────────────────────────── */
+  --color-text-primary:    #F5F0E8;
+  --color-text-secondary:  #D4C5B0;
+  --color-text-muted:      #9B8B7A;
+  --color-text-disabled:   #4A3D56;
+
+  /* ── Border ────────────────────────────── */
+  --color-border:          #2D1540;
+  --color-border-active:   #8B1A2A;
+
+  /* ── Semantic ──────────────────────────── */
+  --color-error:           #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-deepest);
+  color: var(--color-text-primary);
+  /*
+   * var(--font-inter)는 next/font Inter (Latin)
+   * 'Noto Sans KR'은 Google Fonts (한글)
+   * 브라우저가 글리프 단위로 폰트를 선택한다.
+   */
+  font-family: var(--font-inter), 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;
+}
+
+/* ── 공통 인터랙션 ─────────────────────────── */
+
+/* Touch device — hover 부작용 억제 */
+@media (hover: none) {
+  button:hover { transform: none !important; box-shadow: none !important; }
+}
+
+/* 스크롤바 숨김 (가로 스크롤 캐러셀용) */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
