@@ -77,6 +77,15 @@
       "suggestTour": "둘러보기 — winemine은 어떤 앱인가요?",
       "suggestStarter": "추천 입문 와인 보기",
       "suggestExperience": "와인 경험 모드 바꾸기"
+    },
+    "wineFeed": {
+      "heading": "와인 둘러보기",
+      "subtitle": "카드 탭하면 상세로",
+      "tabs": {
+        "featured": "추천",
+        "trending": "트렌딩",
+        "explore": "탐험"
+      }
     }
   },
   "map": {

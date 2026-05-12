@@ -77,6 +77,15 @@
       "suggestTour": "Take a tour — what is winemine?",
       "suggestStarter": "See starter recommendations",
       "suggestExperience": "Change experience level"
+    },
+    "wineFeed": {
+      "heading": "Discover wines",
+      "subtitle": "Tap a card for details",
+      "tabs": {
+        "featured": "Featured",
+        "trending": "Trending",
+        "explore": "Explore"
+      }
     }
   },
   "map": {
