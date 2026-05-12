@@ -1,6 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import type { Route } from 'next';
+import { ChevronRight, Award } from 'lucide-react';
 import { LocaleText, useLocalizedText } from '@/components/shared/locale-text';
 import { LevelPill } from '@/components/shared/level-pill';
 import { LevelProgressBar } from '@/components/shared/level-progress-bar';
@@ -110,6 +113,38 @@ export function ProfileHero({ user }: Props) {
         </div>
       </div>
       <LevelProgressBar xp={user.xp} />
+
+      {/* 랭킹 상세 정보로 이동 — 등급/혜택/XP 적립 방법 안내 */}
+      <Link
+        href={'/profile/ranking' as Route}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '12px 14px',
+          borderRadius: 10,
+          background: 'rgba(201, 168, 76, 0.08)',
+          border: '1px solid rgba(201, 168, 76, 0.25)',
+          textDecoration: 'none',
+          color: 'inherit',
+          marginTop: 4,
+        }}
+      >
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <Award size={16} color="var(--color-gold)" />
+          <span
+            style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: 13,
+              fontWeight: 500,
+              color: 'var(--color-cream)',
+            }}
+          >
+            {t('rankingDetailCta')}
+          </span>
+        </span>
+        <ChevronRight size={16} color="var(--color-text-muted)" />
+      </Link>
     </section>
   );
 }

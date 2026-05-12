@@ -83,11 +83,12 @@
 }
 
 /* 디바이스 프레임 안의 콘텐츠 스크롤 영역
- * StatusBar(54px)와 BottomNav(83px) 공간을 두지 않고 콘텐츠가 풀 스크롤되도록.
- * 각 페이지가 padding-top/padding-bottom으로 영역 확보. */
+ * StatusBar(54px)는 위에 absolute로 떠 있고, route-outlet은 그 아래 54px부터 시작.
+ * Dynamic Island(top 11~45px)와 페이지 헤더(로고/타이틀)가 겹치지 않도록 안전 마진 확보.
+ * BottomNav는 페이지 내부에서 absolute bottom으로 마운트되므로 inset 영향 X. */
 .wm-route-outlet {
   position: absolute;
-  inset: 0;
+  inset: 54px 0 0 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;

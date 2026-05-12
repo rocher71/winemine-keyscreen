@@ -172,7 +172,8 @@
       "sortRecent": "Recent",
       "sortRating": "Top-rated"
     },
-    "signOutToast": "Sign-out is disabled in the prototype"
+    "signOutToast": "Sign-out is disabled in the prototype",
+    "rankingDetailCta": "View ranking details"
   },
   "settings": {
     "title": "Settings",
@@ -658,5 +659,64 @@
       "label": "Auto description",
       "saveCta": "Save note"
     }
+  },
+  "ranking": {
+    "current": {
+      "label": "Current rank",
+      "xp": "{xp} XP earned",
+      "toNext": "{count} XP to next level",
+      "maxLevel": "Top tier — Master"
+    },
+    "actions": {
+      "heading": "How to level up",
+      "subtitle": "XP is awarded automatically for the activities below",
+      "cellarAdd": {
+        "title": "Add wine to cellar",
+        "sub": "Register a bottle stored in your cellar or fridge"
+      },
+      "beginnerNote": {
+        "title": "Beginner note",
+        "sub": "Save one 5-minute simplified tasting note"
+      },
+      "expertNote": {
+        "title": "Expert note",
+        "sub": "Save one WSET SAT compliant precision note"
+      },
+      "expertBlindNote": {
+        "title": "Blind tasting",
+        "sub": "Guess grape, region, vintage, price — then reveal"
+      },
+      "photoAttach": {
+        "title": "Attach label photo",
+        "sub": "Add a wine label photo to your note"
+      },
+      "priceAdd": {
+        "title": "Add purchase price",
+        "sub": "Contribute price-history data with store and branch"
+      },
+      "peakEstimate": {
+        "title": "Peak ETA estimate (L3+)",
+        "sub": "'When will this peak' — contributes to community aggregate"
+      },
+      "firstCountry": {
+        "title": "First wine from a country",
+        "sub": "Bonus for recording a wine from a country you haven't tasted"
+      },
+      "firstRegion": {
+        "title": "First wine from a region",
+        "sub": "Bonus for a new region (e.g., Burgundy, Barolo)"
+      },
+      "communityReview": {
+        "title": "Community review",
+        "sub": "Post one public review on a wine detail page"
+      }
+    },
+    "tiers": {
+      "heading": "Ranks & benefits",
+      "subtitle": "Higher ranks unlock community influence and feature access",
+      "benefits": "Benefits",
+      "youAreHere": "Current"
+    },
+    "disclaimer": "* This policy is a mockup draft. Final launch policy will be announced separately."
   }
 }

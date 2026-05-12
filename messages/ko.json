@@ -172,7 +172,8 @@
       "sortRecent": "최근",
       "sortRating": "평점 높은 순"
     },
-    "signOutToast": "데모에서는 로그아웃이 적용되지 않아요"
+    "signOutToast": "데모에서는 로그아웃이 적용되지 않아요",
+    "rankingDetailCta": "랭킹 상세 정보"
   },
   "settings": {
     "title": "설정",
@@ -658,5 +659,64 @@
       "label": "자동 묘사",
       "saveCta": "노트 저장"
     }
+  },
+  "ranking": {
+    "current": {
+      "label": "현재 랭킹",
+      "xp": "{xp} XP 누적",
+      "toNext": "다음 레벨까지 {count} XP",
+      "maxLevel": "최고 단계 — Master"
+    },
+    "actions": {
+      "heading": "어떻게 레벨업하나요?",
+      "subtitle": "아래 활동을 하면 자동으로 XP가 적립돼요",
+      "cellarAdd": {
+        "title": "셀러에 와인 등록",
+        "sub": "내 셀러/냉장고에 보관 중인 와인 한 병 추가"
+      },
+      "beginnerNote": {
+        "title": "입문자 노트 작성",
+        "sub": "5분짜리 간단 시음 노트 1건 저장"
+      },
+      "expertNote": {
+        "title": "전문가 노트 작성",
+        "sub": "WSET SAT 호환 정밀 노트 1건 저장"
+      },
+      "expertBlindNote": {
+        "title": "블라인드 테이스팅",
+        "sub": "품종·지역·빈티지·가격 추정 후 정답 공개"
+      },
+      "photoAttach": {
+        "title": "라벨 사진 첨부",
+        "sub": "노트에 와인 라벨 사진 추가"
+      },
+      "priceAdd": {
+        "title": "구매가 등록",
+        "sub": "매장·지점·가격을 함께 입력해 가격 추이 데이터에 기여"
+      },
+      "peakEstimate": {
+        "title": "음용 적기 추정 (L3+)",
+        "sub": "'이 와인은 언제가 절정' — 커뮤니티 집계에 기여"
+      },
+      "firstCountry": {
+        "title": "새 국가 첫 와인",
+        "sub": "처음 마셔보는 국가의 와인을 기록할 때 보너스"
+      },
+      "firstRegion": {
+        "title": "새 지역 첫 와인",
+        "sub": "처음 마셔보는 지역(예: 부르고뉴 · 바롤로)의 와인 보너스"
+      },
+      "communityReview": {
+        "title": "커뮤니티 리뷰 작성",
+        "sub": "와인 상세 페이지에 공개 리뷰 1건 작성"
+      }
+    },
+    "tiers": {
+      "heading": "랭킹 단계와 혜택",
+      "subtitle": "단계가 오를수록 커뮤니티 영향력과 기능 권한이 커집니다",
+      "benefits": "혜택",
+      "youAreHere": "현재"
+    },
+    "disclaimer": "* 본 정책은 시안 단계의 임의 정의입니다. 실제 출시 정책은 추후 공지됩니다."
   }
 }
