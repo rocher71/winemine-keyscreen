@@ -1,0 +1,406 @@
+/**
+ * winemine — Shared TypeScript types
+ *
+ * SPEC `core_data_entities` 기준의 전체 엔티티 타입. mock-data-architect가
+ * 작성한 모든 fixture가 이 타입을 참조한다.
+ *
+ * 사용자 노출 문자열은 LocalizedString { ko, en } — `<LocaleText>`가 받아
+ * 영어/한국어 모드에서 분기 렌더한다. 한국어 인라인 문자열 금지.
+ */
+
+/* ─────────────────────────── 기본 공용 타입 ─────────────────────────── */
+
+export type LocalizedString = {
+  ko: string;
+  en: string;
+};
+
+export type Locale = 'ko' | 'en';
+export type DemoMode = 'first-time' | 'heavy';
+export type Experience = 'beginner' | 'expert';
+
+export type LocalizedStringOrPlain = LocalizedString | string;
+
+/* ─────────────────────────── 도메인 enum ─────────────────────────── */
+
+export type WineType = 'red' | 'white' | 'rosé' | 'sparkling' | 'fortified' | 'dessert';
+
+export type WSETScale = 'low' | 'mediumMinus' | 'medium' | 'mediumPlus' | 'high';
+
+export type FinishLength = 'short' | 'medium' | 'long' | 'veryLong';
+
+export type FaultId =
+  | 'corked'
+  | 'brett'
+  | 'volatileAcidity'
+  | 'reduction'
+  | 'oxidation'
+  | 'heat'
+  | 'mercaptan'
+  | 'lightstruck'
+  | 'geranium'
+  | 'mousy'
+  | 'cork';
+
+export type Delta = -2 | -1 | 0 | 1 | 2;
+
+export type StorageKind = 'cellar' | 'fridge' | 'room' | 'offsite';
+
+export type StoreKind = 'offline' | 'online';
+
+export type ConfidenceLevel = 'low' | 'medium' | 'high';
+
+export type BeginnerImpression = 'good' | 'okay' | 'meh' | 'bad';
+
+export type BadgeTier = 'bronze' | 'silver' | 'gold' | 'platinum';
+
+export type GlossaryCategory = 'sensory' | 'fault' | 'classification' | 'technique' | 'unit';
+
+export type PurchaseSource = 'cellarRegistration' | 'tastingNote';
+
+export type TastingNoteSource = 'cellar' | 'newEntry';
+export type TastingNoteMode = 'beginner' | 'expert';
+
+export type NotificationKind =
+  | 'favoritePurchase'
+  | 'drinkWindowReached'
+  | 'badgeEarned'
+  | 'levelUp'
+  | 'reviewLiked';
+
+/* ─────────────────────────── User ─────────────────────────── */
+
+export interface UserStats {
+  winesTasted: number;
+  countriesExplored: number;
+  regionsExplored: number;
+  notesCount: number;
+  cellarCount: number;
+}
+
+export interface User {
+  id: string;
+  displayName: LocalizedString;
+  avatarInitial: LocalizedString;
+  locale: Locale;
+  experience: Experience;
+  xp: number;
+  levelId: number;
+  joinedAt: string;
+  badges: string[];
+  stats: UserStats;
+}
+
+/* ─────────────────────────── Wine ─────────────────────────── */
+
+export interface DrinkWindow {
+  /** 시음 가능 시작 연도 (vintage + n) */
+  from: number;
+  /** 절정 연도 */
+  peak: number;
+  /** 시음 마감 권장 연도 */
+  to: number;
+}
+
+export interface ServingTempRange {
+  min: number;
+  max: number;
+}
+
+export interface Wine {
+  id: string;
+  /** 영문/원어 와인명. 두 locale에서 그대로 노출되는 경우가 많으나
+   *  통일을 위해 plain string으로 두고, 페이지에서 그대로 렌더. */
+  name: string;
+  producer: LocalizedString;
+  vintage: number;
+  country: LocalizedString;
+  region: LocalizedString;
+  appellation: LocalizedString;
+  /** [lon, lat] */
+  coords: [number, number];
+  /** ISO 3166-1 numeric 3자리 zero-padded (world-110m.json geo.id와 매칭) */
+  isoNumeric: string;
+  grapes: LocalizedString[];
+  wineType: WineType;
+  /** 라벨 일러스트용 hex */
+  bottleColor: string;
+  drinkWindow: DrinkWindow;
+  servingTempCelsius: ServingTempRange;
+  /** lib/tasting-note-lexicon.ts AROMA_LEXICON id */
+  signatureAromaLexIds: string[];
+  averagePriceKrw: number;
+  description: LocalizedString;
+  storyId: string | null;
+  externalRatingsId: string | null;
+}
+
+/* ─────────────────────── WineStory / ExternalRating ─────────────────────── */
+
+export interface WineStory {
+  id: string;
+  wineId: string;
+  wineryName: LocalizedString;
+  foundedYear: number;
+  location: LocalizedString;
+  history: LocalizedString;
+  funFact: LocalizedString;
+  producerPhotoUrl: string | null;
+  vineyardArea: string | null;
+  philosophy: LocalizedString | null;
+}
+
+export interface VivinoRating {
+  score: number;
+  reviewCount: number;
+}
+
+export interface WineSearcherRating {
+  score: number;
+  priceRank: LocalizedString;
+}
+
+export interface CellarTrackerRating {
+  score: number;
+  reviewCount: number;
+}
+
+export interface ExternalRating {
+  id: string;
+  wineId: string;
+  vivino: VivinoRating | null;
+  wineSearcher: WineSearcherRating | null;
+  cellarTracker: CellarTrackerRating | null;
+  globalAvgPriceUsd: number | null;
+  lastSyncedAt: string;
+}
+
+/* ─────────────────────── CommunityPeak ─────────────────────── */
+
+export interface CommunityPeakEstimate {
+  id: string;
+  wineId: string;
+  userId: string;
+  estimatedPeakYear: number;
+  confidence: ConfidenceLevel;
+  note: LocalizedString | null;
+  createdAt: string;
+  /** L3~L5만 (베타 피드백 정책) */
+  reviewerLevel: 3 | 4 | 5;
+}
+
+export interface CommunityPeakDistributionPoint {
+  year: number;
+  /** 가중 응답 수 */
+  count: number;
+}
+
+export interface CommunityPeakAggregate {
+  wineId: string;
+  /** 응답자 수 */
+  count: number;
+  meanPeakYear: number;
+  medianPeakYear: number;
+  distribution: CommunityPeakDistributionPoint[];
+  /** Wine.drinkWindow.peak (비교용) */
+  systemPeakYear: number;
+}
+
+/* ─────────────────────── LabelPhoto ─────────────────────── */
+
+export interface LabelPhoto {
+  id: string;
+  userId: string;
+  wineId: string | null;
+  photoUrl: string;
+  capturedAt: string;
+  location: LocalizedString | null;
+  tags: string[];
+  linkedTastingNoteId: string | null;
+  linkedCellarItemId: string | null;
+}
+
+/* ─────────────────────── Glossary ─────────────────────── */
+
+export interface GlossaryEntry {
+  id: string;
+  term: LocalizedString;
+  definition: LocalizedString;
+  examples: LocalizedString | null;
+  relatedTermIds: string[];
+  source: LocalizedString | null;
+  category: GlossaryCategory;
+}
+
+/* ─────────────────────── CellarItem ─────────────────────── */
+
+export interface CellarItem {
+  id: string;
+  userId: string;
+  wineId: string;
+  acquiredAt: string;
+  storage: StorageKind;
+  notes: LocalizedString | null;
+  purchasePriceKrw: number | null;
+  notifyAtPeak: boolean;
+  photoUrl: string | null;
+}
+
+/* ─────────────────────── TastingNote ─────────────────────── */
+
+export interface BeginnerFields {
+  impression: BeginnerImpression;
+  sweetness: 1 | 2 | 3 | 4 | 5;
+  acidity: 1 | 2 | 3 | 4 | 5;
+  body: 1 | 2 | 3 | 4 | 5;
+  tannin: 1 | 2 | 3 | 4 | 5;
+  /** AROMA_LEXICON id 배열 */
+  aromas: string[];
+  finish: 'short' | 'medium' | 'long';
+  /** 0~5 */
+  rating: number;
+  memo: LocalizedString;
+}
+
+export interface AromaWheelSelection {
+  /** 12 wedge category id (fruity, floral...) */
+  categoryId: string;
+  /** AROMA_LEXICON id 배열 */
+  terms: string[];
+}
+
+export interface EvolutionTimepoint {
+  minutes: number;
+  deltaAroma: Delta;
+  deltaTannin: Delta;
+  deltaBody: Delta;
+  /** 0~100 */
+  score: number;
+}
+
+export interface EvolutionRecord {
+  openedAt: string;
+  decant: boolean;
+  timepoints: EvolutionTimepoint[];
+  /** 절정까지 걸린 분 */
+  peakAt: number;
+}
+
+export interface ExpertFields {
+  sweetness: WSETScale;
+  acidity: WSETScale;
+  body: WSETScale;
+  tannin: WSETScale;
+  /** TanninTexture id (lexicon.ts) */
+  tanninTexture: string;
+  intensity: WSETScale;
+  flavorIntensity: WSETScale;
+  finishLength: FinishLength;
+  aromaWheel: AromaWheelSelection[];
+  faults: FaultId[];
+  evolution: EvolutionRecord;
+  /** 카우달리 (1 caudalie = 1초 잔향) */
+  caudalies: number;
+  /** 0~100 */
+  rating: number;
+  memo: LocalizedString;
+  /** 베타 피드백 — 시음 온도 */
+  servingTempCelsius: number | null;
+  /** 베타 피드백 — peak ETA */
+  peakEstimateYear: number | null;
+  peakEstimateConfidence: ConfidenceLevel | null;
+  peakEstimateNote: LocalizedString | null;
+}
+
+export interface TastingNote {
+  id: string;
+  userId: string;
+  wineId: string;
+  source: TastingNoteSource;
+  cellarItemId: string | null;
+  tastedAt: string;
+  mode: TastingNoteMode;
+  beginnerFields: BeginnerFields | null;
+  expertFields: ExpertFields | null;
+  photoUrl: string | null;
+  priceKrw: number | null;
+  isPublic: boolean;
+  createdAt: string;
+}
+
+/* ─────────────────────── Purchase / Store ─────────────────────── */
+
+export interface Purchase {
+  id: string;
+  userId: string;
+  wineId: string;
+  priceKrw: number;
+  currency: 'KRW';
+  storeId: string;
+  purchasedAt: string;
+  source: PurchaseSource;
+}
+
+export interface Store {
+  id: string;
+  name: LocalizedString;
+  branch: LocalizedString | null;
+  kind: StoreKind;
+  location: LocalizedString | null;
+}
+
+/* ─────────────────────── FavoriteWine / Notification ─────────────────────── */
+
+export interface FavoriteWine {
+  id: string;
+  userId: string;
+  wineId: string;
+  notifyOnPurchase: boolean;
+  addedAt: string;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  kind: NotificationKind;
+  wineId: string | null;
+  cellarItemId: string | null;
+  badgeId: string | null;
+  actorUserId: string | null;
+  title: LocalizedString;
+  body: LocalizedString;
+  createdAt: string;
+  read: boolean;
+}
+
+/* ─────────────────────── Badge / Level / Review ─────────────────────── */
+
+export interface Badge {
+  id: string;
+  name: LocalizedString;
+  description: LocalizedString;
+  iconPath: string;
+  tier: BadgeTier;
+  earnedCondition: LocalizedString;
+}
+
+export interface Level {
+  id: number;
+  name: LocalizedString;
+  minXp: number;
+  maxXp: number | null;
+  color: string;
+  description: LocalizedString;
+}
+
+export interface Review {
+  id: string;
+  userId: string;
+  wineId: string;
+  body: LocalizedString;
+  /** beginner: 0~5, expert: 0~100 */
+  rating: number;
+  mode: TastingNoteMode;
+  createdAt: string;
+  likesCount: number;
+}

@@ -119,3 +119,24 @@ Error:               #EF4444
 - **전문가**: "와인을 깊게 파고드시나요?" — WSET·카우달리·아펠라시옹 같은 정식 용어 사용
 
 앱에서도 비슷한 모드 분기(쉬운 모드/전문가 모드)를 고려할 수 있다.
+
+---
+
+## 하네스: winemine 키스크린 개발
+
+**목표:** `WINEMINE_KEYSCREEN_SPEC.md` (2462줄) 기반으로 iPhone 390×844 목업 안에서 동작하는 winemine 키스크린 시안 앱을 단계적으로 구축. 22개 라우트, 한/영 i18n, beginner/expert·first-time/heavy 모드 토글, 베타 피드백 7항목 반영.
+
+**트리거:** 키스크린 개발·페이지 추가·QA·mock 데이터 변경 관련 요청 시 `winemine-build-orchestrator` 스킬을 사용하라. 단일 페이지 단순 수정은 해당 스킬(winemine-page-routing, winemine-tasting-components, winemine-wine-detail, winemine-mock-fixtures 등)을 직접 호출해도 됨. 단순 질문은 직접 응답 가능.
+
+**진실 소스:**
+- 스펙: `WINEMINE_KEYSCREEN_SPEC.md`
+- 테이스팅 노트: `docs/tasting-note-app-handover.md` (9개 컴포넌트 시그니처)
+- 베타 피드백: `data/raw/2026-05-12_review.md`
+
+**중간 산출물:** `_workspace/` (gitignore — 보고서·i18n 키 export)
+
+**변경 이력:**
+| 날짜 | 변경 내용 | 대상 | 사유 |
+|------|----------|------|------|
+| 2026-05-12 | 초기 구성 (에이전트 7 + 스킬 8) | 전체 | 키스크린 시안 단계적 구축 위한 하네스 신규 설계 |
+

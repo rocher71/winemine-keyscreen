@@ -1,41 +1,562 @@
 {
-  "_note": "이 파일은 랜딩 페이지 i18n에서 와인 도메인 어휘만 추출한 것이다. 랜딩 전용 키(hero, vineyardStrip, features, marketStats, howItWorks, instagramPreview, finalCta, floatingCta, storeButtons, waitlist*)는 제거됨. en.json과 키 구조가 일치해야 한다.",
+  "_note": "winemine keyscreen 시안 — 페이지 빌더가 관리. en.json과 키 구조가 일치해야 함. 도메인 mock 데이터(country, region 등)는 LocalizedString 객체로 별도 관리되므로 여기 포함되지 않음.",
 
-  "franceWine": {
-    "regions": {
-      "21": "부르고뉴",
-      "33": "보르도",
-      "51": "샹파뉴",
-      "67": "알자스",
-      "69": "론 밸리"
-    }
+  "common": {
+    "back": "뒤로",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기",
+    "next": "다음",
+    "previous": "이전",
+    "delete": "삭제",
+    "edit": "편집",
+    "share": "공유",
+    "more": "더보기",
+    "seeAll": "모두 보기",
+    "loading": "불러오는 중…",
+    "search": "검색",
+    "all": "전체",
+    "yes": "예",
+    "no": "아니오",
+    "comingSoon": "곧 만나요",
+    "mockToast": "데모 시안 — 실제 동작은 추후",
+    "copied": "복사됐어요"
   },
 
-  "wineDiscovery": {
-    "topQuestion": "나만의 와인지도, 어떻게 시작할까요?",
-    "step1": {
-      "label": "1. 먹어본 와인 스캔",
-      "title": "찍기만 하면\n나머지는 AI가 알아서",
-      "body": "Château, 빈티지, 등급, 산지까지 자동 추출"
+  "keyscreen": {
+    "title": "winemine 키스크린",
+    "label": "시안"
+  },
+
+  "onboarding": {
+    "tagline": "한 잔의 와인, 한 점의 지도",
+    "getStarted": "시작하기",
+    "language": {
+      "title": "언어를 선택하세요",
+      "subtitle": "이 설정은 언제든 변경 가능해요",
+      "ko": "한국어",
+      "en": "English"
     },
-    "step2": {
-      "label": "2. 비슷한 입문 한 병",
-      "title": "기록이 쌓일수록\n취향에 딱 맞는 한 병",
-      "body": "당신이 마신 산지에서 시작해\n비슷한 입문 와인을 지도 위에 추천해드립니다",
-      "startHint": "당신이 마신 보르도 레드와 비슷한…",
-      "footnote": "1~6만원대 입문용으로 큐레이션",
-      "cardLabel": "당신의 다음 한 병"
+    "experience": {
+      "title": "와인 경험을 알려주세요",
+      "subtitle": "이에 따라 테이스팅 노트가 다르게 표시돼요",
+      "beginnerLabel": "와인을 가볍게 즐기시나요?",
+      "beginnerSub": "단맛·신맛·향을 풀어쓴 5분짜리 기록",
+      "expertLabel": "와인을 깊게 파고드시나요?",
+      "expertSub": "WSET SAT · 카우달리 · 결함 점검",
+      "footer": "설정에서 언제든 변경할 수 있어요"
+    },
+    "done": {
+      "title": "환영해요, 와인 여정이 시작돼요",
+      "subtitle": "첫 한 병을 스캔하거나 둘러보세요",
+      "scanCta": "라벨 스캔",
+      "tourCta": "둘러보기"
     }
   },
 
-  "burgundy": {
-    "heading": "부르고뉴 한 병의 디테일까지."
+  "home": {
+    "greeting": "안녕하세요, {name}님",
+    "greetingNew": "{name}님, 환영합니다",
+    "bottles": "{count}병",
+    "countriesRegions": "{countries}개국 · {regions}개 지역",
+    "notifications": "알림",
+    "recentTasted": "최근 마신 와인",
+    "quickActions": {
+      "cellar": "셀러",
+      "cellarSub": "{count}병 보관 중",
+      "map": "지도",
+      "mapSub": "{count}개 지역",
+      "favorites": "즐겨찾기",
+      "favoritesSub": "{count}개",
+      "badges": "뱃지",
+      "badgesSub": "{owned}/{total}"
+    },
+    "firstTime": {
+      "greeting": "와인 여정을 시작하세요",
+      "sub": "첫 와인을 등록해보세요",
+      "scanCta": "라벨 스캔하기",
+      "emptyMap": "아직 마신 와인이 없어요",
+      "emptyMapHint": "당신의 와인 지도를 만들어보세요",
+      "suggestTour": "둘러보기 — winemine은 어떤 앱인가요?",
+      "suggestStarter": "추천 입문 와인 보기",
+      "suggestExperience": "와인 경험 모드 바꾸기"
+    }
+  },
+
+  "map": {
+    "title": "내 와인 지도",
+    "filterLabel": "필터",
+    "legendOne": "1병",
+    "legendMany": "5+병",
+    "legendToast": "히트맵은 마신 와인 수",
+    "countryHeading": "{country} · {count}병",
+    "regionHeading": "{region} · {count}병",
+    "regionsTitle": "지역",
+    "winesTitle": "와인",
+    "backToRegions": "지역 목록으로",
+    "emptyTitle": "아직 와인 기록이 없어요",
+    "emptyCta": "시작하기",
+    "filterToast": "필터는 추후 제공"
+  },
+
+  "cellar": {
+    "title": "내 셀러",
+    "addCta": "+ 등록",
+    "sort": {
+      "recent": "최근",
+      "drinkSoon": "마시기 좋은 시점",
+      "vintage": "빈티지",
+      "region": "지역",
+      "storage": "보관 위치",
+      "price": "가격대"
+    },
+    "drinkWindow": {
+      "now": "지금 마시기 좋아요",
+      "fromYear": "{year}년부터",
+      "peak": "절정",
+      "pastPeak": "절정 지남",
+      "tooYoung": "아직 일러요",
+      "mature": "성숙기",
+      "tip": "이 와인은 {year}년에 절정에 도달합니다",
+      "peakInYears": "절정까지 +{n}년",
+      "fromTo": "{from}년 ~ {to}년"
+    },
+    "notify": {
+      "label": "절정 시점에 알림받기",
+      "confirmTitle": "{year}년에 푸시 알림을 보내드릴게요",
+      "confirmCta": "확인",
+      "alternateCta": "다른 시점",
+      "toggledOn": "알림이 켜졌어요",
+      "toggledOff": "알림이 꺼졌어요"
+    },
+    "meta": {
+      "storage": "보관 위치",
+      "acquiredAt": "구매일",
+      "price": "구매가",
+      "memo": "메모",
+      "memoEmpty": "메모 없음",
+      "storageCellar": "셀러",
+      "storageFridge": "냉장고",
+      "storageRoom": "실온",
+      "storageOffsite": "외부"
+    },
+    "drinkThis": "이 와인 마시기",
+    "drinkThisConfirm": "셀러에서 이 와인을 마셨다고 기록할까요?",
+    "communityReviews": "다른 사람의 리뷰",
+    "viewWineDetails": "와인 상세 보기",
+    "empty": {
+      "title": "셀러가 비어있어요",
+      "sub": "와인을 등록하면 보관·음용 시점 알림을 받을 수 있어요",
+      "cta": "첫 와인 등록"
+    },
+    "addToast": "셀러 등록은 추후"
+  },
+
+  "profile": {
+    "title": "프로필",
+    "joinedFor": "함께한 지 {months}개월",
+    "stats": {
+      "tasted": "마신 와인",
+      "countries": "국가",
+      "regions": "지역",
+      "notes": "노트"
+    },
+    "links": {
+      "favorites": "즐겨찾기",
+      "badges": "뱃지 진열장",
+      "notifications": "알림",
+      "settings": "설정",
+      "signOut": "로그아웃"
+    },
+    "other": {
+      "follow": "팔로우",
+      "following": "팔로잉",
+      "followToast": "팔로우 기능은 추후",
+      "matchTitle": "취향 일치도",
+      "matchDesc": "둘 다 마신 와인: {shared}병 · 비슷한 산지: {regions}개",
+      "winesTitle": "마신 와인",
+      "sortRecent": "최근",
+      "sortRating": "평점 높은 순"
+    },
+    "signOutToast": "데모에서는 로그아웃이 적용되지 않아요"
+  },
+
+  "settings": {
+    "title": "설정",
+    "sections": {
+      "app": "앱",
+      "notifications": "알림",
+      "account": "계정",
+      "about": "정보"
+    },
+    "items": {
+      "language": "언어",
+      "experience": "와인 경험",
+      "notifSettings": "알림 설정",
+      "changeNickname": "닉네임 변경",
+      "signOut": "로그아웃",
+      "version": "버전",
+      "terms": "이용약관",
+      "privacy": "개인정보처리방침"
+    },
+    "values": {
+      "ko": "한국어",
+      "en": "English",
+      "beginner": "입문자",
+      "expert": "전문가"
+    },
+    "experiencePage": {
+      "title": "와인 경험",
+      "beginnerDesc": "단맛·신맛·향을 풀어쓴 5분짜리 기록. 어휘는 친근하게.",
+      "expertDesc": "WSET SAT · 카우달리 · 결함 점검 등 정밀 도구가 모두 노출됩니다.",
+      "appliedToast": "다음 노트부터 새 UI가 적용돼요"
+    },
+    "languagePage": {
+      "title": "언어",
+      "appliedToast": "언어가 변경되었어요"
+    },
+    "notifPage": {
+      "title": "알림",
+      "favoritePurchase": "즐겨찾기 와인 가격 알림",
+      "drinkWindow": "셀러 음용 시점 알림",
+      "badgeLevel": "뱃지·레벨업 알림",
+      "community": "커뮤니티 알림 (좋아요 등)",
+      "toggleSaved": "설정이 저장됐어요"
+    },
+    "nicknameToast": "닉네임 변경은 데모에서는 적용되지 않아요",
+    "termsToast": "이용약관 페이지는 추후",
+    "privacyToast": "개인정보처리방침 페이지는 추후"
+  },
+
+  "notifications": {
+    "title": "알림",
+    "markAllRead": "모두 읽음",
+    "markedAllRead": "모두 읽음 처리했어요",
+    "empty": "알림이 없어요",
+    "emptySub": "와인을 등록하면 관심 와인의 가격, 셀러 음용 시점 알림을 받을 수 있어요"
+  },
+
+  "favorites": {
+    "title": "즐겨찾기",
+    "notify": "가격 알림",
+    "removed": "즐겨찾기에서 제거됐어요",
+    "added": "즐겨찾기에 추가됐어요",
+    "notifyOn": "가격 알림이 켜졌어요",
+    "notifyOff": "가격 알림이 꺼졌어요",
+    "empty": "즐겨찾기한 와인이 없어요",
+    "emptySub": "와인 상세에서 별 아이콘으로 추가할 수 있어요"
+  },
+
+  "badges": {
+    "title": "뱃지",
+    "earned": "획득",
+    "locked": "잠금",
+    "ownedOf": "{owned}/{total}",
+    "tiers": {
+      "all": "전체",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    },
+    "condition": "획득 조건",
+    "earnedAt": "획득일",
+    "lockedHint": "이 뱃지의 조건을 채우면 자동으로 부여돼요"
+  },
+
+  "photos": {
+    "title": "라벨 사진",
+    "searchToast": "사진 검색은 추후",
+    "filters": {
+      "all": "전체",
+      "thisYear": "올해",
+      "inCellar": "셀러",
+      "tasted": "마신",
+      "byRegion": "지역별",
+      "unmatched": "미매칭"
+    },
+    "empty": {
+      "title": "아직 라벨 사진이 없어요",
+      "sub": "와인을 스캔하면 여기에 모입니다",
+      "cta": "스캔하기"
+    },
+    "sheet": {
+      "viewWine": "와인 상세로 이동",
+      "linkWine": "와인 정보 수동 매칭",
+      "delete": "사진 삭제",
+      "deleteConfirm": "이 사진을 삭제할까요?",
+      "matched": "매칭됨",
+      "unmatched": "미매칭"
+    }
+  },
+
+  "glossary": {
+    "title": "용어 사전",
+    "searchPlaceholder": "용어 검색",
+    "categories": {
+      "all": "전체",
+      "sensory": "감각",
+      "fault": "결함",
+      "classification": "분류",
+      "technique": "기법",
+      "unit": "단위"
+    },
+    "definition": "정의",
+    "examples": "사용 예시",
+    "source": "출처",
+    "related": "관련 용어",
+    "more": "용어 사전 더 보기",
+    "notFound": "용어를 찾을 수 없어요",
+    "noResults": "검색 결과가 없어요"
+  },
+
+  "capture": {
+    "title": "와인 추가",
+    "scan": {
+      "title": "라벨 스캔",
+      "sub": "AI가 자동 인식해요",
+      "toast": "카메라 권한이 필요해요 (시안)"
+    },
+    "cellar": {
+      "title": "셀러에 보관",
+      "sub": "오늘 마실 게 아니면 보관"
+    },
+    "note": {
+      "title": "테이스팅 노트 작성",
+      "sub": "지금 마시는 와인 기록"
+    }
+  },
+
+  "notes": {
+    "source": {
+      "title": "출처 선택",
+      "question": "이 와인은 어디서 왔나요?",
+      "fromCellar": "내 셀러에서",
+      "fromCellarSub": "{count}병 보관 중",
+      "fromCellarEmpty": "셀러가 비어있어요",
+      "newEntry": "새 와인",
+      "newEntrySub": "라벨 스캔 또는 직접 입력",
+      "pickFromCellar": "셀러에서 선택",
+      "cellarListTitle": "셀러 와인"
+    },
+    "write": {
+      "title": "테이스팅 노트",
+      "saveCta": "저장",
+      "savedToast": "+{xp} XP",
+      "modeBeginner": "입문자 모드",
+      "modeExpert": "전문가 모드",
+      "placeholder": "노트 작성 영역은 별도 컨테이너가 마운트됩니다"
+    }
+  },
+
+  "levels": {
+    "label": "Level {id} {name}",
+    "progress": "{current}/{next} XP",
+    "maxed": "최고 레벨"
+  },
+
+  "reviews": {
+    "title": "리뷰",
+    "sortRecent": "최근",
+    "sortRating": "평점 높은 순",
+    "ratingStars": "{score}/5",
+    "ratingScore": "{score}/100",
+    "anonymous": "익명"
+  },
+
+  "demoControls": {
+    "title": "데모 컨트롤",
+    "demoMode": "데모 모드",
+    "firstTime": "처음 사용자",
+    "heavy": "헤비 사용자",
+    "experience": "와인 경험",
+    "beginner": "입문자",
+    "expert": "전문가",
+    "language": "언어",
+    "ko": "한국어",
+    "en": "English",
+    "showOnboarding": "온보딩 다시 보기",
+    "simulatePush": "푸시 시뮬",
+    "plusXp": "+50 XP",
+    "addCellar": "셀러 항목 추가",
+    "urlPreview": "현재 URL",
+    "copy": "복사",
+    "pushSimulated": "익명 사용자가 즐겨찾기 와인을 구매했어요",
+    "xpAdded": "+50 XP 적립",
+    "cellarAdded": "셀러에 와인이 추가됐어요"
+  },
+
+  "featureFlags": {
+    "title": "컴포넌트 플래그",
+    "componentsOn": "이 화면 컴포넌트",
+    "noteLabel": "이 화면 결정 메모",
+    "notePlaceholder": "여기에 시안 결정 메모를 적으세요…",
+    "status": {
+      "planned": "계획",
+      "considering": "검토",
+      "dropped": "제외"
+    },
+    "noComponents": "이 화면에는 등록된 컴포넌트가 없어요"
+  },
+
+  "wineDetail": {
+    "tabs": {
+      "detail": "상세",
+      "prices": "가격",
+      "story": "스토리",
+      "communityPeak": "커뮤니티 적기"
+    },
+    "avgPrice": {
+      "title": "평균 구매가",
+      "entries": "{n}건 등록",
+      "entry": "{n}건 등록"
+    },
+    "priceChart": {
+      "title": "가격 추이",
+      "range": {
+        "3M": "3개월",
+        "1Y": "1년",
+        "ALL": "전체"
+      },
+      "detailCta": "상세보기",
+      "empty": "아직 등록된 가격이 없어요",
+      "tooltipAvg": "평균",
+      "myEntry": "내 등록"
+    },
+    "priceDetail": {
+      "title": "가격 상세",
+      "byStore": "매장별 등록",
+      "sort": {
+        "priceAsc": "가격 낮은 순",
+        "recent": "최근"
+      },
+      "empty": "등록된 가격이 없어요",
+      "addCta": "내 구매 정보 등록",
+      "form": {
+        "title": "구매 정보 등록",
+        "price": "가격",
+        "pricePlaceholder": "가격 (₩)",
+        "store": "매장",
+        "date": "구매일",
+        "save": "저장 (+5 XP)",
+        "invalidPrice": "가격을 입력해주세요",
+        "savedToast": "가격 등록 +5 XP"
+      }
+    },
+    "reviews": {
+      "title": "리뷰",
+      "sort": {
+        "recent": "최근",
+        "rating": "평점 높은 순"
+      },
+      "empty": "아직 리뷰가 없어요",
+      "anonymous": "익명 사용자"
+    },
+    "addToCellar": "셀러에 추가",
+    "favorite": {
+      "addedToast": "즐겨찾기에 추가했어요",
+      "removedToast": "즐겨찾기에서 제거했어요"
+    },
+    "servingTemp": "{min}-{max}°C 권장"
+  },
+
+  "externalRatings": {
+    "title": "외부 평점",
+    "empty": "외부 평점 없음",
+    "lastSynced": "마지막 동기화: {date}",
+    "mockNotice": "시안 mock 데이터입니다",
+    "mockNoticeFull": "시안 mock 데이터입니다. 실제 API 미연동.",
+    "globalAvg": "글로벌 평균가",
+    "vivinoReviews": "{count} reviews"
+  },
+
+  "wineStory": {
+    "label": "와이너리 이야기",
+    "readMore": "더 읽기",
+    "funFact": "재미있는 이야기",
+    "history": "역사",
+    "philosophy": "양조 철학",
+    "foundedShort": "설립 {year}",
+    "empty": "이 와인의 스토리는 준비 중",
+    "backToWine": "이 와인 다시 보기",
+    "meta": {
+      "founded": "설립년도",
+      "vineyardArea": "포도밭 면적",
+      "mainGrapes": "주요 품종",
+      "avgPrice": "평균 시판가"
+    }
+  },
+
+  "communityPeak": {
+    "title": "커뮤니티 음용 적기",
+    "subtitle": "전문가 {count}명이 추정한 절정 시점",
+    "intro": "다른 사용자들이 추정한 절정 시점입니다. 시스템 추정과 비교해 보세요.",
+    "empty": "아직 추정 데이터가 부족해요. 전문가 노트에서 입력해주세요",
+    "mean": "평균 {year}",
+    "median": "중앙값 {year}",
+    "meanMedian": "평균 {mean} · 중앙값 {median}",
+    "reviewersCount": "{count}명",
+    "distributionCopy": "{count}명 중 {pct}%가 {minYear}~{maxYear} 사이 추천",
+    "weight": "L4/L5 사용자의 추정은 가중치 1.5~2배 적용됩니다",
+    "detailsCta": "상세 보기",
+    "addMyEstimate": "내 추정 추가",
+    "lockedL1L2": "L3 Connoisseur부터 추정 입력 가능",
+    "addedToast": "전문가 노트에서 추정을 입력하면 분포에 즉시 반영돼요",
+    "contributorsTitle": "추정자 목록",
+    "sort": {
+      "recent": "최근",
+      "levelDesc": "레벨 높은 순"
+    },
+    "legend": {
+      "system": "시스템 추정",
+      "mean": "커뮤니티 평균",
+      "median": "중앙값"
+    },
+    "confidence": {
+      "low": "낮음",
+      "medium": "보통",
+      "high": "높음"
+    },
+    "tooltipWeighted": "가중 응답 수: {count}"
+  },
+
+  "regionalAromas": {
+    "heading": "이 지역에서 자주 나타나는 향",
+    "emptyNote": "이 와인에 대한 지역 향 데이터가 아직 부족합니다"
+  },
+
+  "noteWrite": {
+    "source": {
+      "heading": "어떤 와인을 기록할까요?",
+      "subhead": "셀러에 있는 와인을 따시거나, 새로운 와인을 만나셨나요?",
+      "cellar": {
+        "title": "내 셀러에서",
+        "empty": "아직 셀러가 비어 있어요",
+        "count": "{count}병 보관 중"
+      },
+      "newEntry": {
+        "title": "새 와인",
+        "subtitle": "라벨 사진을 찍거나 직접 입력해요"
+      }
+    },
+    "photoToggle": {
+      "label": "사진 추가 (+5 XP)"
+    },
+    "priceCapture": {
+      "label": "가격 입력 (+5 XP)",
+      "placeholder": "가격 (KRW)"
+    },
+    "save": {
+      "beginner": "입문자 노트 +{xp} XP",
+      "expert": "전문가 노트 +{xp} XP"
+    }
   },
 
   "tastingNote": {
     "eyebrow": "기록, CAPTURE",
     "heading": "어떻게 기억에 남기시겠어요?",
-    "subhead": "와인 전문가들이 손글씨로 채우는 그 양식, WineMine으로 쉽게.",
+    "subhead": "와인 전문가들이 손글씨로 채우는 그 양식, winemine으로 쉽게.",
     "tabs": {
       "white": "White",
       "red": "Red",
@@ -77,232 +598,60 @@
       "flavorIntensity": "풍미 강도",
       "finishLength": "피니시 길이"
     },
-    "aroma": {
-      "title": "아로마 — UC Davis Wheel",
-      "selectCategory": "카테고리를 선택하세요",
-      "wheelHint": "wedge를 클릭하면 어휘가 펼쳐집니다",
-      "searchPlaceholder": "어휘 검색"
-    },
-    "caudalie": {
-      "title": "피니시 — Caudalie",
-      "tapStart": "Tap to start",
-      "tapStop": "Tap to stop",
-      "reset": "다시",
-      "label": "{count} caudalies",
-      "manualToggle": "측정 없이 분류만 선택"
-    },
-    "faults": {
-      "title": "결함 점검 · Fault Check",
-      "intro": "전문가 모드를 켜면 11종 결함 카탈로그가 펼쳐집니다",
-      "footnote": "결함은 명시적 사용자 체크가 있을 때만 기록됩니다."
-    },
-    "evolution": {
-      "title": "오프닝 타임라인 · Opening Timeline",
-      "intro": "코르크 따고 와인이 어떻게 변하는지 시간축으로 기록해보세요",
-      "openedAtNow": "지금",
-      "openedAtCustom": "직접 입력",
-      "decantLabel": "디캔터 사용?",
-      "yes": "예",
-      "no": "아니오",
-      "addTimepoint": "시점 추가",
-      "deltaAroma": "T0 대비 향 강도",
-      "deltaTannin": "T0 대비 타닌 부드러움",
-      "deltaBody": "T0 대비 바디",
-      "reductionLabel": "환원취 (Reduction) 느껴짐",
-      "reductionTooltip": "성냥, 고무, H₂S, 양배추, 마늘. 산소 노출로 사라지는 결함성 향. 영 시라, 환원성 양조 와인에 흔함.",
-      "newAromas": "이 시점에서 새로 등장한 향",
-      "scoreLabel": "이 시점의 전반 점수",
-      "noteLabel": "메모",
-      "peakLabel": "이 시점이 정점",
-      "recommendationTitle": "권장 디캔팅",
-      "recommendedRange": "권장: {min}~{max}분 (평균 Peak {peak}분)",
-      "compareEarly": "권장보다 빠르게 깨우는 편",
-      "compareOnTime": "권장 시간과 정확히 일치합니다",
-      "compareLate": "권장보다 늦게 깨우는 편",
-      "compareWayEarly": "꽤 일찍 깨우시네요 — 와인이 더 풀릴 여지가 있을지도",
-      "compareWayLate": "권장보다 길게 두시는 편 — 매우 인내심 있는 스타일"
-    },
-    "blind": {
-      "title": "GUESS THE WINE",
-      "grape": "품종 추정",
-      "region": "지역 추정",
-      "country": "국가 추정",
-      "vintage": "빈티지 추정",
-      "priceRange": "가격대 추정",
-      "reveal": "정답 공개 (Reveal & Score)",
-      "retry": "재시도",
-      "scoreTotal": "총점 {score}/100",
-      "rankMaster": "Master Sommelier 수준",
-      "rankAdvanced": "Advanced Sommelier 후보",
-      "rankEnthusiast": "Wine Enthusiast",
-      "rankExploring": "탐험 단계 — 더 마셔보세요",
-      "rankFinding": "재미있는 발견 — 와인의 다양성을 즐기세요"
-    },
     "rating": {
       "title": "평가",
       "wouldBuyAgain": "다시 사시겠어요?"
     },
     "beginner": {
-      "intro": "와인 한 잔, 5분이면 끝나는 짧은 기록. 어려운 용어는 잠시 잊고 느낀대로 적어보세요.",
-      "step": {
-        "wine": "어떤 와인인가요?",
-        "impression": "첫 모금, 어땠어요?",
-        "taste": "맛은 어땠어요?",
-        "aroma": "어떤 향이 떠올랐나요?",
-        "finish": "여운은 어땠어요?",
-        "rating": "얼마나 마음에 들었나요?",
-        "memo": "오늘의 한 줄"
+      "intro": "와인 한 잔, 5분이면 끝나는 짧은 기록. 어려운 용어는 잠시 잊고 느낀대로 적어보세요."
+    },
+    "expert": {
+      "servingTemp": {
+        "title": "시음 온도",
+        "recommended": "권장 {min}~{max}°C",
+        "tooCold": "너무 차가워요",
+        "slightlyCold": "조금 차게",
+        "inRange": "권장 범위",
+        "slightlyWarm": "조금 따뜻해요",
+        "tooWarm": "너무 따뜻해요"
       },
-      "impression": {
-        "love": "마음에 쏙",
-        "ok": "괜찮았어요",
-        "meh": "음… 별로"
-      },
-      "tasteLabel": {
-        "sweetness": "단맛",
-        "acidity": "신맛",
-        "body": "무게감",
-        "tannin": "떫은 맛",
-        "bubbles": "기포"
-      },
-      "scale": {
-        "sweetLow": "안 달아요",
-        "sweetMid": "살짝 달아요",
-        "sweetHigh": "달콤해요",
-        "acidLow": "부드러워요",
-        "acidMid": "적당해요",
-        "acidHigh": "짜릿해요",
-        "bodyLow": "물처럼 가벼워요",
-        "bodyMid": "보통이에요",
-        "bodyHigh": "우유처럼 묵직해요",
-        "tanninLow": "부드러워요",
-        "tanninMid": "적당히 잡혀요",
-        "tanninHigh": "혀가 까칠해요",
-        "bubblesLow": "부드러워요",
-        "bubblesMid": "톡톡 튀어요",
-        "bubblesHigh": "강하게 터져요"
-      },
-      "aromaCard": {
-        "berry": "베리",
-        "citrus": "시트러스",
-        "stoneFruit": "사과, 복숭아",
-        "floral": "꽃",
-        "spice": "향신료",
-        "sweet": "달콤한 향",
-        "earth": "흙, 나무",
-        "yeast": "빵, 견과"
-      },
-      "finishOption": {
-        "short": "금방 사라져요",
-        "medium": "잠시 머물러요",
-        "long": "한참 남아요"
-      },
-      "summary": "오늘의 한 잔",
-      "tipTitle": "와인 전문가들은 이걸 이렇게 부른답니다",
-      "tip": {
-        "sweetness": "단맛의 정도는 ‘잔당(Residual Sugar)’이라고 하며, g/L 단위로 표기해요. WSET에서는 Bone Dry부터 Sweet까지 5단계로 구분합니다.",
-        "acidity": "신맛은 ‘산도(Acidity)’예요. 화이트 와인은 보통 6~10 g/L, 레드는 5~7 g/L 정도. 침이 고이는 강도로 느낄 수 있어요.",
-        "body": "무게감은 ‘바디(Body)’ — 알코올·추출물·잔당이 합쳐진 입안의 인상이에요. 탈지유 vs 전유로 비유하기도 해요.",
-        "tannin": "떫은 맛은 ‘타닌(Tannin)’ — 적포도 껍질·씨에서 나오는 폴리페놀. 시간이 지날수록 둥글어져요.",
-        "finish": "여운은 ‘피니시(Finish)’ — 보르도 와인 학교에서는 1초 = 1 카우달리(Caudalie)로 측정합니다."
+      "peakEta": {
+        "title": "이 와인, 언제가 가장 좋을까요?",
+        "peakingNow": "지금이 절정",
+        "yearsLater": "+{n}년 후",
+        "confidence": {
+          "label": "확신도",
+          "low": "낮음",
+          "medium": "보통",
+          "high": "높음"
+        },
+        "notePlaceholder": "메모 (선택) — 예: 타닌이 아직 단단해 보임",
+        "footnote": "다른 사용자들의 추정과 함께 와인 상세 페이지에 집계됩니다",
+        "lockedL1L2": "더 마셔보고 다시",
+        "lockedHint": "L3+ 사용자에게만 노출됩니다"
       }
     },
-    "mockup": {
-      "title": {
-        "white": "WHITE WINE TASTING NOTES",
-        "red": "RED WINE TASTING NOTES",
-        "sparkling": "CHAMPAGNE TASTING NOTES",
-        "blind": "BLIND TASTING SHEET"
+    "evolution": {
+      "cork": {
+        "open": "코르크 오픈 시각 기록",
+        "opened": "🍷 코르크 오픈됨"
       },
-      "section": {
-        "wine": "와인",
-        "aroma": "아로마",
-        "palate": "미각",
-        "bubbles": "기포 · 무쎄",
-        "visual": "시각",
-        "finish": "피니시",
-        "overall": "종합 인상",
-        "rating": "평가",
-        "guess": "와인 추정",
-        "score": "점수"
+      "decant": {
+        "label": "디캔터 사용"
       },
-      "meta": {
-        "vintage": "빈티지",
-        "region": "지역",
-        "appellation": "아펠라시옹",
-        "grape": "품종",
-        "price": "가격",
-        "nv": "NV"
-      },
-      "aromaGroup": {
-        "citrus": "시트러스",
-        "treeFruit": "핵과",
-        "tropical": "트로피컬",
-        "floral": "꽃",
-        "mineral": "미네랄",
-        "yeastOak": "발효, 오크",
-        "redBerry": "붉은 베리",
-        "blackBerry": "검은 베리",
-        "spicy": "향신료",
-        "earthLeather": "흙, 가죽",
-        "oak": "오크",
-        "autolytic": "자가분해 (효모)",
-        "nutty": "견과",
-        "earth": "흙"
-      },
-      "intensity": {
-        "light": "가벼움",
-        "mediumMinus": "중간−",
-        "medium": "중간",
-        "pronounced": "뚜렷함"
-      },
-      "tannin": {
-        "texture": "질감",
-        "ripe": "잘 익음",
-        "unripe": "덜 익음",
-        "overripe": "과숙"
-      },
-      "caudalies": "카우달리"
-    }
-  },
-
-  "franceWineDetail": {
-    "heading": "와인 컬렉션",
-    "sortLabels": {
-      "recent": "최근",
-      "rating": "평점",
-      "vintage": "빈티지"
+      "peakToggle": "정점",
+      "reduction": {
+        "label": "환원취 느껴짐"
+      }
     },
-    "metaLabels": {
-      "total": "총",
-      "avg": "평균",
-      "top": "최애"
+    "faults": {
+      "heading": "결함 점검",
+      "footnote": "명시적으로 체크한 항목만 기록됩니다 — 자동 추론하지 않습니다.",
+      "showMore": "+{count}개 결함 더 보기"
     },
-    "bottleUnit": "병",
-    "regions": {
-      "33": "보르도",
-      "21": "부르고뉴",
-      "51": "샹파뉴"
+    "autoDescription": {
+      "label": "자동 묘사",
+      "saveCta": "노트 저장"
     }
-  },
-
-  "wines": {
-    "bordeaux": [
-      { "id": "w01", "occasion": "결혼기념일",     "note": "잘 익은 카시스, 시가박스, 제비꽃. 우아한 탄닌이 한참 머무름." },
-      { "id": "w02", "occasion": "와인 모임",      "note": "연필심, 블랙커런트, 스모키한 오크. 구조감이 압도적." },
-      { "id": "w03", "occasion": "발렌타인 디너",  "note": "농밀한 검은 과실, 다크초콜릿, 가죽 뉘앙스." },
-      { "id": "w04", "occasion": "특별한 손님",    "note": "실키한 텍스처, 자두 콩포트, 트러플의 매혹적인 향." },
-      { "id": "w05", "occasion": "크리스마스 이브","note": "향신료, 말린 장미, 아시아 향신료. 지적인 와인." },
-      { "id": "w06", "occasion": "와인 동호회",    "note": "풀바디, 농축된 과실, 미네랄. 조금 더 기다려도 좋을 듯." }
-    ],
-    "meursault": [
-      { "id": "m01", "occasion": "생일 파티", "note": "헤이즐넛, 버터, 순수한 미네랄. 우아함의 극치." },
-      { "id": "m02", "occasion": "기념일",    "note": "풍성한 과실, 오크, 꿀. 무게감 있는 부르고뉴." },
-      { "id": "m03", "occasion": "친구 모임", "note": "크리미, 헤이즐넛, 스모키. 완성도 높은 1er Cru." }
-    ],
-    "champagne": [
-      { "id": "c01", "occasion": "새해 파티",  "note": "브리오슈, 사과, 헤이즐넛. 끝없는 피니시." },
-      { "id": "c02", "occasion": "생일",       "note": "시트러스, 아몬드, 미네랄. 완벽한 균형." }
-    ]
   }
 }

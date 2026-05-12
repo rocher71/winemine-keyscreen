@@ -1,0 +1,333 @@
+@import "tailwindcss";
+@import "../../styles/tokens.css";
+
+@theme {
+  --color-wine-red: #8B1A2A;
+  --color-wine-red-hover: #A02030;
+  --color-gold: #C9A84C;
+  --color-gold-soft: #D4B85C;
+  --color-cream: #F5F0E8;
+  --color-bg-deepest: #05020A;
+  --color-bg-deep: #0A050F;
+  --color-bg-map: #1A0A1E;
+  --color-surface: #0F0718;
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: #D4C5B0;
+  --color-text-muted: #9B8B7A;
+  --color-text-disabled: #4A3D56;
+  --color-border-default: #2D1540;
+  --color-border-active: #8B1A2A;
+  --color-error: #EF4444;
+  --color-success: #22C55E;
+  --font-playfair: var(--font-playfair);
+  --font-inter: var(--font-inter);
+  --font-noto-kr: var(--font-noto-kr);
+}
+
+/* ── DeviceFrame 전용 헬퍼 클래스 ─────────────────────────── */
+
+/* 페이지 배경: deepest dark → deep dark 대각선 그라데이션 */
+.wm-page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, #05020A 0%, #0A050F 100%);
+  pointer-events: none;
+}
+
+/* 데스크톱(≥768px)에서만 적용되는 정밀 디바이스 프레임 외관 */
+@media (min-width: 768px) {
+  .wm-device-frame {
+    width: 414px;
+    height: 868px;
+    border-radius: 50px;
+    background-color: var(--color-bg-deep);
+    box-shadow:
+      0 40px 100px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(201, 168, 76, 0.08),
+      inset 0 0 0 2px #1F1428;
+    padding: 12px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .wm-device-frame-inner {
+    width: 390px;
+    height: 844px;
+    border-radius: 38px;
+    background-color: var(--color-bg-deepest);
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+}
+
+/* 모바일(<768px): wrapper 투명 — 콘텐츠 풀스크린 */
+@media (max-width: 767px) {
+  .wm-device-frame {
+    width: 100%;
+    min-height: 100dvh;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+  }
+  .wm-device-frame-inner {
+    width: 100%;
+    min-height: 100dvh;
+    border-radius: 0;
+    background-color: var(--color-bg-deepest);
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+  }
+}
+
+/* 디바이스 프레임 안의 콘텐츠 스크롤 영역
+ * StatusBar(54px)와 BottomNav(83px) 공간을 두지 않고 콘텐츠가 풀 스크롤되도록.
+ * 각 페이지가 padding-top/padding-bottom으로 영역 확보. */
+.wm-route-outlet {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .wm-route-outlet {
+    position: relative;
+    inset: auto;
+    min-height: 100dvh;
+  }
+}
+
+/* Glossary tooltip */
+.wm-glossary-term {
+  display: block;
+  font-family: var(--font-playfair);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-cream);
+  margin-bottom: 6px;
+}
+
+.wm-glossary-def {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0 0 10px;
+}
+
+/* EmptyState */
+.wm-empty-title {
+  font-family: var(--font-playfair);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--color-cream);
+  margin: 0;
+}
+
+.wm-empty-desc {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 280px;
+}
+
+/* Modal 헤더 */
+.wm-modal-title {
+  font-family: var(--font-playfair);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--color-cream);
+  margin: 0 0 8px;
+}
+
+.wm-modal-desc {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* BackHeader 타이틀 */
+.wm-back-title {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--color-cream);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* DeviceFrame 분기 헬퍼: 모바일에서 데스크톱 전용 노드 숨김 */
+@media (max-width: 767px) {
+  .wm-device-only-desktop {
+    display: none !important;
+  }
+  .wm-device-frame-wrapper {
+    padding: 0 !important;
+    display: block !important;
+  }
+}
+
+/* 포커스 — 2px Gold outline, offset 2px (접근성 가이드라인) */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Page builder 공용 텍스트 유틸 ─────────────────────────── */
+
+.wm-level-name {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--color-cream);
+}
+
+.wm-section-title {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.wm-section-link {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--color-gold);
+  text-decoration: none;
+}
+
+.wm-page-title {
+  font-family: var(--font-playfair);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-cream);
+  margin: 0;
+}
+
+.wm-card-title {
+  font-family: var(--font-playfair);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--color-cream);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.wm-card-meta {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+
+.wm-card-body {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.wm-content-pad {
+  padding: 16px 20px;
+}
+
+/* 페이지 스크롤 컨테이너 (헤더와 BottomNav를 빼고 콘텐츠만 스크롤) */
+.wm-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 24px;
+}
+
+/* feature-flag-panel이 dropped 토글한 컴포넌트를 시각적으로 무력화 */
+[data-feature-status='dropped'] {
+  opacity: 0.25;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+/* ── 데스크톱 사이드 패널 (DemoControls / FeatureFlagPanel) ── */
+
+.wm-side-panel {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .wm-side-panel-left {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: clamp(20px, 4vh, 40px);
+    left: clamp(16px, 3vw, 40px);
+    width: 320px;
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
+    background: rgba(15, 7, 24, 0.95);
+    border: 1px solid var(--color-border-default);
+    border-radius: 16px;
+    padding: 16px;
+    z-index: 30;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+}
+@media (min-width: 1280px) {
+  .wm-side-panel-right {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: clamp(20px, 4vh, 40px);
+    right: clamp(16px, 3vw, 40px);
+    width: 320px;
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
+    background: rgba(15, 7, 24, 0.95);
+    border: 1px solid var(--color-border-default);
+    border-radius: 16px;
+    padding: 16px;
+    z-index: 30;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* prefers-reduced-motion 존중: 라이브러리 animation은 motion 컴포넌트가 처리,
+ * CSS transition은 여기서 일괄 제어 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

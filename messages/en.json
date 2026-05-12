@@ -1,41 +1,562 @@
 {
-  "_note": "Trimmed extraction of wine-domain copy from the landing page i18n. Landing-only keys (hero, vineyardStrip, features, marketStats, howItWorks, instagramPreview, finalCta, floatingCta, storeButtons, waitlist*) are removed. Key structure must stay in sync with ko.json.",
+  "_note": "winemine keyscreen prototype — managed by page-builder. Key structure must stay in sync with ko.json. Domain mock data (country, region etc.) is in LocalizedString objects elsewhere.",
 
-  "franceWine": {
-    "regions": {
-      "21": "Burgundy",
-      "33": "Bordeaux",
-      "51": "Champagne",
-      "67": "Alsace",
-      "69": "Rhône Valley"
-    }
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "delete": "Delete",
+    "edit": "Edit",
+    "share": "Share",
+    "more": "More",
+    "seeAll": "See all",
+    "loading": "Loading…",
+    "search": "Search",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "comingSoon": "Coming soon",
+    "mockToast": "Prototype only — real action TBD",
+    "copied": "Copied"
   },
 
-  "wineDiscovery": {
-    "topQuestion": "How will your wine map begin?",
-    "step1": {
-      "label": "1. Scan what you drank",
-      "title": "Snap once,\nAI handles the rest",
-      "body": "Château, vintage, grade, region — auto-extracted"
+  "keyscreen": {
+    "title": "winemine keyscreen",
+    "label": "Prototype"
+  },
+
+  "onboarding": {
+    "tagline": "A glass of wine, a pin on the map",
+    "getStarted": "Get started",
+    "language": {
+      "title": "Choose your language",
+      "subtitle": "You can change this anytime",
+      "ko": "Korean",
+      "en": "English"
     },
-    "step2": {
-      "label": "2. A similar first bottle",
-      "title": "The more you log,\nthe better the next bottle",
-      "body": "Starting from the region you tasted,\nwe pin similar starter wines on the map",
-      "startHint": "Similar to the Bordeaux red you had…",
-      "footnote": "Curated picks under ₩60,000",
-      "cardLabel": "Your next bottle"
+    "experience": {
+      "title": "Tell us about your wine experience",
+      "subtitle": "We'll tailor the tasting note experience",
+      "beginnerLabel": "Just getting started with wine?",
+      "beginnerSub": "5-minute notes in everyday words",
+      "expertLabel": "Diving deep into wine?",
+      "expertSub": "WSET SAT, caudalies, fault checks",
+      "footer": "Change anytime in settings"
+    },
+    "done": {
+      "title": "Welcome — your wine journey begins",
+      "subtitle": "Scan your first bottle or take a tour",
+      "scanCta": "Scan a label",
+      "tourCta": "Take a tour"
     }
   },
 
-  "burgundy": {
-    "heading": "Down to every Burgundy detail."
+  "home": {
+    "greeting": "Welcome back, {name}",
+    "greetingNew": "Hello, {name}",
+    "bottles": "{count} bottles",
+    "countriesRegions": "{countries} countries, {regions} regions",
+    "notifications": "Notifications",
+    "recentTasted": "Recently tasted",
+    "quickActions": {
+      "cellar": "Cellar",
+      "cellarSub": "{count} stored",
+      "map": "Map",
+      "mapSub": "{count} regions",
+      "favorites": "Favorites",
+      "favoritesSub": "{count} wines",
+      "badges": "Badges",
+      "badgesSub": "{owned}/{total}"
+    },
+    "firstTime": {
+      "greeting": "Begin your wine journey",
+      "sub": "Add your first bottle to start",
+      "scanCta": "Scan a label",
+      "emptyMap": "No wines tasted yet",
+      "emptyMapHint": "Start building your wine map",
+      "suggestTour": "Take a tour — what is winemine?",
+      "suggestStarter": "See starter recommendations",
+      "suggestExperience": "Change experience level"
+    }
+  },
+
+  "map": {
+    "title": "My wine map",
+    "filterLabel": "Filter",
+    "legendOne": "1 bottle",
+    "legendMany": "5+ bottles",
+    "legendToast": "Heatmap by bottles tasted",
+    "countryHeading": "{country} · {count} bottles",
+    "regionHeading": "{region} · {count} bottles",
+    "regionsTitle": "Regions",
+    "winesTitle": "Wines",
+    "backToRegions": "Back to regions",
+    "emptyTitle": "No wine records yet",
+    "emptyCta": "Get started",
+    "filterToast": "Filters coming soon"
+  },
+
+  "cellar": {
+    "title": "My cellar",
+    "addCta": "+ Add",
+    "sort": {
+      "recent": "Recent",
+      "drinkSoon": "Drink soon",
+      "vintage": "Vintage",
+      "region": "Region",
+      "storage": "Storage",
+      "price": "Price"
+    },
+    "drinkWindow": {
+      "now": "Drink now",
+      "fromYear": "From {year}",
+      "peak": "Peak",
+      "pastPeak": "Past peak",
+      "tooYoung": "Too young",
+      "mature": "Mature",
+      "tip": "This wine peaks in {year}",
+      "peakInYears": "+{n} years to peak",
+      "fromTo": "{from} – {to}"
+    },
+    "notify": {
+      "label": "Notify me at peak",
+      "confirmTitle": "We'll send a push in {year}",
+      "confirmCta": "Confirm",
+      "alternateCta": "Different time",
+      "toggledOn": "Notifications enabled",
+      "toggledOff": "Notifications disabled"
+    },
+    "meta": {
+      "storage": "Storage",
+      "acquiredAt": "Acquired",
+      "price": "Price",
+      "memo": "Memo",
+      "memoEmpty": "No memo",
+      "storageCellar": "Cellar",
+      "storageFridge": "Fridge",
+      "storageRoom": "Room",
+      "storageOffsite": "Offsite"
+    },
+    "drinkThis": "Drink this wine",
+    "drinkThisConfirm": "Mark this cellar wine as consumed?",
+    "communityReviews": "Community reviews",
+    "viewWineDetails": "See wine details",
+    "empty": {
+      "title": "Your cellar is empty",
+      "sub": "Add wines to get drinking-time alerts",
+      "cta": "Add first wine"
+    },
+    "addToast": "Cellar registration TBD"
+  },
+
+  "profile": {
+    "title": "Profile",
+    "joinedFor": "{months} months together",
+    "stats": {
+      "tasted": "Wines tasted",
+      "countries": "Countries",
+      "regions": "Regions",
+      "notes": "Notes"
+    },
+    "links": {
+      "favorites": "Favorites",
+      "badges": "Badges",
+      "notifications": "Notifications",
+      "settings": "Settings",
+      "signOut": "Sign out"
+    },
+    "other": {
+      "follow": "Follow",
+      "following": "Following",
+      "followToast": "Follow feature TBD",
+      "matchTitle": "Taste match",
+      "matchDesc": "Shared wines: {shared} · Shared regions: {regions}",
+      "winesTitle": "Wines tasted",
+      "sortRecent": "Recent",
+      "sortRating": "Top-rated"
+    },
+    "signOutToast": "Sign-out is disabled in the prototype"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "app": "App",
+      "notifications": "Notifications",
+      "account": "Account",
+      "about": "About"
+    },
+    "items": {
+      "language": "Language",
+      "experience": "Wine experience",
+      "notifSettings": "Notification settings",
+      "changeNickname": "Change nickname",
+      "signOut": "Sign out",
+      "version": "Version",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    },
+    "values": {
+      "ko": "Korean",
+      "en": "English",
+      "beginner": "Beginner",
+      "expert": "Expert"
+    },
+    "experiencePage": {
+      "title": "Wine experience",
+      "beginnerDesc": "Sweetness, acidity, aroma in everyday words. 5-minute notes.",
+      "expertDesc": "WSET SAT, caudalies, fault checks. Full precision toolset.",
+      "appliedToast": "New notes will use the new UI"
+    },
+    "languagePage": {
+      "title": "Language",
+      "appliedToast": "Language updated"
+    },
+    "notifPage": {
+      "title": "Notifications",
+      "favoritePurchase": "Favorite wine price alerts",
+      "drinkWindow": "Cellar drink-window alerts",
+      "badgeLevel": "Badge and level-up alerts",
+      "community": "Community alerts (likes etc.)",
+      "toggleSaved": "Setting saved"
+    },
+    "nicknameToast": "Nickname change is disabled in the prototype",
+    "termsToast": "Terms page TBD",
+    "privacyToast": "Privacy policy page TBD"
+  },
+
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "markedAllRead": "All notifications marked read",
+    "empty": "No notifications",
+    "emptySub": "Add wines to get price alerts and drink-window notifications"
+  },
+
+  "favorites": {
+    "title": "Favorites",
+    "notify": "Price alerts",
+    "removed": "Removed from favorites",
+    "added": "Added to favorites",
+    "notifyOn": "Price alerts enabled",
+    "notifyOff": "Price alerts disabled",
+    "empty": "No favorites yet",
+    "emptySub": "Add favorites with the star icon on a wine page"
+  },
+
+  "badges": {
+    "title": "Badges",
+    "earned": "Earned",
+    "locked": "Locked",
+    "ownedOf": "{owned}/{total}",
+    "tiers": {
+      "all": "All",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    },
+    "condition": "How to earn",
+    "earnedAt": "Earned",
+    "lockedHint": "Meet the condition and this badge will unlock automatically"
+  },
+
+  "photos": {
+    "title": "Label photos",
+    "searchToast": "Photo search TBD",
+    "filters": {
+      "all": "All",
+      "thisYear": "This year",
+      "inCellar": "In cellar",
+      "tasted": "Tasted",
+      "byRegion": "By region",
+      "unmatched": "Unmatched"
+    },
+    "empty": {
+      "title": "No labels yet",
+      "sub": "Scanned labels show up here",
+      "cta": "Scan a label"
+    },
+    "sheet": {
+      "viewWine": "View wine",
+      "linkWine": "Link wine info",
+      "delete": "Delete photo",
+      "deleteConfirm": "Delete this photo?",
+      "matched": "Matched",
+      "unmatched": "Unmatched"
+    }
+  },
+
+  "glossary": {
+    "title": "Glossary",
+    "searchPlaceholder": "Search terms",
+    "categories": {
+      "all": "All",
+      "sensory": "Sensory",
+      "fault": "Fault",
+      "classification": "Classification",
+      "technique": "Technique",
+      "unit": "Unit"
+    },
+    "definition": "Definition",
+    "examples": "Examples",
+    "source": "Source",
+    "related": "Related terms",
+    "more": "More terms",
+    "notFound": "Term not found",
+    "noResults": "No matching terms"
+  },
+
+  "capture": {
+    "title": "Add a wine",
+    "scan": {
+      "title": "Scan a label",
+      "sub": "AI auto-recognition",
+      "toast": "Camera permission needed (prototype)"
+    },
+    "cellar": {
+      "title": "Store in cellar",
+      "sub": "Save for later"
+    },
+    "note": {
+      "title": "Write a tasting note",
+      "sub": "Record what you're drinking now"
+    }
+  },
+
+  "notes": {
+    "source": {
+      "title": "Choose source",
+      "question": "Where did this wine come from?",
+      "fromCellar": "From my cellar",
+      "fromCellarSub": "{count} stored",
+      "fromCellarEmpty": "Cellar is empty",
+      "newEntry": "A new wine",
+      "newEntrySub": "Scan or manual entry",
+      "pickFromCellar": "Pick from cellar",
+      "cellarListTitle": "Cellar wines"
+    },
+    "write": {
+      "title": "Tasting note",
+      "saveCta": "Save",
+      "savedToast": "+{xp} XP",
+      "modeBeginner": "Beginner mode",
+      "modeExpert": "Expert mode",
+      "placeholder": "Note authoring container will mount here"
+    }
+  },
+
+  "levels": {
+    "label": "Level {id} {name}",
+    "progress": "{current}/{next} XP",
+    "maxed": "Top level"
+  },
+
+  "reviews": {
+    "title": "Reviews",
+    "sortRecent": "Recent",
+    "sortRating": "Top-rated",
+    "ratingStars": "{score}/5",
+    "ratingScore": "{score}/100",
+    "anonymous": "Anonymous"
+  },
+
+  "demoControls": {
+    "title": "Demo controls",
+    "demoMode": "Demo mode",
+    "firstTime": "First-time user",
+    "heavy": "Heavy user",
+    "experience": "Experience",
+    "beginner": "Beginner",
+    "expert": "Expert",
+    "language": "Language",
+    "ko": "Korean",
+    "en": "English",
+    "showOnboarding": "Replay onboarding",
+    "simulatePush": "Simulate push",
+    "plusXp": "+50 XP",
+    "addCellar": "Add cellar item",
+    "urlPreview": "Current URL",
+    "copy": "Copy",
+    "pushSimulated": "An anonymous user bought a favourite wine",
+    "xpAdded": "+50 XP added",
+    "cellarAdded": "A wine was added to your cellar"
+  },
+
+  "featureFlags": {
+    "title": "Component flags",
+    "componentsOn": "Components on this screen",
+    "noteLabel": "Decision note",
+    "notePlaceholder": "Jot a decision note for this screen…",
+    "status": {
+      "planned": "Planned",
+      "considering": "Considering",
+      "dropped": "Dropped"
+    },
+    "noComponents": "No registered components on this screen"
+  },
+
+  "wineDetail": {
+    "tabs": {
+      "detail": "Detail",
+      "prices": "Prices",
+      "story": "Story",
+      "communityPeak": "Community peak"
+    },
+    "avgPrice": {
+      "title": "Average price",
+      "entries": "{n} entries",
+      "entry": "{n} entry"
+    },
+    "priceChart": {
+      "title": "Price history",
+      "range": {
+        "3M": "3M",
+        "1Y": "1Y",
+        "ALL": "All"
+      },
+      "detailCta": "View details",
+      "empty": "No purchases yet",
+      "tooltipAvg": "Avg",
+      "myEntry": "My entry"
+    },
+    "priceDetail": {
+      "title": "Price details",
+      "byStore": "By store",
+      "sort": {
+        "priceAsc": "Lowest",
+        "recent": "Recent"
+      },
+      "empty": "No prices registered yet",
+      "addCta": "Add my purchase info",
+      "form": {
+        "title": "Register purchase",
+        "price": "Price",
+        "pricePlaceholder": "Price (KRW)",
+        "store": "Store",
+        "date": "Purchased at",
+        "save": "Save (+5 XP)",
+        "invalidPrice": "Please enter a price",
+        "savedToast": "Price added +5 XP"
+      }
+    },
+    "reviews": {
+      "title": "Reviews",
+      "sort": {
+        "recent": "Recent",
+        "rating": "Top rated"
+      },
+      "empty": "No reviews yet",
+      "anonymous": "Anonymous"
+    },
+    "addToCellar": "Add to cellar",
+    "favorite": {
+      "addedToast": "Added to favorites",
+      "removedToast": "Removed from favorites"
+    },
+    "servingTemp": "{min}-{max}°C recommended"
+  },
+
+  "externalRatings": {
+    "title": "External ratings",
+    "empty": "No external ratings",
+    "lastSynced": "Last synced: {date}",
+    "mockNotice": "Mock data only",
+    "mockNoticeFull": "Mock data only — actual API not connected.",
+    "globalAvg": "Global avg",
+    "vivinoReviews": "{count} reviews"
+  },
+
+  "wineStory": {
+    "label": "Winery story",
+    "readMore": "Read more",
+    "funFact": "Fun fact",
+    "history": "History",
+    "philosophy": "Winemaking philosophy",
+    "foundedShort": "Founded {year}",
+    "empty": "Story coming soon",
+    "backToWine": "Back to wine",
+    "meta": {
+      "founded": "Founded",
+      "vineyardArea": "Vineyard area",
+      "mainGrapes": "Main grapes",
+      "avgPrice": "Avg price"
+    }
+  },
+
+  "communityPeak": {
+    "title": "Community drinking window",
+    "subtitle": "Estimated by {count} experts (L3+)",
+    "intro": "Estimates from other users (L3+ only). Compare with system suggestion.",
+    "empty": "Not enough data. Add an estimate in your expert note.",
+    "mean": "Mean {year}",
+    "median": "Median {year}",
+    "meanMedian": "Mean {mean} · Median {median}",
+    "reviewersCount": "{count} reviewers",
+    "distributionCopy": "{pct}% of {count} reviewers suggest {minYear}-{maxYear}",
+    "weight": "L4/L5 estimates are weighted 1.5-2x",
+    "detailsCta": "Details",
+    "addMyEstimate": "Add my estimate",
+    "lockedL1L2": "Available from L3 Connoisseur",
+    "addedToast": "Add your estimate in an expert note — it appears here instantly",
+    "contributorsTitle": "Contributors",
+    "sort": {
+      "recent": "Recent",
+      "levelDesc": "Top level"
+    },
+    "legend": {
+      "system": "System estimate",
+      "mean": "Community mean",
+      "median": "Median"
+    },
+    "confidence": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "tooltipWeighted": "Weighted votes: {count}"
+  },
+
+  "regionalAromas": {
+    "heading": "Typical for this region",
+    "emptyNote": "No regional aroma data for this wine yet"
+  },
+
+  "noteWrite": {
+    "source": {
+      "heading": "Which wine are you recording?",
+      "subhead": "Opening a wine from your cellar, or trying something new?",
+      "cellar": {
+        "title": "From my cellar",
+        "empty": "Your cellar is empty",
+        "count": "{count} bottles in cellar"
+      },
+      "newEntry": {
+        "title": "New wine",
+        "subtitle": "Snap the label or enter manually"
+      }
+    },
+    "photoToggle": {
+      "label": "Add photo (+5 XP)"
+    },
+    "priceCapture": {
+      "label": "Add price (+5 XP)",
+      "placeholder": "Price (KRW)"
+    },
+    "save": {
+      "beginner": "Beginner note +{xp} XP",
+      "expert": "Expert note +{xp} XP"
+    }
   },
 
   "tastingNote": {
     "eyebrow": "CAPTURE",
     "heading": "How will you remember it?",
-    "subhead": "The same paper form wine experts fill by hand — made easy with WineMine.",
+    "subhead": "The same paper form wine experts fill by hand — made easy with winemine.",
     "tabs": {
       "white": "White",
       "red": "Red",
@@ -77,232 +598,60 @@
       "flavorIntensity": "Flavor Intensity",
       "finishLength": "Finish Length"
     },
-    "aroma": {
-      "title": "Aroma — UC Davis Wheel",
-      "selectCategory": "Select a category",
-      "wheelHint": "Click a wedge to expand vocabulary",
-      "searchPlaceholder": "Search vocabulary"
-    },
-    "caudalie": {
-      "title": "Finish — Caudalie",
-      "tapStart": "Tap to start",
-      "tapStop": "Tap to stop",
-      "reset": "Reset",
-      "label": "{count} caudalies",
-      "manualToggle": "Pick category without measuring"
-    },
-    "faults": {
-      "title": "Fault Check",
-      "intro": "Expert mode reveals an 11-fault catalog",
-      "footnote": "Faults are recorded only when explicitly checked."
-    },
-    "evolution": {
-      "title": "Opening Timeline",
-      "intro": "Track how the wine changes after the cork is pulled",
-      "openedAtNow": "Now",
-      "openedAtCustom": "Enter manually",
-      "decantLabel": "Decanter used?",
-      "yes": "Yes",
-      "no": "No",
-      "addTimepoint": "Add timepoint",
-      "deltaAroma": "Aroma intensity vs T0",
-      "deltaTannin": "Tannin softness vs T0",
-      "deltaBody": "Body vs T0",
-      "reductionLabel": "Reduction present",
-      "reductionTooltip": "Matchstick, rubber, H₂S, cabbage, garlic. A reductive fault that fades with oxygen exposure. Common in young Syrah and reductively vinified wines.",
-      "newAromas": "New aromas emerging",
-      "scoreLabel": "Score at this point",
-      "noteLabel": "Note",
-      "peakLabel": "Peak",
-      "recommendationTitle": "Recommended Decanting",
-      "recommendedRange": "Recommended: {min}-{max} min (avg peak {peak} min)",
-      "compareEarly": "You open earlier than average",
-      "compareOnTime": "Right on the recommended time",
-      "compareLate": "You open later than average",
-      "compareWayEarly": "Quite early — the wine may have more to give",
-      "compareWayLate": "Long-haul style — very patient"
-    },
-    "blind": {
-      "title": "GUESS THE WINE",
-      "grape": "Grape Variety",
-      "region": "Region",
-      "country": "Country",
-      "vintage": "Vintage",
-      "priceRange": "Price Range",
-      "reveal": "Reveal & Score",
-      "retry": "Retry",
-      "scoreTotal": "Total {score}/100",
-      "rankMaster": "Master Sommelier level",
-      "rankAdvanced": "Advanced Sommelier candidate",
-      "rankEnthusiast": "Wine Enthusiast",
-      "rankExploring": "Exploring — drink more",
-      "rankFinding": "A fun discovery — enjoy the diversity"
-    },
     "rating": {
       "title": "Rating",
       "wouldBuyAgain": "Would buy again?"
     },
     "beginner": {
-      "intro": "A short note that takes 5 minutes per glass. Forget the jargon and write what you feel.",
-      "step": {
-        "wine": "What's the wine?",
-        "impression": "First sip — how was it?",
-        "taste": "How did it taste?",
-        "aroma": "What aromas came to mind?",
-        "finish": "How long did the flavor last?",
-        "rating": "How much did you like it?",
-        "memo": "One line for today"
+      "intro": "A short note that takes 5 minutes per glass. Forget the jargon and write what you feel."
+    },
+    "expert": {
+      "servingTemp": {
+        "title": "Serving temperature",
+        "recommended": "Recommended {min}-{max}°C",
+        "tooCold": "Too cold",
+        "slightlyCold": "Slightly cold",
+        "inRange": "In range",
+        "slightlyWarm": "Slightly warm",
+        "tooWarm": "Too warm"
       },
-      "impression": {
-        "love": "Loved it",
-        "ok": "It was fine",
-        "meh": "Hmm… not for me"
-      },
-      "tasteLabel": {
-        "sweetness": "Sweetness",
-        "acidity": "Acidity",
-        "body": "Body",
-        "tannin": "Tannin",
-        "bubbles": "Bubbles"
-      },
-      "scale": {
-        "sweetLow": "Not sweet",
-        "sweetMid": "Slightly sweet",
-        "sweetHigh": "Sweet",
-        "acidLow": "Soft",
-        "acidMid": "Balanced",
-        "acidHigh": "Zippy",
-        "bodyLow": "Light, water-like",
-        "bodyMid": "Medium",
-        "bodyHigh": "Full, milk-like",
-        "tanninLow": "Soft",
-        "tanninMid": "Balanced",
-        "tanninHigh": "Drying / grippy",
-        "bubblesLow": "Soft",
-        "bubblesMid": "Lively",
-        "bubblesHigh": "Aggressive"
-      },
-      "aromaCard": {
-        "berry": "Berry",
-        "citrus": "Citrus",
-        "stoneFruit": "Apple, Peach",
-        "floral": "Floral",
-        "spice": "Spice",
-        "sweet": "Sweet aroma",
-        "earth": "Earth, Wood",
-        "yeast": "Bread, Nutty"
-      },
-      "finishOption": {
-        "short": "Faded quickly",
-        "medium": "Stayed for a moment",
-        "long": "Lingered for a while"
-      },
-      "summary": "Your glass today",
-      "tipTitle": "What wine pros call it",
-      "tip": {
-        "sweetness": "Sweetness comes from 'Residual Sugar' (g/L). WSET classifies it from Bone Dry to Sweet across 5 levels.",
-        "acidity": "What you taste as sour is 'Acidity' — typically 6–10 g/L for whites, 5–7 g/L for reds. The salivation tells you the level.",
-        "body": "Body is the perceived weight in your mouth — driven by alcohol, extract and residual sugar. Compared to skim milk vs. whole milk.",
-        "tannin": "The drying sensation is 'Tannin' — polyphenols from grape skins/seeds. They round out with age.",
-        "finish": "Finish length is measured in 'Caudalies' (1 sec = 1 caudalie) at the Bordeaux School of Oenology."
+      "peakEta": {
+        "title": "When will this wine peak?",
+        "peakingNow": "Peaking now",
+        "yearsLater": "+{n} years",
+        "confidence": {
+          "label": "Confidence",
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "notePlaceholder": "Note (optional) — e.g. tannins still firm",
+        "footnote": "Aggregated with other users on the wine page",
+        "lockedL1L2": "Come back after more bottles",
+        "lockedHint": "Only available at L3+"
       }
     },
-    "mockup": {
-      "title": {
-        "white": "WHITE WINE TASTING NOTES",
-        "red": "RED WINE TASTING NOTES",
-        "sparkling": "CHAMPAGNE TASTING NOTES",
-        "blind": "BLIND TASTING SHEET"
+    "evolution": {
+      "cork": {
+        "open": "Record opening time",
+        "opened": "🍷 Cork opened"
       },
-      "section": {
-        "wine": "Wine",
-        "aroma": "Aroma",
-        "palate": "Palate",
-        "bubbles": "Bubbles · Mousse",
-        "visual": "Visual",
-        "finish": "Finish",
-        "overall": "Overall Impression",
-        "rating": "Rating",
-        "guess": "Guess The Wine",
-        "score": "Score"
+      "decant": {
+        "label": "Decanted"
       },
-      "meta": {
-        "vintage": "Vintage",
-        "region": "Region",
-        "appellation": "Appellation",
-        "grape": "Grape",
-        "price": "Price",
-        "nv": "NV"
-      },
-      "aromaGroup": {
-        "citrus": "Citrus",
-        "treeFruit": "Tree Fruit",
-        "tropical": "Tropical",
-        "floral": "Floral",
-        "mineral": "Mineral",
-        "yeastOak": "Yeast / Oak",
-        "redBerry": "Red Berry",
-        "blackBerry": "Black Berry",
-        "spicy": "Spicy",
-        "earthLeather": "Earth, Leather",
-        "oak": "Oak",
-        "autolytic": "Autolytic",
-        "nutty": "Nutty",
-        "earth": "Earth"
-      },
-      "intensity": {
-        "light": "Light",
-        "mediumMinus": "Medium−",
-        "medium": "Medium",
-        "pronounced": "Pronounced"
-      },
-      "tannin": {
-        "texture": "Texture",
-        "ripe": "Ripe",
-        "unripe": "Unripe",
-        "overripe": "Overripe"
-      },
-      "caudalies": "caudalies"
-    }
-  },
-
-  "franceWineDetail": {
-    "heading": "Wine Collection",
-    "sortLabels": {
-      "recent": "Recent",
-      "rating": "Rating",
-      "vintage": "Vintage"
+      "peakToggle": "Peak",
+      "reduction": {
+        "label": "Reduction present"
+      }
     },
-    "metaLabels": {
-      "total": "Total",
-      "avg": "Avg",
-      "top": "Favorite"
+    "faults": {
+      "heading": "Fault check",
+      "footnote": "Only explicit checks are recorded — never inferred.",
+      "showMore": "Show {count} more faults"
     },
-    "bottleUnit": "btls",
-    "regions": {
-      "33": "Bordeaux",
-      "21": "Burgundy",
-      "51": "Champagne"
+    "autoDescription": {
+      "label": "Auto description",
+      "saveCta": "Save note"
     }
-  },
-
-  "wines": {
-    "bordeaux": [
-      { "id": "w01", "occasion": "Anniversary",     "note": "Ripe cassis, cigar box, violet. Elegant tannins with a long, lingering finish." },
-      { "id": "w02", "occasion": "Wine gathering",  "note": "Pencil lead, blackcurrant, smoky oak. Overwhelming structure." },
-      { "id": "w03", "occasion": "Valentine dinner","note": "Dense dark fruit, dark chocolate, leather nuance." },
-      { "id": "w04", "occasion": "Special guests",  "note": "Silky texture, plum compote, the captivating aroma of truffle." },
-      { "id": "w05", "occasion": "Christmas Eve",   "note": "Spice, dried rose, Asian spices. An intellectual wine." },
-      { "id": "w06", "occasion": "Wine club",       "note": "Full-bodied, concentrated fruit, mineral. Could use more cellaring." }
-    ],
-    "meursault": [
-      { "id": "m01", "occasion": "Birthday party", "note": "Hazelnut, butter, pure minerality. The very definition of elegance." },
-      { "id": "m02", "occasion": "Anniversary",    "note": "Rich fruit, oak, honey. A weighty Burgundy." },
-      { "id": "m03", "occasion": "Friend gathering","note": "Creamy, hazelnut, smoky. A highly polished 1er Cru." }
-    ],
-    "champagne": [
-      { "id": "c01", "occasion": "New Year party", "note": "Brioche, apple, hazelnut. An endless finish." },
-      { "id": "c02", "occasion": "Birthday",       "note": "Citrus, almond, mineral. Perfectly balanced." }
-    ]
   }
 }

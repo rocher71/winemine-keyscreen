@@ -1,2 +1,9 @@
-data/raw/
+_workspace/
 .DS_Store
+.next/
+data/raw/
+node_modules/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+
