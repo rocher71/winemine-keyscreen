@@ -397,6 +397,101 @@ export const REVIEWS: Review[] = [
     createdAt: '2026-04-22',
     likesCount: 7,
   },
+
+  /* ─────────────────────── bdx-margaux 추가 expert 7건 ───────────────────────
+     커뮤니티 비교 UI 동작 검증용 — 전문가 리뷰 10건+ 와인을 보장하기 위해
+     bdx-margaux에 7건 추가 (기존 3건 + 7건 = 총 10건 expert).                 */
+  {
+    id: 'rev-bdx-margaux-04',
+    userId: 'other-003',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '카시스의 풍성한 농축미. 시더와 연필심이 절제된 우아함을 보여준다. 90점.',
+      en: 'Dense cassis concentration. Cedar and pencil lead show restrained elegance. 90.',
+    },
+    rating: 90,
+    mode: 'expert',
+    createdAt: '2026-04-15',
+    likesCount: 23,
+  },
+  {
+    id: 'rev-bdx-margaux-05',
+    userId: 'other-001',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '디캔팅 90분 후 진가. 자두 콩포트와 가죽, 미세한 그라파이트. 95점.',
+      en: 'True form after 90-min decant. Plum compote, leather, fine graphite. 95.',
+    },
+    rating: 95,
+    mode: 'expert',
+    createdAt: '2026-03-28',
+    likesCount: 41,
+  },
+  {
+    id: 'rev-bdx-margaux-06',
+    userId: 'other-002',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '타닌이 실키하게 풀렸다. 블랙커런트, 제비꽃, 트러플의 3차 향이 어울린다. 93점.',
+      en: 'Tannins relaxed to silk. Blackcurrant, violet, tertiary truffle in harmony. 93.',
+    },
+    rating: 93,
+    mode: 'expert',
+    createdAt: '2026-03-10',
+    likesCount: 28,
+  },
+  {
+    id: 'rev-bdx-margaux-07',
+    userId: 'other-003',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '여전히 어린 와인이지만 풍요로움이 약속된다. 카우달리 14. 92점.',
+      en: 'Still youthful, but plenitude is promised. 14 caudalies. 92.',
+    },
+    rating: 92,
+    mode: 'expert',
+    createdAt: '2026-02-22',
+    likesCount: 19,
+  },
+  {
+    id: 'rev-bdx-margaux-08',
+    userId: 'other-001',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '메독의 본보기. 우아한 산도, 농밀한 과실, 미네랄리티. 94점.',
+      en: 'Textbook Médoc. Elegant acidity, dense fruit, minerality. 94.',
+    },
+    rating: 94,
+    mode: 'expert',
+    createdAt: '2026-02-08',
+    likesCount: 33,
+  },
+  {
+    id: 'rev-bdx-margaux-09',
+    userId: 'other-002',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '블라인드에서 메독 1등급이라 추정. 우드 노트가 조금 강하지만 시간이 정리한다. 89점.',
+      en: 'Guessed First Growth Médoc in blind. Wood notes a touch firm, time will resolve. 89.',
+    },
+    rating: 89,
+    mode: 'expert',
+    createdAt: '2026-01-25',
+    likesCount: 15,
+  },
+  {
+    id: 'rev-bdx-margaux-10',
+    userId: 'other-003',
+    wineId: 'bdx-margaux',
+    body: {
+      ko: '특별한 자리에 어울리는 와인. 균형과 길이가 모두 인상적. 96점.',
+      en: 'A wine for the occasion. Balance and length both remarkable. 96.',
+    },
+    rating: 96,
+    mode: 'expert',
+    createdAt: '2026-01-12',
+    likesCount: 52,
+  },
 ];
 
 export function getReviewsByWine(wineId: string): Review[] {
@@ -405,4 +500,33 @@ export function getReviewsByWine(wineId: string): Review[] {
 
 export function getReviewsByUser(userId: string): Review[] {
   return REVIEWS.filter((r) => r.userId === userId);
+}
+
+/**
+ * 특정 와인의 전문가 모드 리뷰 카운트.
+ * 10건+ 와인은 커뮤니티 비교 UI를 노출.
+ */
+export function getExpertReviewCount(wineId: string): number {
+  return REVIEWS.filter((r) => r.wineId === wineId && r.mode === 'expert').length;
+}
+
+/**
+ * 전문가 리뷰 통계 — 평균 평점, min/max, 카운트.
+ * mode='expert' && rating 100점 만점.
+ */
+export function getExpertReviewStats(wineId: string): {
+  count: number;
+  avgRating: number;
+  minRating: number;
+  maxRating: number;
+} | null {
+  const expert = REVIEWS.filter((r) => r.wineId === wineId && r.mode === 'expert');
+  if (expert.length === 0) return null;
+  const ratings = expert.map((r) => r.rating);
+  return {
+    count: expert.length,
+    avgRating: ratings.reduce((a, b) => a + b, 0) / ratings.length,
+    minRating: Math.min(...ratings),
+    maxRating: Math.max(...ratings),
+  };
 }

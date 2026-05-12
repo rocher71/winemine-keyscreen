@@ -2,11 +2,13 @@
  * Users — currentUserFirst (빈 컬렉션), currentUserHeavy (풍부한 데이터), otherUsers 3명
  *
  * 헤비 유저 stats는 SPEC mock_data_setup 기준 + 실제 mock 컬렉션 카운트와 일치:
- *   winesTasted 32  ← tasting-notes에서 unique wineId 32개 (헤비 47 노트 중 일부 중복)
- *   countriesExplored 8
- *   regionsExplored 14
- *   notesCount 47    ← tasting-notes 중 me-heavy 47개
- *   cellarCount 28   ← cellar 중 me-heavy 28개
+ *   winesTasted 50  ← tasting-notes에서 unique wineId 50개 (헤비 65 노트 중 일부 중복)
+ *   countriesExplored 10
+ *   regionsExplored 19
+ *   notesCount 65    ← tasting-notes 중 me-heavy 65개
+ *   cellarCount 55   ← cellar 중 me-heavy 55개
+ *
+ * LWIN 데이터베이스 기반으로 확장 (Phase E). 와인 카탈로그 110종.
  */
 
 import type { User } from '@/types';
@@ -36,7 +38,7 @@ export const currentUserHeavy: User = {
   avatarInitial: { ko: '예', en: 'Y' },
   locale: 'ko',
   experience: 'expert',
-  xp: 1280,
+  xp: 1820,
   levelId: 3,
   joinedAt: '2025-09-12',
   badges: [
@@ -49,11 +51,11 @@ export const currentUserHeavy: User = {
     'badge_011',
   ],
   stats: {
-    winesTasted: 32,
-    countriesExplored: 8,
-    regionsExplored: 16,
-    notesCount: 47,
-    cellarCount: 28,
+    winesTasted: 50,
+    countriesExplored: 10,
+    regionsExplored: 19,
+    notesCount: 65,
+    cellarCount: 55,
   },
 };
 

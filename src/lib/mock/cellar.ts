@@ -345,6 +345,338 @@ export const CELLAR_ITEMS: CellarItem[] = [
     notifyAtPeak: true,
     photoUrl: null,
   },
+
+  /* ──────────────────────────────────────────────────────────────────── */
+  /* LWIN-EXPANSION 셀러 (29~55) — 27건 추가                                */
+  /* ──────────────────────────────────────────────────────────────────── */
+
+  /* ── cellar storage (Grand Cru / Premier label collection) ── */
+  {
+    id: 'cellar_029',
+    userId: 'me-heavy',
+    wineId: 'lwin-1862865', // Mouton Rothschild
+    acquiredAt: '2025-10-14',
+    storage: 'cellar',
+    notes: {
+      ko: '한정 라벨 컬렉션의 시작. 절대 2030년 전엔 열지 말 것.',
+      en: 'Start of a limited-label collection. Do not open before 2030.',
+    },
+    purchasePriceKrw: 1_750_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_029.jpg',
+  },
+  {
+    id: 'cellar_030',
+    userId: 'me-heavy',
+    wineId: 'lwin-1008788', // Cos d'Estournel
+    acquiredAt: '2025-11-02',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 310_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_031',
+    userId: 'me-heavy',
+    wineId: 'lwin-1012374', // Léoville Las Cases
+    acquiredAt: '2025-12-11',
+    storage: 'cellar',
+    notes: {
+      ko: '슈퍼 세컨드의 왕. 2035년 즈음 오픈 예정.',
+      en: 'King of Super Seconds. Plan to open around 2035.',
+    },
+    purchasePriceKrw: 370_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_032',
+    userId: 'me-heavy',
+    wineId: 'lwin-1008108', // Cheval Blanc
+    acquiredAt: '2026-01-26',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 1_320_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_032.jpg',
+  },
+  {
+    id: 'cellar_033',
+    userId: 'me-heavy',
+    wineId: 'lwin-1014033', // Petrus
+    acquiredAt: '2025-09-28',
+    storage: 'cellar',
+    notes: {
+      ko: '인생 단 한 병. 절대 마시지 말 것 (혹은 60세 생일에).',
+      en: 'A once-in-a-lifetime bottle. Never open (or maybe at 60).',
+    },
+    purchasePriceKrw: 5_650_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_033.jpg',
+  },
+  {
+    id: 'cellar_034',
+    userId: 'me-heavy',
+    wineId: 'lwin-1415221', // Bel-Air Sauternes
+    acquiredAt: '2025-10-21',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 135_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_035',
+    userId: 'me-heavy',
+    wineId: 'lwin-1057005', // Rousseau Chambertin
+    acquiredAt: '2025-11-12',
+    storage: 'cellar',
+    notes: {
+      ko: '루소 샹베르탱. 부르고뉴 인생작 후보.',
+      en: 'Rousseau Chambertin. A possible Burgundy of a lifetime.',
+    },
+    purchasePriceKrw: 4_100_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_035.jpg',
+  },
+  {
+    id: 'cellar_036',
+    userId: 'me-heavy',
+    wineId: 'lwin-1026797', // Vogüé Chambolle
+    acquiredAt: '2025-12-06',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 470_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_037',
+    userId: 'me-heavy',
+    wineId: 'lwin-1046898', // Méo-Camuzet Vosne
+    acquiredAt: '2026-02-04',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 310_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_038',
+    userId: 'me-heavy',
+    wineId: 'lwin-1030673', // Dujac Vosne
+    acquiredAt: '2025-10-30',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 355_000,
+    notifyAtPeak: false,
+    photoUrl: '/photos/cellar_038.jpg',
+  },
+  {
+    id: 'cellar_039',
+    userId: 'me-heavy',
+    wineId: 'lwin-1073368', // Leflaive Bâtard
+    acquiredAt: '2025-09-15',
+    storage: 'cellar',
+    notes: {
+      ko: '바따르 그랑 크뤼. 화이트는 셀러 보관도 길다.',
+      en: 'Bâtard Grand Cru. Whites age beautifully in the cellar.',
+    },
+    purchasePriceKrw: 1_320_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_040',
+    userId: 'me-heavy',
+    wineId: 'lwin-1061994', // Bouchard Corton-Charlemagne
+    acquiredAt: '2026-01-10',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 565_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_041',
+    userId: 'me-heavy',
+    wineId: 'lwin-1108387', // Beaucastel Rouge
+    acquiredAt: '2025-11-28',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 250_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_042',
+    userId: 'me-heavy',
+    wineId: 'lwin-1113273', // Guigal Hermitage
+    acquiredAt: '2025-12-22',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 410_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_043',
+    userId: 'me-heavy',
+    wineId: 'lwin-1101245', // Bartolo Mascarello Barolo
+    acquiredAt: '2025-10-08',
+    storage: 'cellar',
+    notes: {
+      ko: '바르톨로 마스카렐로. 전통주의 바롤로의 표본.',
+      en: 'Bartolo Mascarello. The benchmark of traditional Barolo.',
+    },
+    purchasePriceKrw: 560_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_043.jpg',
+  },
+  {
+    id: 'cellar_044',
+    userId: 'me-heavy',
+    wineId: 'lwin-1099852', // Bruno Giacosa Barbaresco
+    acquiredAt: '2026-03-02',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 370_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_045',
+    userId: 'me-heavy',
+    wineId: 'lwin-1099605', // Gaja Barbaresco
+    acquiredAt: '2025-11-17',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 660_000,
+    notifyAtPeak: false,
+    photoUrl: '/photos/cellar_045.jpg',
+  },
+  {
+    id: 'cellar_046',
+    userId: 'me-heavy',
+    wineId: 'lwin-1103786', // Quintarelli Amarone
+    acquiredAt: '2026-02-12',
+    storage: 'cellar',
+    notes: {
+      ko: '퀸타렐리 아마로네. 절대 빨리 마시지 않는다.',
+      en: 'Quintarelli Amarone. Never to be drunk young.',
+    },
+    purchasePriceKrw: 920_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_047',
+    userId: 'me-heavy',
+    wineId: 'lwin-1095391', // Tignanello
+    acquiredAt: '2026-01-30',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 230_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_048',
+    userId: 'me-heavy',
+    wineId: 'lwin-1102024', // Ornellaia
+    acquiredAt: '2025-12-29',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 365_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_049',
+    userId: 'me-heavy',
+    wineId: 'lwin-1135541', // La Rioja Alta Gran Reserva
+    acquiredAt: '2026-03-18',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 215_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_050',
+    userId: 'me-heavy',
+    wineId: 'lwin-1120743', // Pingus
+    acquiredAt: '2025-10-19',
+    storage: 'cellar',
+    notes: {
+      ko: '리베라 컬트의 정점. 30년을 갈 와인.',
+      en: 'The Ribera cult peak. A wine that will run 30 years.',
+    },
+    purchasePriceKrw: 1_580_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_050.jpg',
+  },
+  {
+    id: 'cellar_051',
+    userId: 'me-heavy',
+    wineId: 'lwin-1122200', // Harlan Estate
+    acquiredAt: '2026-02-22',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 1_890_000,
+    notifyAtPeak: true,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_052',
+    userId: 'me-heavy',
+    wineId: 'lwin-1123164', // Ridge Monte Bello
+    acquiredAt: '2025-11-09',
+    storage: 'cellar',
+    notes: null,
+    purchasePriceKrw: 445_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_053',
+    userId: 'me-heavy',
+    wineId: 'lwin-1002874', // Henschke Hill of Grace
+    acquiredAt: '2025-12-30',
+    storage: 'cellar',
+    notes: {
+      ko: '에덴 밸리 1860년 식재 빈야드. 호주의 양대 거두 중 하나.',
+      en: 'Eden Valley vineyard planted in 1860. One of Australia’s two titans.',
+    },
+    purchasePriceKrw: 1_360_000,
+    notifyAtPeak: true,
+    photoUrl: '/photos/cellar_053.jpg',
+  },
+
+  /* ── fridge storage (early-drinking whites/sparkling) ── */
+  {
+    id: 'cellar_054',
+    userId: 'me-heavy',
+    wineId: 'lwin-1082656', // Dom Pérignon
+    acquiredAt: '2026-04-15',
+    storage: 'fridge',
+    notes: null,
+    purchasePriceKrw: 380_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
+  {
+    id: 'cellar_055',
+    userId: 'me-heavy',
+    wineId: 'lwin-1090383', // JJ Prüm Riesling
+    acquiredAt: '2026-04-30',
+    storage: 'fridge',
+    notes: null,
+    purchasePriceKrw: 92_000,
+    notifyAtPeak: false,
+    photoUrl: null,
+  },
 ];
 
 /* ────────────────────────────────────────────────────────────────────────── */

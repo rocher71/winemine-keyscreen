@@ -10,6 +10,7 @@ import { WineStoryCard } from '@/components/wine-story/wine-story-card';
 import { ReviewList } from '@/components/wine-detail/review-list';
 import { AddToCellarCta } from '@/components/wine-detail/add-to-cellar-cta';
 import { FavoriteToggle } from '@/components/wine-detail/favorite-toggle';
+import { MyTastingNoteCard } from '@/components/wine-detail/my-tasting-note-card';
 import { getWine } from '@/lib/mock/wines';
 import { getExternalRating } from '@/lib/mock/external-ratings';
 import { getWineStory } from '@/lib/mock/wine-stories';
@@ -56,6 +57,10 @@ export default async function WineDetailPage({ params }: { params: Params }) {
         }}
       >
         <WineHeader wine={wine} />
+
+        {/* 내 노트가 있을 때만 노출 — localStorage + mock 머지 데이터 기반.
+            전문가 리뷰 10건+ 와인은 카드 내부에서 자동으로 커뮤니티 비교 인사이트 표시. */}
+        <MyTastingNoteCard wine={wine} />
 
         <ExternalRatingsCard rating={externalRating} />
 

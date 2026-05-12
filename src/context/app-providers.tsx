@@ -6,6 +6,7 @@ import { ExperienceProvider } from './experience-context';
 import { LocaleProvider } from './locale-context';
 import { FavoritesProvider } from './favorites-context';
 import { FeatureFlagProvider } from './feature-flag-context';
+import { UserDataProvider } from './user-data-context';
 
 /**
  * 4개 Context를 한 번에 wrapping.
@@ -19,7 +20,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
         <ExperienceProvider>
           <LocaleProvider>
             <FavoritesProvider>
-              <FeatureFlagProvider>{children}</FeatureFlagProvider>
+              <UserDataProvider>
+                <FeatureFlagProvider>{children}</FeatureFlagProvider>
+              </UserDataProvider>
             </FavoritesProvider>
           </LocaleProvider>
         </ExperienceProvider>

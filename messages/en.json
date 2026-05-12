@@ -499,7 +499,27 @@
       "addedToast": "Added to favorites",
       "removedToast": "Removed from favorites"
     },
-    "servingTemp": "{min}-{max}°C recommended"
+    "servingTemp": "{min}-{max}°C recommended",
+    "myNote": {
+      "label": "My tasting note",
+      "edit": "Edit",
+      "mode": {
+        "expert": "Expert",
+        "beginner": "Beginner"
+      },
+      "dim": {
+        "sweetness": "Sweet",
+        "acidity": "Acid",
+        "body": "Body",
+        "tannin": "Tannin"
+      },
+      "community": {
+        "label": "Community comparison ({count} experts)",
+        "you": "You",
+        "avg": "Avg",
+        "basis": "vs avg of {count} expert reviews"
+      }
+    }
   },
   "externalRatings": {
     "title": "External ratings",

@@ -12,19 +12,26 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BeginnerNote } from './beginner-note';
 import { useLocale } from '@/context/locale-context';
+import { useUserData } from '@/context/user-data-context';
+import { useMockUser } from '@/hooks/use-mock-user';
 import { toast } from '@/hooks/use-toast';
 import { calcNoteXp } from '@/lib/xp';
 import type { FormVariant } from '@/lib/tasting-note-lexicon';
+import type { Wine } from '@/types';
 
 export interface NoteWriteBeginnerProps {
   variant: FormVariant; // blind는 부모가 white로 변환해서 전달
   wineName: string;
   producer: string;
+  /** 와인이 매칭되어 있으면 저장 시 localStorage 영속화 */
+  wine?: Wine | null;
 }
 
-export function NoteWriteBeginner({ variant, wineName, producer }: NoteWriteBeginnerProps) {
+export function NoteWriteBeginner({ variant, wineName, producer, wine = null }: NoteWriteBeginnerProps) {
   const { locale } = useLocale();
   const router = useRouter();
+  const { addTastingNote } = useUserData();
+  const { user } = useMockUser();
   const [priceCapture, setPriceCapture] = useState(false);
   const [price, setPrice] = useState('');
 
@@ -34,6 +41,37 @@ export function NoteWriteBeginner({ variant, wineName, producer }: NoteWriteBegi
   function handleSave() {
     let xp = calcNoteXp('beginner');
     if (priceCapture && price.trim()) xp += 5;
+
+    /* localStorage 영속화 — 와인이 매칭되어 있을 때만 */
+    if (wine) {
+      const priceKrw = priceCapture && price.trim() ? Number(price.replace(/[^0-9]/g, '')) || null : null;
+      addTastingNote({
+        id: `user-note-${Date.now()}`,
+        userId: user.id,
+        wineId: wine.id,
+        source: 'newEntry',
+        cellarItemId: null,
+        tastedAt: new Date().toISOString().slice(0, 10),
+        mode: 'beginner',
+        beginnerFields: {
+          impression: 'good',
+          sweetness: 3,
+          acidity: 3,
+          body: 3,
+          tannin: 3,
+          aromas: [],
+          finish: 'medium',
+          rating: 4,
+          memo: { ko: '', en: '' },
+        },
+        expertFields: null,
+        photoUrl: null,
+        priceKrw,
+        isPublic: true,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
     toast({
       variant: 'xp',
       xp,

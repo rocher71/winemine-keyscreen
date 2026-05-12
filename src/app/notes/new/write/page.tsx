@@ -34,6 +34,7 @@ function NoteWriteInner() {
 
   const from = params.get('from');
   const itemId = params.get('itemId');
+  const wineIdParam = params.get('wineId');
 
   const { wine, variant } = useMemo(() => {
     if (from === 'cellar' && itemId) {
@@ -44,8 +45,16 @@ function NoteWriteInner() {
         variant: w ? variantFromWineType(w.wineType) : ('red' as FormVariant),
       };
     }
+    /* from=newEntry — capture/캡쳐 결과에서 wineId 파라미터로 와인 ID 전달받은 경우 */
+    if (wineIdParam) {
+      const w = getWine(wineIdParam) ?? null;
+      return {
+        wine: w,
+        variant: w ? variantFromWineType(w.wineType) : ('red' as FormVariant),
+      };
+    }
     return { wine: null as Wine | null, variant: 'red' as FormVariant };
-  }, [from, itemId]);
+  }, [from, itemId, wineIdParam]);
 
   const wineName = wine?.name ?? '';
   const producer = wine ? (locale === 'en' ? wine.producer.en : wine.producer.ko) : '';
@@ -66,7 +75,7 @@ function NoteWriteInner() {
             blindAnswer={null}
           />
         ) : (
-          <NoteWriteBeginner variant={variant} wineName={wineName} producer={producer} />
+          <NoteWriteBeginner variant={variant} wineName={wineName} producer={producer} wine={wine} />
         )}
       </main>
     </>

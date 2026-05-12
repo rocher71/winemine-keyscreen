@@ -499,7 +499,27 @@
       "addedToast": "즐겨찾기에 추가했어요",
       "removedToast": "즐겨찾기에서 제거했어요"
     },
-    "servingTemp": "{min}-{max}°C 권장"
+    "servingTemp": "{min}-{max}°C 권장",
+    "myNote": {
+      "label": "내 테이스팅 노트",
+      "edit": "편집",
+      "mode": {
+        "expert": "전문가",
+        "beginner": "입문자"
+      },
+      "dim": {
+        "sweetness": "당도",
+        "acidity": "산도",
+        "body": "바디",
+        "tannin": "타닌"
+      },
+      "community": {
+        "label": "커뮤니티 비교 (전문가 {count}명 기준)",
+        "you": "내 점수",
+        "avg": "평균",
+        "basis": "전문가 리뷰 {count}건 평균 대비"
+      }
+    }
   },
   "externalRatings": {
     "title": "외부 평점",

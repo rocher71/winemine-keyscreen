@@ -27,6 +27,8 @@ import { RegionalAromaHints } from './regional-aroma-hints';
 import { PriceCapture } from './note-write-beginner';
 import { GlossaryTooltip } from '@/components/glossary/glossary-tooltip';
 import { useLocale } from '@/context/locale-context';
+import { useUserData } from '@/context/user-data-context';
+import { useMockUser } from '@/hooks/use-mock-user';
 import { toast } from '@/hooks/use-toast';
 import { XP_ACTIONS } from '@/lib/xp';
 import {
@@ -244,6 +246,8 @@ export function NoteWriteExpert({
 }: NoteWriteExpertProps) {
   const { locale } = useLocale();
   const router = useRouter();
+  const { addTastingNote } = useUserData();
+  const { user } = useMockUser();
   const [state, dispatch] = useReducer(reducer, undefined, () => initialState(initialVariant, wine));
   const [priceCapture, setPriceCapture] = useState(false);
   const [price, setPrice] = useState('');
@@ -266,6 +270,56 @@ export function NoteWriteExpert({
     if (state.photoAttached) xp += XP_ACTIONS.photoAttach;
     if (priceCapture && price.trim()) xp += XP_ACTIONS.priceAdd;
     if (state.peakEstimateYearsToPeak != null && userLevelId >= 3) xp += XP_ACTIONS.peakEstimate;
+
+    /* localStorage 영속화 — 와인이 매칭되어 있을 때만 (단순 메모만 있는 blind 등은 제외) */
+    if (wine) {
+      const priceKrw = priceCapture && price.trim() ? Number(price.replace(/[^0-9]/g, '')) || null : null;
+      const peakYear =
+        state.peakEstimateYearsToPeak != null ? wine.vintage + state.peakEstimateYearsToPeak : null;
+      addTastingNote({
+        id: `user-note-${Date.now()}`,
+        userId: user.id,
+        wineId: wine.id,
+        source: 'newEntry',
+        cellarItemId: null,
+        tastedAt: new Date().toISOString().slice(0, 10),
+        mode: 'expert',
+        beginnerFields: null,
+        expertFields: {
+          sweetness: state.sweetness,
+          acidity: state.acidity,
+          body: state.body,
+          tannin: state.tannin.intensity,
+          tanninTexture: state.tannin.texture as never,
+          intensity: state.aromaIntensity,
+          flavorIntensity: state.flavorIntensity,
+          finishLength:
+            state.caudalies < 3 ? 'short' : state.caudalies < 6 ? 'medium' : state.caudalies < 10 ? 'long' : 'veryLong',
+          aromaWheel: state.aromaSelected.length
+            ? [{ categoryId: 'fruity', terms: state.aromaSelected }]
+            : [],
+          faults: state.faults,
+          evolution: {
+            openedAt: new Date().toISOString(),
+            decant: false,
+            timepoints: [],
+            peakAt: 0,
+          },
+          caudalies: state.caudalies,
+          rating: state.rating,
+          memo: { ko: '', en: '' },
+          servingTempCelsius: state.servingTempCelsius,
+          peakEstimateYear: peakYear,
+          peakEstimateConfidence: state.peakEstimateConfidence,
+          peakEstimateNote: null,
+        },
+        photoUrl: state.photoAttached ? '/sample-labels/placeholder.svg' : null,
+        priceKrw,
+        isPublic: true,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
     toast({
       variant: 'xp',
       xp,

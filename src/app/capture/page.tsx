@@ -6,6 +6,9 @@ import { useTranslations } from 'next-intl';
 import { X, Camera, Image as ImageIcon, Library, BookOpen, Loader2, Sparkles, RotateCcw, Pencil } from 'lucide-react';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 import { useLocale } from '@/context/locale-context';
+import { useUserData } from '@/context/user-data-context';
+import { useMockUser } from '@/hooks/use-mock-user';
+import { toast } from '@/hooks/use-toast';
 import { getWine } from '@/lib/mock/wines';
 
 /**
@@ -28,6 +31,8 @@ export default function CapturePage() {
   const t = useTranslations('capture');
   const router = useRouter();
   const { locale } = useLocale();
+  const { addCellarItem } = useUserData();
+  const { user } = useMockUser();
   const [stage, setStage] = useState<Stage>('choose');
   const [source, setSource] = useState<Source>('scan');
   const [photoLoadFailed, setPhotoLoadFailed] = useState(false);
@@ -183,7 +188,22 @@ export default function CapturePage() {
             photoLoadFailed={photoLoadFailed}
             onPhotoError={() => setPhotoLoadFailed(true)}
             onConfirmNote={() => router.push(`/notes/new/write?from=newEntry&wineId=${wine.id}`)}
-            onConfirmCellar={() => router.push(`/cellar`)}
+            onConfirmCellar={() => {
+              /* localStorage에 셀러 항목 추가 — 프로필 cellarCount와 /cellar 리스트에 즉시 반영 */
+              addCellarItem({
+                id: `user-cellar-${Date.now()}`,
+                userId: user.id,
+                wineId: wine.id,
+                acquiredAt: new Date().toISOString().slice(0, 10),
+                storage: 'cellar',
+                notes: null,
+                purchasePriceKrw: wine.averagePriceKrw ?? null,
+                notifyAtPeak: false,
+                photoUrl: null,
+              });
+              toast({ message: { ko: '셀러에 추가됨', en: 'Added to cellar' } });
+              router.push(`/cellar`);
+            }}
             onRetry={() => setStage('choose')}
             onEdit={() => router.push(`/notes/new/write?from=newEntry&wineId=${wine.id}&edit=1`)}
             t={t}
