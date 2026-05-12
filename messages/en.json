@@ -144,7 +144,27 @@
       "sub": "Add wines to get drinking-time alerts",
       "cta": "Add first wine"
     },
-    "addToast": "Cellar registration TBD"
+    "addToast": "Cellar registration TBD",
+    "searchPlaceholder": "Search wine, producer, region, grape, vintage",
+    "clearSearch": "Clear search",
+    "filterType": {
+      "all": "All",
+      "red": "Red",
+      "white": "White",
+      "sparkling": "Sparkling",
+      "rosé": "Rosé",
+      "fortified": "Fortified",
+      "dessert": "Dessert"
+    },
+    "resultCount": {
+      "total": "{total} bottles total",
+      "filtered": "{shown} of {total} bottles"
+    },
+    "clearFilters": "Clear filters",
+    "noResults": {
+      "title": "No matching wines",
+      "body": "Try a different keyword or remove the type filter."
+    }
   },
   "profile": {
     "title": "Profile",
