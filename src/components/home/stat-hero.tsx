@@ -1,120 +1,96 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useLocalizedText } from '@/components/shared/locale-text';
 import type { User } from '@/types';
 
 /**
- * 헤비 모드 홈 상단 200px STAT HERO.
- * 좌측 큰 숫자 + 인사말, 우측 작은 월드맵 placeholder.
+ * 헤비 모드 홈 상단 통계 카드 그리드.
+ * 디자인 시안의 StatHero — 3개 카드: 방문 국가 / 마신 와인 / 작성 노트.
  */
 export function StatHero({ user }: { user: User }) {
   const t = useTranslations('home');
-  const name = useLocalizedText(user.displayName);
+
+  const items = [
+    {
+      icon: (
+        <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" />
+        </svg>
+      ),
+      value: user.stats.countriesExplored,
+      label: t('statCountries'),
+      color: '#C9A84C',
+    },
+    {
+      icon: (
+        <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path d="M10 3h4v4c0 2 2 2 2 5v11h-8V12c0-3 2-3 2-5z" />
+        </svg>
+      ),
+      value: user.stats.winesTasted,
+      label: t('statWines'),
+      color: 'var(--color-cream)',
+    },
+    {
+      icon: (
+        <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path d="m4 20 4-1 11-11-3-3L5 16z" />
+        </svg>
+      ),
+      value: user.stats.notesCount,
+      label: t('statNotes'),
+      color: '#C9A84C',
+    },
+  ];
+
   return (
     <div
       data-feature-id="home.statHero"
       style={{
-        margin: '8px 16px 0',
-        borderRadius: 20,
-        height: 200,
-        padding: 20,
-        background:
-          'linear-gradient(180deg, var(--color-surface) 0%, rgba(139,26,42,0.25) 100%)',
-        border: '1px solid var(--color-border-default)',
         display: 'grid',
-        gridTemplateColumns: '1.4fr 1fr',
-        gap: 12,
-        position: 'relative',
-        overflow: 'hidden',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 8,
+        padding: '14px 16px 0',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      {items.map((it, i) => (
         <div
+          key={i}
           style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: 13,
-            color: 'var(--color-text-secondary)',
+            padding: '14px 12px',
+            borderRadius: 14,
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border-default)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 6,
           }}
         >
-          {t('greeting', { name })}
-        </div>
-        <div>
+          {it.icon}
           <div
             style={{
               fontFamily: 'var(--font-playfair)',
-              fontSize: 44,
-              fontWeight: 400,
-              lineHeight: 1,
+              fontSize: 26,
               color: 'var(--color-cream)',
-              letterSpacing: '-0.01em',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
             }}
           >
-            {t('bottles', { count: user.stats.winesTasted })}
+            {it.value}
           </div>
           <div
             style={{
-              marginTop: 8,
               fontFamily: 'var(--font-inter)',
-              fontSize: 12,
+              fontSize: 10,
               color: 'var(--color-text-muted)',
+              letterSpacing: '0.02em',
             }}
           >
-            {t('countriesRegions', {
-              countries: user.stats.countriesExplored,
-              regions: user.stats.regionsExplored,
-            })}
+            {it.label}
           </div>
         </div>
-      </div>
-      <MiniWorldMapPlaceholder />
+      ))}
     </div>
-  );
-}
-
-function MiniWorldMapPlaceholder() {
-  // 시안용 정적 SVG 그리드. 실제 월드맵은 /map에서 react-simple-maps로 렌더.
-  return (
-    <svg
-      viewBox="0 0 100 60"
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden
-      style={{ opacity: 0.85 }}
-    >
-      <defs>
-        <radialGradient id="mwm-grad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#1A0A1E" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#0A050F" stopOpacity="0.95" />
-        </radialGradient>
-      </defs>
-      <rect x="0" y="0" width="100" height="60" fill="url(#mwm-grad)" rx="6" />
-      {/* 굵직한 대륙 실루엣 placeholder */}
-      <g fill="#2D1540">
-        <ellipse cx="22" cy="28" rx="14" ry="9" />
-        <ellipse cx="48" cy="22" rx="13" ry="7" />
-        <ellipse cx="78" cy="26" rx="11" ry="8" />
-        <ellipse cx="30" cy="46" rx="8" ry="6" />
-        <ellipse cx="62" cy="44" rx="6" ry="5" />
-      </g>
-      {/* 와인 핀 (Wine Red) */}
-      <g fill="#8B1A2A">
-        <circle cx="45" cy="20" r="1.3" />
-        <circle cx="46" cy="22" r="1.3" />
-        <circle cx="48" cy="24" r="1.3" />
-        <circle cx="50" cy="22" r="1.3" />
-        <circle cx="52" cy="20" r="1.3" />
-        <circle cx="53" cy="24" r="1.3" />
-        <circle cx="44" cy="24" r="1.3" />
-        <circle cx="55" cy="26" r="1.3" />
-      </g>
-      <g fill="#C9A84C">
-        <circle cx="78" cy="26" r="1.2" />
-        <circle cx="76" cy="28" r="1.2" />
-        <circle cx="22" cy="30" r="1.2" />
-        <circle cx="31" cy="46" r="1.2" />
-      </g>
-    </svg>
   );
 }

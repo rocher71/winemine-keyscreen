@@ -4,12 +4,14 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, Sparkles, Flame, Globe2, Star, MapPin } from 'lucide-react';
+import { ChevronRight, Sparkles, Flame, Globe2, MapPin } from 'lucide-react';
 import { useLocale } from '@/context/locale-context';
 import { useLocalizedText } from '@/components/shared/locale-text';
 import { getFeaturedWines, WINES } from '@/lib/mock/wines';
 import { getExternalRating } from '@/lib/mock/external-ratings';
 import { getPurchasesByWine } from '@/lib/mock/purchases';
+import { WMBottle } from '@/components/shared/wm-bottle';
+import { WMGlassRating } from '@/components/shared/wm-glass-rating';
 import type { Wine } from '@/types';
 
 /**
@@ -167,11 +169,19 @@ function WineFeedRow({ wine }: { wine: Wine }) {
         borderRadius: 12,
         textDecoration: 'none',
         color: 'inherit',
-        alignItems: 'stretch',
+        alignItems: 'center',
       }}
     >
-      {/* 라벨 일러 */}
-      <BottleThumb wine={wine} />
+      {/* 병 일러스트 */}
+      <WMBottle
+        bottleColor={wine.bottleColor}
+        labelColor="#f3ead4"
+        producer={wine.producer.ko || wine.producer.en}
+        label={wine.name.split(' ')[0]}
+        vintage={wine.vintage}
+        width={40}
+        height={130}
+      />
 
       {/* 메타 */}
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -247,19 +257,18 @@ function WineFeedRow({ wine }: { wine: Wine }) {
       >
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3 }}>
           {rating?.vivino && (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 3,
-                fontFamily: 'var(--font-inter)',
-                fontSize: 11,
-                fontWeight: 600,
-                color: 'var(--color-gold)',
-              }}
-            >
-              <Star size={11} fill="var(--color-gold)" strokeWidth={0} />
-              {rating.vivino.score.toFixed(1)}
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <WMGlassRating value={rating.vivino.score} size={8} />
+              <span
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: 'var(--color-gold)',
+                }}
+              >
+                {rating.vivino.score.toFixed(1)}
+              </span>
             </span>
           )}
           <span
@@ -279,69 +288,6 @@ function WineFeedRow({ wine }: { wine: Wine }) {
   );
 }
 
-/* ─────────────────────── Bottle thumb ─────────────────────── */
-
-function BottleThumb({ wine }: { wine: Wine }) {
-  return (
-    <div
-      aria-hidden
-      style={{
-        width: 48,
-        height: 64,
-        flexShrink: 0,
-        borderRadius: 6,
-        background: `linear-gradient(180deg, ${wine.bottleColor} 0%, #0a0508 100%)`,
-        position: 'relative',
-        border: '1px solid rgba(245,240,232,0.05)',
-        overflow: 'hidden',
-      }}
-    >
-      {/* 라벨 */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 6,
-          right: 6,
-          top: 26,
-          bottom: 6,
-          background: '#f5f0e8',
-          borderRadius: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#3a1418',
-          fontFamily: 'var(--font-playfair)',
-          fontSize: 8,
-          fontWeight: 700,
-          padding: '0 2px',
-          textAlign: 'center',
-          lineHeight: 1,
-        }}
-      >
-        {initials(wine)}
-      </div>
-      {/* 캡슐 */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 14,
-          right: 14,
-          top: 0,
-          height: 20,
-          background: '#0a0508',
-        }}
-      />
-    </div>
-  );
-}
-
-function initials(wine: Wine): string {
-  /* 이름 또는 생산자에서 2~3 글자 추출 — 한글이 아닌 경우만 */
-  const src = wine.producer.en || wine.name;
-  const words = src.split(/[\s,·]+/).filter(Boolean);
-  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
-  return src.slice(0, 2).toUpperCase();
-}
 
 function formatKrwShort(krw: number, locale: 'ko' | 'en'): string {
   /* k/M 단위는 양 locale 공통 — 한글 단위는 i18n 누출 정책상 사용 X */

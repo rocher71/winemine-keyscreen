@@ -86,7 +86,10 @@
         "trending": "Trending",
         "explore": "Explore"
       }
-    }
+    },
+    "statCountries": "Countries",
+    "statWines": "Wines",
+    "statNotes": "Notes"
   },
   "map": {
     "title": "My wine map",

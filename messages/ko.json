@@ -86,7 +86,10 @@
         "trending": "트렌딩",
         "explore": "탐험"
       }
-    }
+    },
+    "statCountries": "방문 국가",
+    "statWines": "마신 와인",
+    "statNotes": "작성 노트"
   },
   "map": {
     "title": "내 와인 지도",

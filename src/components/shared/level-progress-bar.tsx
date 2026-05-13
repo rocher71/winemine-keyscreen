@@ -91,9 +91,10 @@ export function LevelProgressBar({ xp, onClick }: Props) {
           style={{
             width: `${progressPct}%`,
             height: '100%',
-            background: 'var(--color-gold)',
+            background: 'linear-gradient(90deg, var(--color-gold), var(--color-cream))',
             borderRadius: 3,
             transition: 'width 400ms ease-out',
+            boxShadow: '0 0 12px rgba(201,168,76,0.5)',
           }}
         />
       </div>
