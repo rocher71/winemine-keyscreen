@@ -56,4 +56,29 @@ declare module 'react-simple-maps' {
     onClick?: () => void;
   }
   export const Marker: ComponentType<MarkerProps>;
+
+  export interface MoveEndPayload {
+    coordinates: [number, number];
+    zoom: number;
+  }
+  export interface MovePayload {
+    x: number;
+    y: number;
+    zoom: number;
+    dragging?: EventTarget | null;
+  }
+  export interface ZoomableGroupProps {
+    center?: [number, number];
+    zoom?: number;
+    minZoom?: number;
+    maxZoom?: number;
+    translateExtent?: [[number, number], [number, number]];
+    filterZoomEvent?: (event: Event) => boolean;
+    onMoveStart?: (payload: MoveEndPayload, event: Event) => void;
+    onMove?: (payload: MovePayload, event: Event) => void;
+    onMoveEnd?: (payload: MoveEndPayload, event: Event) => void;
+    children?: ReactNode;
+    className?: string;
+  }
+  export const ZoomableGroup: ComponentType<ZoomableGroupProps>;
 }

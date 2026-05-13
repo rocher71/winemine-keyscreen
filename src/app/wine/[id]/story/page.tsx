@@ -76,7 +76,7 @@ export default async function WineStoryPage({ params }: { params: Params }) {
         style={{
           flex: 1,
           overflowY: 'auto',
-          paddingBottom: 16,
+          paddingBottom: 96,
           display: 'flex',
           flexDirection: 'column',
           gap: 20,

@@ -53,7 +53,7 @@ export default function GlossaryEntryPage() {
   return (
     <>
       <BackHeader title={entry.term} />
-      <main className="wm-scroll-area" style={{ paddingBottom: 32 }}>
+      <main className="wm-scroll-area">
         <section data-feature-id="glossaryEntry.hero" style={{ padding: '8px 20px 16px' }}>
           <span
             style={{

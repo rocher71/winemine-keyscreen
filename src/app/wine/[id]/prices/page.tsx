@@ -31,7 +31,7 @@ export default async function WinePricesPage({ params }: { params: Params }) {
         style={{
           flex: 1,
           overflowY: 'auto',
-          paddingBottom: 80,
+          paddingBottom: 96,
           display: 'flex',
           flexDirection: 'column',
           gap: 16,

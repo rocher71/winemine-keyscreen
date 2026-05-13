@@ -265,12 +265,13 @@
 }
 
 /* 페이지 스크롤 컨테이너 (헤더와 BottomNav를 빼고 콘텐츠만 스크롤) */
+/* padding-bottom 96px = BottomNav 83px + 여유 13px */
 .wm-scroll-area {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 24px;
+  padding-bottom: 96px;
 }
 
 /* feature-flag-panel이 dropped 토글한 컴포넌트를 시각적으로 무력화 */
