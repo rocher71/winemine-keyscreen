@@ -2,44 +2,77 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Globe2, Camera, Library, User } from 'lucide-react';
 import type { Route } from 'next';
 import type { CSSProperties } from 'react';
 
-/**
- * 하단 탭바.
- *
- * - 높이 83px = 탭 49px + 홈 safe area 34px
- * - 배경 rgba(15,7,24,0.92) + blur(20px), 상단 1px Border
- * - 5탭: 홈, 지도, FAB(중앙), 셀러, 프로필
- * - 활성 탭은 usePathname()으로 결정 (라우트 prefix 매칭)
- * - 노트 작성·온보딩·캡처 경로에서는 마운트 자체를 안 함 — shouldShowBottomNav 헬퍼로 가드.
- *
- * 활성 매칭:
- *   /                  → 홈
- *   /map               → 지도
- *   /cellar*           → 셀러
- *   /profile*, /favorites, /badges, /photos, /notifications, /settings*
- *                      → 프로필
- *   /wine/[id]*, /glossary*, 그 외 → 활성 탭 없음
- */
-
 type NavTabId = 'home' | 'map' | 'cellar' | 'profile';
+
+/* Monoline SVG icons — same set as design system */
+const ICON_PATHS: Record<string, React.ReactNode> = {
+  home: (
+    <>
+      <path d="M3 11.5 12 4l9 7.5" />
+      <path d="M5 10v10h14V10" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" />
+    </>
+  ),
+  camera: (
+    <>
+      <path d="M3 8h3l2-2h8l2 2h3v12H3z" />
+      <circle cx="12" cy="14" r="3.5" />
+    </>
+  ),
+  cellar: (
+    <>
+      <rect x="4" y="3" width="16" height="18" rx="1" />
+      <path d="M9 3v18M15 3v18M4 9h16M4 15h16" />
+    </>
+  ),
+  user: (
+    <>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c1-4 4-6 8-6s7 2 8 6" />
+    </>
+  ),
+};
+
+function NavIcon({ name, size = 22, color = 'currentColor' }: { name: string; size?: number; color?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ display: 'block' }}
+      aria-hidden
+    >
+      {ICON_PATHS[name]}
+    </svg>
+  );
+}
 
 const TABS: ReadonlyArray<{
   id: NavTabId;
   href: Route;
-  Icon: typeof Home;
+  icon: string;
   labelKo: string;
   labelEn: string;
 }> = [
-  { id: 'home', href: '/' as Route, Icon: Home, labelKo: '홈', labelEn: 'Home' },
-  { id: 'map', href: '/map' as Route, Icon: Globe2, labelKo: '지도', labelEn: 'Map' },
-  { id: 'cellar', href: '/cellar' as Route, Icon: Library, labelKo: '셀러', labelEn: 'Cellar' },
-  { id: 'profile', href: '/profile' as Route, Icon: User, labelKo: '프로필', labelEn: 'Profile' },
+  { id: 'home',    href: '/' as Route,       icon: 'home',   labelKo: '홈',    labelEn: 'Home' },
+  { id: 'map',     href: '/map' as Route,     icon: 'globe',  labelKo: '지도',  labelEn: 'Map' },
+  { id: 'cellar',  href: '/cellar' as Route,  icon: 'cellar', labelKo: '셀러',  labelEn: 'Cellar' },
+  { id: 'profile', href: '/profile' as Route, icon: 'user',   labelKo: '나',    labelEn: 'Me' },
 ];
 
-/** BottomNav가 숨겨져야 하는 라우트 패턴 (whitelist 인버스). */
 const HIDDEN_PREFIXES: ReadonlyArray<string> = [
   '/onboarding',
   '/capture',
@@ -48,7 +81,7 @@ const HIDDEN_PREFIXES: ReadonlyArray<string> = [
 
 export function shouldShowBottomNav(pathname: string | null): boolean {
   if (!pathname) return true;
-  return !HIDDEN_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  return !HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 function pickActiveTab(pathname: string | null): NavTabId | null {
@@ -63,9 +96,7 @@ function pickActiveTab(pathname: string | null): NavTabId | null {
     pathname.startsWith('/photos') ||
     pathname.startsWith('/notifications') ||
     pathname.startsWith('/settings')
-  ) {
-    return 'profile';
-  }
+  ) return 'profile';
   return null;
 }
 
@@ -76,24 +107,19 @@ export function BottomNav() {
   const { locale } = useLocale();
 
   if (!shouldShowBottomNav(pathname)) return null;
-
   const activeId = pickActiveTab(pathname);
 
-  // 5칸 레이아웃: 홈 | 지도 | FAB(공간) | 셀러 | 프로필
   const containerStyle: CSSProperties = {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 83,
-    paddingBottom: 34,
-    background: 'rgba(15, 7, 24, 0.92)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    borderTop: '1px solid var(--color-border-default)',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    alignItems: 'stretch',
+    padding: '8px 12px 28px',
+    background: 'linear-gradient(to top, #05020A 70%, rgba(5,2,10,0))',
+    display: 'flex',
+    alignItems: 'flex-end',
+    gap: 0,
+    borderTop: '0.5px solid var(--color-border-default)',
     zIndex: 25,
   };
 
@@ -102,42 +128,40 @@ export function BottomNav() {
       aria-label={locale === 'en' ? 'Primary' : '주요 내비게이션'}
       style={containerStyle}
     >
-      {/* 1. 홈 */}
-      <NavTab tab={TABS[0]} active={activeId === TABS[0].id} locale={locale} />
-      {/* 2. 지도 */}
-      <NavTab tab={TABS[1]} active={activeId === TABS[1].id} locale={locale} />
+      {/* 홈 */}
+      <NavTab tab={TABS[0]} active={activeId === 'home'} locale={locale} />
+      {/* 지도 */}
+      <NavTab tab={TABS[1]} active={activeId === 'map'} locale={locale} />
 
-      {/* 3. 중앙 FAB 슬롯 */}
-      <div style={{ position: 'relative' }}>
+      {/* 중앙 FAB — 카메라 */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
         <Link
           href={'/capture' as Route}
           aria-label={locale === 'en' ? 'Capture wine label' : '와인 라벨 촬영'}
           style={{
-            position: 'absolute',
-            top: -16,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 56,
-            height: 56,
-            borderRadius: 28,
-            background: 'var(--color-wine-red)',
-            border: '4px solid var(--color-bg-deepest)',
+            width: 52,
+            height: 52,
+            borderRadius: 999,
+            background: 'linear-gradient(135deg, #8B1A2A, #5b1424)',
+            border: '1px solid #C9A84C',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 8px 24px rgba(139, 26, 42, 0.35)',
+            boxShadow: '0 6px 20px rgba(139,26,42,0.45), inset 0 1px 0 rgba(255,255,255,0.12)',
             color: 'var(--color-cream)',
             textDecoration: 'none',
+            flexShrink: 0,
+            marginTop: -24,
           }}
         >
-          <Camera size={24} strokeWidth={1.75} />
+          <NavIcon name="camera" size={24} color="var(--color-cream)" />
         </Link>
       </div>
 
-      {/* 4. 셀러 */}
-      <NavTab tab={TABS[2]} active={activeId === TABS[2].id} locale={locale} />
-      {/* 5. 프로필 */}
-      <NavTab tab={TABS[3]} active={activeId === TABS[3].id} locale={locale} />
+      {/* 셀러 */}
+      <NavTab tab={TABS[2]} active={activeId === 'cellar'} locale={locale} />
+      {/* 나 */}
+      <NavTab tab={TABS[3]} active={activeId === 'profile'} locale={locale} />
     </nav>
   );
 }
@@ -151,31 +175,32 @@ function NavTab({
   active: boolean;
   locale: 'ko' | 'en';
 }) {
-  const { Icon, href, labelKo, labelEn } = tab;
-  const label = locale === 'en' ? labelEn : labelKo;
-  const color = active ? 'var(--color-gold)' : 'var(--color-text-muted)';
+  const label = locale === 'en' ? tab.labelEn : tab.labelKo;
+  const color = active ? '#C9A84C' : 'var(--color-text-muted)';
 
   return (
     <Link
-      href={href}
+      href={tab.href}
       aria-current={active ? 'page' : undefined}
       style={{
+        flex: 1,
+        padding: '6px 0',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 4,
+        gap: 3,
         color,
         textDecoration: 'none',
-        transition: 'color 200ms ease-out',
       }}
     >
-      <Icon size={20} strokeWidth={1.75} />
+      <NavIcon name={tab.icon} size={22} color={color} />
       <span
         style={{
           fontFamily: 'var(--font-inter)',
-          fontWeight: 500,
           fontSize: 10,
+          fontWeight: active ? 600 : 400,
+          letterSpacing: '0.02em',
           lineHeight: 1,
         }}
       >
