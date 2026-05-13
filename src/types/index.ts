@@ -404,3 +404,38 @@ export interface Review {
   createdAt: string;
   likesCount: number;
 }
+
+/* ─────────────────────── Community ─────────────────────── */
+
+export type CommunityPostType = 'note' | 'column' | 'question' | 'news' | 'album';
+
+export interface CommunityReactions {
+  glass: number;
+  sparkle: number;
+  bookmark: number;
+  drank: number;
+}
+
+export interface CommunityUser {
+  id: string;
+  name: string;
+  level: 1 | 2 | 3 | 4 | 5;
+  levelLabel: string;
+  color: string;
+  initial: string;
+}
+
+export interface CommunityPost {
+  id: string;
+  type: CommunityPostType;
+  userId: string;
+  ago: string;
+  wineId?: string;
+  rating?: number;
+  title: string;
+  body: string;
+  cover?: 'vineyard';
+  reactions: CommunityReactions;
+  comments: number;
+  photoCount?: number;
+}

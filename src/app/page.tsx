@@ -15,6 +15,7 @@ import { FirstTimeGreeting } from '@/components/home/first-time-greeting';
 import { EmptyStatHero } from '@/components/home/empty-stat-hero';
 import { SuggestedActions } from '@/components/home/suggested-actions';
 import { WineFeed } from '@/components/home/wine-feed';
+import { CommunityShortcutCard } from '@/components/community/community-shortcut-card';
 import { getNotificationsByUser, getUnreadCount } from '@/lib/mock/notifications';
 import { getTastingNotesByUser } from '@/lib/mock/tasting-notes';
 import { useLocalizedText } from '@/components/shared/locale-text';
@@ -77,6 +78,8 @@ export default function HomePage() {
             <NotificationFeed items={notifications} />
             <RecentNotesStrip notes={notes} />
             <WineFeed />
+            <div style={{ height: 12 }} />
+            <CommunityShortcutCard />
             <QuickActions user={user} />
           </>
         ) : (

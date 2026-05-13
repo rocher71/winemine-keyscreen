@@ -56,6 +56,7 @@ function pickActiveTab(pathname: string | null): NavTabId | null {
   if (pathname === '/') return 'home';
   if (pathname.startsWith('/map')) return 'map';
   if (pathname.startsWith('/cellar')) return 'cellar';
+  if (pathname.startsWith('/community')) return 'home';
   if (
     pathname.startsWith('/profile') ||
     pathname.startsWith('/favorites') ||
