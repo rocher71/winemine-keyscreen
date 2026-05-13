@@ -104,6 +104,36 @@ Error:               #EF4444
 
 ---
 
+## 외부 와인 리서치 레포
+
+**경로:** `/Users/yejinkim/Documents/git/wine-research/_workspace/`
+
+구현 전 관련 주제의 리서치 문서를 반드시 참고할 것. 파일 목록:
+
+| 파일 | 내용 |
+|------|------|
+| `01_sensory_research.md` | 와인 감각(색·향·맛) 과학적 분석 |
+| `02_flavor_research.md` | 풍미 화합물, 아로마 계통 |
+| `03_temporal_research.md` | 숙성·빈티지·음용 적기(drinking window) |
+| `04_consumer_research.md` | 와인 소비자 행동 리서치 |
+| `06_world_regions_research.md` | 세계 와인 산지 개요 |
+| `07_france_regions_research.md` | 프랑스 와인 산지 상세 |
+| `08_burgundy_classification_research.md` | 부르고뉴 분류 체계 리서치 |
+| `09_burgundy_tiers_detailed.md` | 부르고뉴 등급 상세 (Grand Cru~Régionale) |
+| `10_vivino_korea_analysis.md` | 비비노 한국 시장 분석 |
+| `11_korean_app_competitors.md` | 한국 와인 앱 경쟁사 분석 |
+| `12_strategy_features.md` | winemine 전략·기능 방향 |
+| `13_launch_report_2026_05_11.md` | 론치 리포트 |
+| `14_wine_database_providers.md` | 와인 DB 제공사 비교 |
+| `15_wine_database_bulk_acquisition.md` | 와인 DB 대량 확보 전략 |
+| `16_winemine_feedback.md` | winemine 베타 피드백 모음 |
+| `30_tasting_note_section_spec.md` | 테이스팅 노트 섹션 스펙 |
+| `31_burgundy_section_spec.md` | 부르고뉴 섹션 스펙 |
+| `32_wine_discovery_section_spec.md` | 와인 디스커버리 섹션 스펙 |
+| `50_label_recognition_research.md` | 라벨 인식 AI 리서치 |
+
+---
+
 ## 보안/품질 원칙 (랜딩에서 가져온 것)
 
 - 입력 검증: 클라이언트(Zod) + 서버 **양쪽** 모두
