@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { AppHeader } from '@/components/nav/app-header';
 import { BottomNav } from '@/components/nav/bottom-nav';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { useAppMode } from '@/context/app-mode-context';
@@ -80,12 +79,6 @@ export default function MapPage() {
 
   return (
     <>
-      <AppHeader
-        hasUnreadNotification={unread > 0}
-        avatarInitial={avatar}
-        levelId={demoMode === 'heavy' ? user.levelId : null}
-      />
-
       {/* 필터 바 */}
       <div
         style={{
