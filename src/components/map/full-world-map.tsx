@@ -52,9 +52,14 @@ const COTE_LABELS = [
 ] as const;
 
 /* ── 헬퍼 ─────────────────────────────────────────────────────────── */
+/** 빈 국가(시음 0병) 기본 fill — 바다(bg-map)보다 분명히 밝은 자색.
+ *  랜딩 페이지 hero map의 land 톤과 일치하도록 매칭. */
+const EMPTY_LAND_FILL = '#3D2456';
+
 function fillForCount(count: number): string {
-  if (count <= 0) return '#1A0A1E';
-  const t = Math.min(1, 0.3 + (count - 1) * 0.15);
+  if (count <= 0) return EMPTY_LAND_FILL;
+  /* 1병 → 0.10, 10+병 → 1.0. 단계마다 ~0.10 증가해서 한눈에 대비. */
+  const t = Math.min(1, 0.08 + (count - 1) * 0.103);
   return `rgba(139,26,42,${t.toFixed(2)})`;
 }
 
@@ -166,12 +171,16 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
             {({ geographies }) =>
               geographies.map((geo) => {
                 const iso       = String(geo.id).padStart(3, '0');
+                /* 남극(010) — 와인 산지가 아니므로 바다 색으로 숨김 */
+                const isAntarctica = iso === '010';
                 const count     = wineCountByIso.get(iso) ?? 0;
                 const isFrance  = iso === FRANCE_ISO;
-                const fill      = isFrance && franceFocused
+                const fill      = isAntarctica
+                  ? 'var(--color-bg-map)'
+                  : isFrance && franceFocused
                   ? 'rgba(139,26,42,0.18)'
                   : fillForCount(count);
-                const clickable = count > 0 || isFrance;
+                const clickable = !isAntarctica && (count > 0 || isFrance);
                 return (
                   <Geography
                     key={geo.rsmKey}
@@ -180,8 +189,8 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                     style={{
                       default: {
                         fill,
-                        stroke: 'rgba(45,21,64,0.55)',
-                        strokeWidth: 0.4,
+                        stroke: isAntarctica ? 'transparent' : 'rgba(245,240,232,0.18)',
+                        strokeWidth: 0.45,
                         outline: 'none',
                         cursor: clickable ? 'pointer' : 'default',
                       },
@@ -213,7 +222,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                 <circle
                   r={3 * cs}
                   fill="#C9A84C"
-                  stroke="#05020A"
+                  stroke="#1B1126"
                   strokeWidth={1 * cs}
                   style={{ cursor: 'pointer' }}
                 />
@@ -250,7 +259,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                         cy={-5 * cs}
                         r={3.4 * cs}
                         fill="#C9A84C"
-                        stroke="#05020A"
+                        stroke="#1B1126"
                         strokeWidth={0.5 * cs}
                       />
                       <text
@@ -261,7 +270,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: `${4.2 * cs}px`,
                           fontWeight: 700,
-                          fill: '#05020A',
+                          fill: '#1B1126',
                           pointerEvents: 'none',
                           userSelect: 'none',
                         }}

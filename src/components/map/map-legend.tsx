@@ -18,29 +18,30 @@ export function MapLegend() {
       }
       style={{
         position: 'absolute',
-        top: 12,
-        right: 12,
-        width: 120,
-        height: 70,
-        padding: 10,
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-border-default)',
+        top: 14,
+        left: 14,
+        width: 110,
+        padding: '8px 10px',
+        background: 'rgba(45,30,56,0.78)',
+        border: '1px solid rgba(245,240,232,0.18)',
         borderRadius: 10,
         cursor: 'pointer',
         zIndex: 10,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        gap: 5,
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
       }}
       aria-label="Legend"
     >
       <div
         style={{
-          height: 6,
+          height: 7,
           width: '100%',
-          borderRadius: 3,
+          borderRadius: 4,
           background:
-            'linear-gradient(90deg, rgba(139,26,42,0.25) 0%, rgba(139,26,42,1) 100%)',
+            'linear-gradient(90deg, rgba(139,26,42,0.08) 0%, rgba(139,26,42,0.35) 35%, rgba(139,26,42,0.7) 70%, rgba(139,26,42,1) 100%)',
         }}
       />
       <div
@@ -48,8 +49,9 @@ export function MapLegend() {
           display: 'flex',
           justifyContent: 'space-between',
           fontFamily: 'var(--font-inter)',
-          fontSize: 10,
-          color: 'var(--color-text-muted)',
+          fontSize: 9,
+          color: 'var(--color-text-secondary)',
+          fontWeight: 500,
         }}
       >
         <span>{t('legendOne')}</span>

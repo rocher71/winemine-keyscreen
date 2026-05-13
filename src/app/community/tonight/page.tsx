@@ -80,7 +80,7 @@ export default function TonightPage() {
           height: 220,
           borderRadius: 16,
           overflow: 'hidden',
-          background: '#1A0A1E',
+          background: '#2A1A30',
           border: '1px solid var(--color-border-default)',
           position: 'relative',
         }}

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import type { Route } from 'next';
 import type { CSSProperties } from 'react';
 
-type NavTabId = 'home' | 'map' | 'cellar' | 'profile';
+type NavTabId = 'home' | 'map' | 'cellar' | 'community';
 
 /* Monoline SVG icons — same set as design system */
 const ICON_PATHS: Record<string, React.ReactNode> = {
@@ -39,6 +39,14 @@ const ICON_PATHS: Record<string, React.ReactNode> = {
       <path d="M4 21c1-4 4-6 8-6s7 2 8 6" />
     </>
   ),
+  community: (
+    <>
+      <circle cx="9" cy="9" r="3.2" />
+      <circle cx="17" cy="10.5" r="2.4" />
+      <path d="M3 20c0.8-3 3.4-4.6 6-4.6s5.2 1.6 6 4.6" />
+      <path d="M15 20c0.6-2.2 2.4-3.4 4-3.4s2.8 0.8 3 2.2" />
+    </>
+  ),
 };
 
 function NavIcon({ name, size = 22, color = 'currentColor' }: { name: string; size?: number; color?: string }) {
@@ -67,10 +75,10 @@ const TABS: ReadonlyArray<{
   labelKo: string;
   labelEn: string;
 }> = [
-  { id: 'home',    href: '/' as Route,       icon: 'home',   labelKo: '홈',    labelEn: 'Home' },
-  { id: 'map',     href: '/map' as Route,     icon: 'globe',  labelKo: '지도',  labelEn: 'Map' },
-  { id: 'cellar',  href: '/cellar' as Route,  icon: 'cellar', labelKo: '셀러',  labelEn: 'Cellar' },
-  { id: 'profile', href: '/profile' as Route, icon: 'user',   labelKo: '나',    labelEn: 'Me' },
+  { id: 'home',      href: '/' as Route,          icon: 'home',      labelKo: '홈',      labelEn: 'Home' },
+  { id: 'map',       href: '/map' as Route,        icon: 'globe',     labelKo: '지도',    labelEn: 'Map' },
+  { id: 'cellar',    href: '/cellar' as Route,     icon: 'cellar',    labelKo: '셀러',    labelEn: 'Cellar' },
+  { id: 'community', href: '/community' as Route,  icon: 'community', labelKo: '커뮤니티', labelEn: 'Community' },
 ];
 
 const HIDDEN_PREFIXES: ReadonlyArray<string> = [
@@ -89,7 +97,7 @@ function pickActiveTab(pathname: string | null): NavTabId | null {
   if (pathname === '/') return 'home';
   if (pathname.startsWith('/map')) return 'map';
   if (pathname.startsWith('/cellar')) return 'cellar';
-  if (pathname.startsWith('/community')) return 'home';
+  if (pathname.startsWith('/community')) return 'community';
   if (
     pathname.startsWith('/profile') ||
     pathname.startsWith('/favorites') ||
@@ -97,7 +105,7 @@ function pickActiveTab(pathname: string | null): NavTabId | null {
     pathname.startsWith('/photos') ||
     pathname.startsWith('/notifications') ||
     pathname.startsWith('/settings')
-  ) return 'profile';
+  ) return null;
   return null;
 }
 
@@ -116,7 +124,7 @@ export function BottomNav() {
     left: 0,
     right: 0,
     padding: '8px 12px 28px',
-    background: 'linear-gradient(to top, #05020A 70%, rgba(5,2,10,0))',
+    background: 'linear-gradient(to top, #1B1126 70%, rgba(27,17,38,0))',
     display: 'flex',
     alignItems: 'flex-end',
     gap: 0,
@@ -161,8 +169,8 @@ export function BottomNav() {
 
       {/* 셀러 */}
       <NavTab tab={TABS[2]} active={activeId === 'cellar'} locale={locale} />
-      {/* 나 */}
-      <NavTab tab={TABS[3]} active={activeId === 'profile'} locale={locale} />
+      {/* 커뮤니티 */}
+      <NavTab tab={TABS[3]} active={activeId === 'community'} locale={locale} />
     </nav>
   );
 }

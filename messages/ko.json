@@ -95,7 +95,7 @@
     "title": "내 와인 지도",
     "filterLabel": "필터",
     "legendOne": "1병",
-    "legendMany": "5+병",
+    "legendMany": "10+병",
     "legendToast": "히트맵은 마신 와인 수",
     "countryHeading": "{country} · {count}병",
     "regionHeading": "{region} · {count}병",

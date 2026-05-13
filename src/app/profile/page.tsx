@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+import { AppHeader } from '@/components/nav/app-header';
 import { BottomNav } from '@/components/nav/bottom-nav';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { useMergedCellar, useMergedNotes } from '@/hooks/use-merged-data';
@@ -51,6 +52,11 @@ export default function ProfilePage() {
 
   return (
     <>
+      <AppHeader
+        hasUnreadNotification={unread > 0}
+        avatarInitial={initial}
+        levelId={user.levelId}
+      />
       <div className="wm-scroll-area">
         <h1
           className="wm-page-title"

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import type { Route } from 'next';
 import { useTranslations } from 'next-intl';
 import { Plus, Search, X } from 'lucide-react';
+import { AppHeader } from '@/components/nav/app-header';
 import { BottomNav } from '@/components/nav/bottom-nav';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { getCellarByUser } from '@/lib/mock/cellar';
@@ -140,6 +141,11 @@ export default function CellarListPage() {
 
   return (
     <>
+      <AppHeader
+        hasUnreadNotification={unread > 0}
+        avatarInitial={avatar}
+        levelId={user.id === 'me-heavy' ? user.levelId : null}
+      />
       <div className="wm-scroll-area">
         {/* Title + Tab + Add */}
         <div

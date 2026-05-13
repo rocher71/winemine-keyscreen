@@ -6,17 +6,17 @@
   --color-wine-red-hover: #A02030;
   --color-gold: #C9A84C;
   --color-gold-soft: #D4B85C;
-  --color-cream: #F5F0E8;
-  --color-bg-deepest: #05020A;
-  --color-bg-deep: #0A050F;
-  --color-bg-map: #1A0A1E;
-  --color-surface: #0F0718;
-  --color-text-primary: #F5F0E8;
-  --color-text-secondary: #D4C5B0;
-  --color-text-muted: #9B8B7A;
-  --color-text-disabled: #4A3D56;
-  --color-border-default: #2D1540;
-  --color-border-active: #8B1A2A;
+  --color-cream: #F8F4ED;
+  --color-bg-deepest: #1B1126;
+  --color-bg-deep: #221729;
+  --color-bg-map: #2A1A30;
+  --color-surface: #2D1E38;
+  --color-text-primary: #F8F4ED;
+  --color-text-secondary: #E2D6C0;
+  --color-text-muted: #B8A998;
+  --color-text-disabled: #6E5F7E;
+  --color-border-default: #41264E;
+  --color-border-active: #A02030;
   --color-error: #EF4444;
   --color-success: #22C55E;
   --font-playfair: var(--font-playfair);
@@ -30,7 +30,7 @@
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(135deg, #05020A 0%, #0A050F 100%);
+  background: linear-gradient(135deg, #1B1126 0%, #221729 100%);
   pointer-events: none;
 }
 

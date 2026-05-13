@@ -95,7 +95,7 @@
     "title": "My wine map",
     "filterLabel": "Filter",
     "legendOne": "1 bottle",
-    "legendMany": "5+ bottles",
+    "legendMany": "10+ bottles",
     "legendToast": "Heatmap by bottles tasted",
     "countryHeading": "{country} · {count} bottles",
     "regionHeading": "{region} · {count} bottles",
