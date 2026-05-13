@@ -1,114 +1,246 @@
-# files-for-context
+# winemine — 앱 키스크린 시안
 
-> winemine **앱 프로토타입** 작업에 필요한 컨텍스트를 한 폴더에 모아둔 패키지.
-> 새 레포에서 작업을 시작할 때 통째로 가져가면 된다.
+> **Phase 2** — 클릭형 앱 프로토타입. iPhone 390×844 목업 안에서 모든 라우트가 실제로 동작한다.
 
-랜딩 페이지 레포(현재 작업 중인 `winemine`)에서 추출했으며,
-**랜딩 전용 코드(Server Action, Supabase 클라이언트, waitlist 컴포넌트, middleware, 배포 설정)는 모두 제외**했다.
-필요한 디자인 토큰·도메인 데이터·와인 어휘·도메인 리서치만 담았다.
+와인 라벨을 촬영하면 AI가 와인을 인식하고, 마신 와인을 세계 지도 위에 지역별로 시각화해 기록하는 앱 **winemine**의 UI 프로토타입.
 
 ---
 
-## 디렉토리 구조
+## 빠른 시작
+
+```bash
+git clone https://github.com/team-skyjs/winemine-keyscreen.git
+cd winemine-keyscreen
+npm install
+npm run dev     # http://localhost:3000
+```
+
+> **권장 환경:** 데스크톱 ≥1280px. 좌측 DemoControls(모드 토글), 우측 FeatureFlagPanel(컴포넌트 dim 토글) 패널이 표시됩니다.
+
+### URL 파라미터로 즉시 모드 전환
 
 ```
-files-for-context/
-├── README.md                              ← 이 파일
-├── CLAUDE.md                              ← 트리밍된 새 레포용 CLAUDE.md (그대로 옮겨 쓰기 OK)
-├── DESIGN_SYSTEM.md                       ← 색상·타이포·간격·애니메이션 사양 추출본
-│
-├── styles/
-│   └── tokens.css                         ← 디자인 토큰 + body/scrollbar 기본 (Tailwind v4 import 직후 사용)
-│
-├── public/
-│   ├── world-110m.json                    ← 세계 지도 데이터 (low-res)
-│   ├── france-departments.json            ← 프랑스 데파르트망
-│   ├── logo.png                           ← winemine 로고
-│   └── winemine-glass-mark.png            ← 와인잔 마크
-│
-├── messages/                              ← 트리밍된 i18n (랜딩 전용 키 제거, 와인 도메인 어휘만)
-│   ├── ko.json
-│   └── en.json
-│
-├── lib/                                   ← as-is 복사 (수정 없음)
-│   ├── recommended-wines.ts               ← 입문용 와인 mock + STARTING_WINE (Margaux)
-│   ├── tasting-note-lexicon.ts            ← UC Davis 아로마 휠 / WSET / 결함 카탈로그
-│   ├── validations.ts                     ← 이메일·한국 전화번호 Zod 스키마
-│   └── analytics.ts                       ← window.gtag 래퍼
-│
-└── docs/                                  ← 도메인 리서치 / UX 사양 (참고 자료)
-    ├── burgundy-classification-research.md
-    ├── burgundy-section-spec.md
-    ├── wine-discovery-section-spec.md
-    └── tasting-note-section-spec.md
+?demo=heavy&exp=expert&locale=ko        # 헤비 유저 · 전문가 모드 · 한국어
+?demo=first-time&exp=beginner&locale=en # 신규 유저 · 입문자 모드 · 영어
 ```
 
 ---
 
-## 새 레포에서의 권장 배치
+## 기술 스택
 
-| 이 폴더 | 새 레포 내 위치 |
-|---------|----------------|
-| `CLAUDE.md` | 루트 (`/CLAUDE.md`) |
-| `DESIGN_SYSTEM.md` | 루트 또는 `docs/DESIGN_SYSTEM.md` |
-| `styles/tokens.css` | `src/app/tokens.css` 후 `globals.css`에서 `@import` |
-| `public/*` | `public/` |
-| `messages/*.json` | `src/messages/` (앱에서 i18n 쓸 경우) |
-| `lib/recommended-wines.ts` | `src/lib/` |
-| `lib/tasting-note-lexicon.ts` | `src/lib/` |
-| `lib/validations.ts` | `src/lib/` |
-| `lib/analytics.ts` | `src/lib/` |
-| `docs/*` | `docs/` 또는 `_workspace/` |
-
----
-
-## 트리밍 내역 요약
-
-### `CLAUDE.md` (새로 작성)
-원본은 랜딩 페이지 개발 명령어, Supabase 스키마, Server Action, 컴포넌트 파일 구조, 하네스 정의 등으로 가득했다. 그 중:
-- **유지**: 서비스 정체성, 디자인 시스템, 지도 구현 노하우, 도메인 데이터 인덱스
-- **제거**: 랜딩 빌드 명령, DB 스키마, 환경 변수, 파일 구조, 페이지 마운트 순서, 모든 하네스 섹션
-
-### `DESIGN_SYSTEM.md` (새로 작성)
-원본 `WINEMINE_LANDING_SPEC.md`(XML 포맷 970줄 단일 파일)의 `<aesthetic_guidelines>` 블록을 추출 + 마크다운으로 재정리. 랜딩 페이지 섹션별 사양은 모두 버렸다.
-
-### `styles/tokens.css` (트리밍)
-원본 `src/app/globals.css`(105줄)에서:
-- **유지**: 디자인 토큰(`--color-*`), body 폰트 스택, scrollbar 숨김, touch hover 억제
-- **제거**: `mapSlideLeft`/`scanLine`/`pulseGlow`/`storyShimmer` 등 랜딩 keyframe, `.stats-4col`, 모바일에서 France 섹션 카드 숨기는 미디어쿼리
-
-### `messages/*.json` (트리밍)
-원본 `src/messages/{ko,en}.json`(약 550줄)에서:
-- **유지**: `franceWine.regions`, `wineDiscovery`(온보딩 스캔/추천 흐름), `burgundy`, `tastingNote`(전체), `franceWineDetail`, `wines`(mock 와인 노트)
-- **제거**: `hero`, `vineyardStrip`, `features`, `marketStats`, `howItWorks`, `instagramPreview`, `finalCta`, `floatingCta`, `storeButtons`, `waitlistModal`, `waitlistForm`, `waitlistSuccess`
-- 두 파일 키 구조 동기화 유지. 추가 키는 양쪽 모두 업데이트할 것.
+| 레이어 | 선택 |
+|--------|------|
+| 프레임워크 | Next.js 15 App Router (Turbopack) |
+| 언어 | TypeScript 5 (strict) |
+| 스타일 | Tailwind CSS v4 + CSS 변수 토큰 |
+| i18n | next-intl (한국어 / 영어) |
+| 지도 | react-simple-maps v3 + topojson-client |
+| 차트 | Recharts (가격 추이 LineChart) |
+| 애니메이션 | Framer Motion v12 |
+| 아이콘 | lucide-react |
+| 폰트 | Playfair Display · Spoqa Han Sans Neo · Inter |
+| 데이터 | 모두 `src/lib/mock/*.ts` 하드코딩 (백엔드 없음) |
 
 ---
 
-## 가져오지 않은 항목 (의도적 제외)
+## 라우트 구성 (33개)
 
-| 파일/모듈 | 제외 이유 |
-|----------|----------|
-| `src/app/actions.ts` (Server Action) | 랜딩 waitlist 전용 |
-| `src/lib/supabase-server.ts` | 앱은 인증·데이터 모델이 다를 것 |
-| `src/lib/slack.ts` | waitlist 알림 전용 |
-| `src/components/waitlist/*` | 랜딩 전용 |
-| `src/components/sections/*` | 랜딩 페이지 섹션 (앱 UI와 다름) |
-| `src/components/map/world-map.tsx` | 랜딩 hero 배경용 — 앱 지도는 인터랙션이 다를 것이므로 새로 짜는 게 깔끔 |
-| `src/middleware.ts` | Accept-Language 파싱 + 쿠키 — i18n 필요할 때만 다시 작성 |
-| `src/app/layout.tsx` | 폰트/메타 설정은 새 레포에서 새로 |
-| `src/app/opengraph-image.tsx` | OG 이미지 — 앱은 SNS 공유 흐름이 다를 것 |
-| `_workspace/france-wine-research.md`, `world-wine-research.md` | 매우 큰 리서치 문서 — 필요하면 별도로 가져갈 것 |
-| `_workspace/copy-edit-ko.json` | 랜딩 카피 에디트 기록 |
-| `_workspace/map-done.md`, `qa-done.md`, `ui-done.md` | 랜딩 빌드 진행 보고서 |
+### 핵심 플로우
+
+| 경로 | 설명 |
+|------|------|
+| `/` | 홈 — heavy/first-time 모드 분기 |
+| `/map` | 인터랙티브 세계 지도 |
+| `/capture` | 라벨 스캔 (mock 분석 시뮬레이션) |
+| `/cellar` | 셀러 리스트 (내 셀러 / 마신 와인 탭) |
+| `/cellar/[id]` | 셀러 아이템 상세 |
+| `/wine/[id]` | 와인 상세 |
+| `/wine/[id]/story` | 와이너리 스토리 |
+| `/wine/[id]/prices` | 가격 추이 상세 |
+| `/wine/[id]/community-peak` | 커뮤니티 음용 적기 상세 |
+
+### 노트 작성
+
+| 경로 | 설명 |
+|------|------|
+| `/notes/new` | 출처 선택 (셀러 / 새 와인) |
+| `/notes/new/write` | 노트 작성 (입문자 / 전문가 모드 자동 분기) |
+
+### 커뮤니티
+
+| 경로 | 설명 |
+|------|------|
+| `/community` | 커뮤니티 피드 (following / 전체 / 트렌딩 탭) |
+| `/community/discover` | 취향 맞는 유저 발견 |
+| `/community/tonight` | 지금 마시는 사람들 |
+| `/community/new` | 새 글 작성 선택 |
+| `/community/new/column` | 칼럼 작성 |
+| `/community/new/album` | 앨범 작성 |
+| `/community/[postId]` | 포스트 상세 |
+| `/community/[postId]/comments` | 댓글 |
+
+### 프로필 & 소셜
+
+| 경로 | 설명 |
+|------|------|
+| `/profile` | 내 프로필 |
+| `/profile/[userId]` | 타 유저 프로필 + 취향 일치도 |
+| `/profile/ranking` | 레벨 · XP 랭킹 |
+| `/favorites` | 즐겨찾기 |
+| `/badges` | 뱃지 진열장 |
+| `/photos` | 라벨 사진 갤러리 |
+| `/notifications` | 알림 리스트 |
+
+### 유틸리티
+
+| 경로 | 설명 |
+|------|------|
+| `/glossary` | 와인 용어 사전 |
+| `/glossary/[term]` | 용어 상세 |
+| `/onboarding` | 온보딩 4단계 (첫 실행) |
+| `/settings` | 설정 홈 |
+| `/settings/language` | 언어 설정 |
+| `/settings/experience` | 경험 수준 설정 |
+| `/settings/notifications` | 알림 설정 |
 
 ---
 
-## 다음 단계 (참고)
+## 디자인 시스템
 
-1. 새 레포 생성 후 `files-for-context/` 통째로 복사 (또는 내용물을 권장 위치로 이동)
-2. `CLAUDE.md` 검토 및 앱 프로토타입 컨텍스트로 보강
-3. Next.js 15 + Tailwind v4 scaffold
-4. `styles/tokens.css`를 globals에서 import
-5. `lib/` 파일들을 그대로 사용 시작
-6. 앱 UI는 새로 디자인 — 랜딩 컴포넌트는 참고만 (이 폴더에 포함 안 됨)
+### 색상 토큰
+
+```css
+--color-wine-red:      #8B1A2A   /* CTA, 강조 */
+--color-gold:          #C9A84C   /* 아이콘, 장식, 활성 탭 */
+--color-cream:         #F5F0E8   /* 주요 텍스트 */
+--color-bg-deepest:    #05020A   /* 주 배경 */
+--color-bg-deep:       #0A050F   /* 헤더 배경 */
+--color-bg-map:        #1A0A1E   /* 지도 배경 */
+--color-surface:       #0F0718   /* 카드 배경 */
+--color-border-default:#2D1540
+```
+
+### 폰트
+
+- **Playfair Display** — 제목, 와인명, 워드마크 (serif)
+- **Spoqa Han Sans Neo** — 한국어 본문 (sans-serif)
+- **Inter** — 영문 본문, UI 레이블 (sans-serif)
+
+### 주요 공유 컴포넌트
+
+| 컴포넌트 | 위치 | 설명 |
+|----------|------|------|
+| `WMBottle` | `shared/wm-bottle.tsx` | 와인 병 SVG 일러스트 (포일캡·라벨·빈티지) |
+| `WMGlassRating` | `shared/wm-glass-rating.tsx` | 와인잔 5개 아이콘 평점 (half 지원) |
+| `AppHeader` | `nav/app-header.tsx` | 와인잔 로고마크 + "wine·mine" 워드마크 + 레벨칩 |
+| `BottomNav` | `nav/bottom-nav.tsx` | 5탭 + 중앙 카메라 FAB (골드 테두리) |
+| `LevelProgressBar` | `shared/level-progress-bar.tsx` | XP 진척도 바 (골드 glow) |
+| `DeviceFrame` | `device-frame/device-frame.tsx` | iPhone 목업 프레임 |
+
+---
+
+## 데이터 구조
+
+### Mock 데이터 (`src/lib/mock/`)
+
+| 파일 | 내용 |
+|------|------|
+| `wines.ts` | 와인 카탈로그 (40+ 종, 국제 산지 커버) |
+| `users.ts` | heavy / first-time 두 유저 프로필 |
+| `cellar.ts` | heavy 유저 셀러 32병 |
+| `tasting-notes.ts` | heavy 유저 테이스팅 노트 40건 |
+| `purchases.ts` | 가격 구매 기록 |
+| `external-ratings.ts` | Vivino / Wine Searcher / CellarTracker 점수 |
+| `notifications.ts` | 알림 데이터 |
+| `badges.ts` | 뱃지 카탈로그 |
+| `levels.ts` | 5단계 레벨 (Bronze → Master) |
+| `reviews.ts` | 커뮤니티 리뷰 |
+| `wine-stories.ts` | 와이너리 스토리 |
+| `community-peaks.ts` | 음용 적기 추정 데이터 |
+| `community-posts.ts` | 커뮤니티 포스트 |
+
+### 유저 모드 분기
+
+```
+demo=heavy      → 87병 시음, 셀러 32병, 노트 64건, 레벨 4(골드)
+demo=first-time → 빈 셀러, 온보딩 유도
+exp=expert      → WSET 4축 슬라이더, 아로마 휠, 카우달리 미터
+exp=beginner    → 별점, 향/맛 체크박스, 자동 묘사
+locale=ko|en    → 전 UI 즉시 전환 (한글 0 누출 원칙)
+```
+
+---
+
+## 주요 기능 하이라이트
+
+### 세계 지도 (`/map`)
+- react-simple-maps + TopoJSON 기반 실제 세계 지도
+- 마신 국가를 Wine Red로 채색, 밀도에 따라 진하기 4단계
+- 국가 클릭 → BottomSheet 드릴다운 (지역 → 와인 리스트)
+- 필터 바: 전체 / 마신 와인 / 셀러 / 즐겨찾기
+
+### 테이스팅 노트 (`/notes/new/write`)
+- **입문자**: 별점·향·맛 체크박스·자동 묘사 박스
+- **전문가**: WSET 4축·아로마 휠·카우달리 미터·결함 체크·오프닝 타임라인·블라인드 모드
+- 와인 상세 페이지에서 내 노트 카드 즉시 확인 + 편집
+- 노트 없는 와인엔 "노트 작성" CTA 카드 자동 표시
+
+### 셀러 (`/cellar`)
+- **내 셀러** 탭: 2열 그리드, 음용 적기 배지, 정렬/필터/검색
+- **마신 와인** 탭: 테이스팅 노트 인라인 미리보기 (평점·아로마·WSET 4차원) + "노트 편집" 버튼
+
+### 커뮤니티 (`/community`)
+- 피드 타입: note / question / column / news / album
+- 탭: 팔로잉 / 전체 / 트렌딩
+- 오늘 밤 마시는 사람들 (`/community/tonight`)
+- 취향 맞는 유저 발견 (`/community/discover`)
+
+---
+
+## 프로젝트 문서
+
+| 파일 | 내용 |
+|------|------|
+| `WINEMINE_KEYSCREEN_SPEC.md` | 2500줄 전체 스펙 (라우트·컨텍스트·디자인·테스트 시나리오) |
+| `FEATURES.md` | 현재 구현된 기능 상세 목록 |
+| `DESIGN_SYSTEM.md` | 색상·타이포·간격 디자인 시스템 |
+| `ONBOARDING.md` | 새 세션 진입용 인계 문서 |
+| `CLAUDE.md` | Claude Code 작업 컨벤션 + 하네스 정의 |
+| `docs/tasting-note-app-handover.md` | 테이스팅 노트 컴포넌트 9개 시그니처 |
+| `data/raw/2026-05-12_review.md` | 1차 베타 피드백 |
+
+---
+
+## 커밋 히스토리 요약
+
+| 날짜 | 주요 작업 |
+|------|----------|
+| 2026-05-13 | 초기 스캐폴드 + 인프라 + 22 라우트 전체 구현 |
+| 2026-05-13 | 지도 렌더 안정화, react-simple-maps 타입 정의 |
+| 2026-05-13 | WMBottle SVG 병 일러스트 + WMGlassRating 와인잔 평점 공유 컴포넌트 |
+| 2026-05-13 | AppHeader 로고마크 + BottomNav FAB 골드 테두리 디자인 개선 |
+| 2026-05-13 | 홈 에디토리얼 인사말 · 3열 통계 카드 · 세계지도 cameo |
+| 2026-05-13 | 지도 필터 바 + 국가 패널 WMBottle 개선 |
+| 2026-05-13 | 와인 상세 WMBottle 히어로 + "노트 작성" CTA |
+| 2026-05-13 | 셀러 마신 와인 탭 + 테이스팅 노트 인라인 미리보기 |
+| 2026-05-13 | 커뮤니티 섹션 8 라우트 + 7 컴포넌트 전체 구현 |
+| 2026-05-13 | 한글 폰트 Noto Sans KR → Spoqa Han Sans Neo 교체 |
+
+---
+
+## 개발 참고
+
+```bash
+npm run dev      # Turbopack 개발 서버 (localhost:3000)
+npm run build    # 프로덕션 빌드 (타입 체크 포함)
+npm run lint     # ESLint
+```
+
+### node_modules 문제 발생 시
+
+패키지가 부분 손상되면 다음 순서로 클린 재설치:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
