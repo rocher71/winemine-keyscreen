@@ -4,9 +4,9 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import type { Route } from 'next';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { LocaleText } from '@/components/shared/locale-text';
 import { BottomSheet } from '@/components/shared/bottom-sheet';
+import { WMBottle } from '@/components/shared/wm-bottle';
 import type { Wine } from '@/types';
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 
 /**
  * 국가 선택 시 BottomSheet — 지역 리스트 → 와인 리스트로 drill-down.
+ * 디자인 시안의 MapScreen bottom sheet 스타일 적용.
  */
 export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) {
   const t = useTranslations('map');
@@ -53,38 +54,64 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
 
   return (
     <BottomSheet open={open} onClose={onSheetClose}>
-      <div style={{ padding: '0 4px 12px', maxHeight: '60vh', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '0 4px 16px', maxHeight: '62vh', display: 'flex', flexDirection: 'column' }}>
         {!regionDetail ? (
           <>
-            <header style={{ padding: '4px 8px 12px' }}>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-playfair)',
-                  fontSize: 20,
-                  color: 'var(--color-cream)',
-                  margin: 0,
-                }}
-              >
-                {country ? (
-                  <LocaleText value={country} />
-                ) : (
-                  <span>{isoNumeric}</span>
-                )}
-                <span style={{ color: 'var(--color-text-muted)', marginLeft: 8, fontSize: 14 }}>
-                  · {countryWines.length}
+            {/* 국가 헤더 */}
+            <header style={{ padding: '4px 8px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-playfair)',
+                    fontSize: 22,
+                    color: 'var(--color-cream)',
+                    margin: 0,
+                  }}
+                >
+                  {country ? <LocaleText value={country} /> : <span>{isoNumeric}</span>}
+                </h2>
+                <span style={{ fontFamily: 'var(--font-inter)', fontSize: 11, color: 'var(--color-text-muted)' }}>
+                  {country?.en ?? ''}
                 </span>
-              </h2>
-              <div
-                style={{
-                  fontFamily: 'var(--font-inter)',
-                  fontSize: 12,
-                  color: 'var(--color-text-muted)',
-                  marginTop: 2,
-                }}
-              >
-                {t('regionsTitle')}
+                <div style={{ flex: 1 }} />
+                <span
+                  style={{
+                    padding: '3px 10px',
+                    borderRadius: 999,
+                    background: 'rgba(139,26,42,0.25)',
+                    color: '#C9A84C',
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                  }}
+                >
+                  {countryWines.length}병
+                </span>
+              </div>
+
+              {/* 스탯 미니 그리드 */}
+              <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                {[
+                  { l: '지역', v: String(regions.length) },
+                  { l: '마신', v: String(countryWines.length) },
+                ].map((s, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      flex: 1,
+                      padding: '8px 10px',
+                      borderRadius: 10,
+                      background: 'var(--color-bg-deep)',
+                      border: '1px solid var(--color-border-default)',
+                    }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-inter)', fontSize: 10, color: 'var(--color-text-muted)' }}>{s.l}</div>
+                    <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 16, color: 'var(--color-cream)', marginTop: 2 }}>{s.v}</div>
+                  </div>
+                ))}
               </div>
             </header>
+
             <ul
               style={{
                 listStyle: 'none',
@@ -111,28 +138,32 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
                       justifyContent: 'space-between',
                       borderRadius: 10,
                       cursor: 'pointer',
-                      background: 'rgba(45,21,64,0.25)',
+                      background: 'var(--color-bg-deep)',
                       border: '1px solid var(--color-border-default)',
                       boxSizing: 'border-box',
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <LocaleText
-                        value={info.name}
-                        as="span"
-                        className="wm-card-title"
-                      />
+                      <span style={{ fontFamily: 'var(--font-inter)', fontSize: 13, color: 'var(--color-cream)' }}>
+                        <LocaleText value={info.name} as="span" />
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span
                         style={{
-                          color: 'var(--color-text-muted)',
-                          fontFamily: 'var(--font-inter)',
-                          fontSize: 12,
+                          fontFamily: 'var(--font-playfair)',
+                          fontSize: 14,
+                          color: '#C9A84C',
+                          fontWeight: 600,
                         }}
                       >
                         {info.count}
                       </span>
+                      {/* chevron right */}
+                      <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m9 6 6 6-6 6" />
+                      </svg>
                     </div>
-                    <ChevronRight size={16} color="var(--color-text-muted)" />
                   </button>
                 </li>
               ))}
@@ -140,14 +171,7 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
           </>
         ) : (
           <>
-            <header
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '4px 8px 10px',
-              }}
-            >
+            <header style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 8px 10px' }}>
               <button
                 type="button"
                 onClick={() => setSelectedRegion(null)}
@@ -163,18 +187,14 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
                   fontSize: 12,
                 }}
               >
-                <ChevronLeft size={16} />
+                {/* chevron left */}
+                <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m15 6-6 6 6 6" />
+                </svg>
                 {t('backToRegions')}
               </button>
             </header>
-            <h2
-              style={{
-                fontFamily: 'var(--font-playfair)',
-                fontSize: 20,
-                color: 'var(--color-cream)',
-                margin: '0 8px 8px',
-              }}
-            >
+            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 20, color: 'var(--color-cream)', margin: '0 8px 12px' }}>
               <LocaleText value={regionDetail[1].name} />
             </h2>
             <ul
@@ -196,49 +216,45 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
                     style={{
                       display: 'flex',
                       gap: 10,
-                      padding: 10,
-                      background: 'var(--color-surface)',
+                      padding: '8px 10px',
+                      background: 'var(--color-bg-deep)',
                       border: '1px solid var(--color-border-default)',
                       borderRadius: 10,
                       textDecoration: 'none',
                       alignItems: 'center',
                     }}
                   >
-                    <div
-                      aria-hidden
-                      style={{
-                        width: 36,
-                        height: 48,
-                        borderRadius: 6,
-                        background: `linear-gradient(160deg, ${w.bottleColor} 0%, #1a0a1e 70%)`,
-                        flexShrink: 0,
-                        border: '1px solid rgba(201,168,76,0.18)',
-                      }}
+                    <WMBottle
+                      bottleColor={w.bottleColor}
+                      producer={w.producer.ko || w.producer.en}
+                      label={w.name.split(' ')[0]}
+                      vintage={w.vintage}
+                      width={20}
+                      height={66}
                     />
                     <div style={{ minWidth: 0, flex: 1 }}>
                       <div
                         style={{
-                          fontFamily: 'var(--font-playfair)',
-                          fontSize: 14,
+                          fontFamily: 'var(--font-inter)',
+                          fontSize: 12,
                           color: 'var(--color-cream)',
-                          whiteSpace: 'nowrap',
+                          lineHeight: 1.3,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
                         }}
                       >
                         {w.name}
                       </div>
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-inter)',
-                          fontSize: 11,
-                          color: 'var(--color-text-muted)',
-                        }}
-                      >
-                        {w.vintage}
+                      <div style={{ fontFamily: 'var(--font-inter)', fontSize: 9, color: 'var(--color-text-muted)', marginTop: 2 }}>
+                        <LocaleText value={w.producer} as="span" /> · {w.vintage}
                       </div>
                     </div>
-                    <Star size={14} color="var(--color-gold)" />
+                    <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m9 6 6 6-6 6" />
+                    </svg>
                   </Link>
                 </li>
               ))}
