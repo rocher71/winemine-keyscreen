@@ -21,7 +21,6 @@
   --color-success: #22C55E;
   --font-playfair: var(--font-playfair);
   --font-inter: var(--font-inter);
-  --font-noto-kr: var(--font-noto-kr);
 }
 
 /* ── DeviceFrame 전용 헬퍼 클래스 ─────────────────────────── */
