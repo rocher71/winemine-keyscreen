@@ -770,5 +770,54 @@
       "youAreHere": "Current"
     },
     "disclaimer": "* This policy is a mockup draft. Final launch policy will be announced separately."
+  },
+  "community": {
+    "title": "Community",
+    "pageTitle": "Tonight's Wine Stories",
+    "tabs": {
+      "following": "Following",
+      "all": "All",
+      "trending": "Trending"
+    },
+    "postTypes": {
+      "note": "Tasting Note",
+      "question": "Question",
+      "column": "Column",
+      "news": "News",
+      "album": "Album"
+    },
+    "reactions": {
+      "glass": "Toast",
+      "sparkle": "Insight",
+      "bookmark": "Save",
+      "drank": "Me too"
+    },
+    "tonight": {
+      "title": "{n} people are raising a glass",
+      "places": "Cheongdam · Hannam · Pangyo · Seongsu · Gangnam",
+      "participateCta": "Put my dot on the map",
+      "sectionTitle": "Glasses right now"
+    },
+    "comments": "{n} comments",
+    "addComment": "Leave a comment...",
+    "alsoTriedCta": "I've had this too",
+    "alsoTriedSub": "Auto-add to cellar · Start a note",
+    "newPost": "New Post",
+    "discover": {
+      "title": "People close to",
+      "titleAccent": "your taste",
+      "sub": "Users with similar wines, regions, and rating patterns"
+    },
+    "compatibility": "{pct}% match",
+    "keywords": "This week's keywords",
+    "trending": "Rankings (last 7 days)",
+    "compose": {
+      "typeSelect": "What story do you want to share?",
+      "todayIs": "Today is"
+    },
+    "shortcut": {
+      "title": "Tonight's Wine Stories",
+      "sub": "Check what's new in the community"
+    }
   }
 }

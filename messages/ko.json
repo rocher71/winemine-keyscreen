@@ -770,5 +770,54 @@
       "youAreHere": "현재"
     },
     "disclaimer": "* 본 정책은 시안 단계의 임의 정의입니다. 실제 출시 정책은 추후 공지됩니다."
+  },
+  "community": {
+    "title": "커뮤니티",
+    "pageTitle": "오늘 밤의 와인 이야기",
+    "tabs": {
+      "following": "팔로잉",
+      "all": "전체",
+      "trending": "트렌딩"
+    },
+    "postTypes": {
+      "note": "시음 노트",
+      "question": "질문",
+      "column": "칼럼",
+      "news": "소식",
+      "album": "사진 앨범"
+    },
+    "reactions": {
+      "glass": "잔 들기",
+      "sparkle": "통찰",
+      "bookmark": "저장",
+      "drank": "나도"
+    },
+    "tonight": {
+      "title": "{n}명이 한 잔을 들고 있어요",
+      "places": "청담 · 한남 · 판교 · 성수 · 강남",
+      "participateCta": "나도 한 점 찍기",
+      "sectionTitle": "이 순간의 잔들"
+    },
+    "comments": "댓글 {n}개",
+    "addComment": "댓글을 남겨주세요...",
+    "alsoTriedCta": "나도 마셔봤어요",
+    "alsoTriedSub": "셀러에 자동 추가 · 노트 시작",
+    "newPost": "새 글",
+    "discover": {
+      "title": "당신의 취향과",
+      "titleAccent": "가까운 사람들",
+      "sub": "마신 와인 · 지역 · 평점 패턴이 비슷한 사용자"
+    },
+    "compatibility": "{pct}% 일치",
+    "keywords": "이번 주 키워드",
+    "trending": "순위 (지난 7일)",
+    "compose": {
+      "typeSelect": "어떤 이야기를 나누고 싶으세요?",
+      "todayIs": "오늘은"
+    },
+    "shortcut": {
+      "title": "오늘 밤의 와인 이야기",
+      "sub": "커뮤니티에서 새로운 글을 확인하세요"
+    }
   }
 }
