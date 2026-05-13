@@ -87,6 +87,21 @@
         "explore": "Explore"
       }
     },
+    "peakGreeting": {
+      "eyebrow": "Today's cellar",
+      "questions": {
+        "0": "{name}, how did <wine></wine> reach its peak last night?",
+        "1": "{name}, does the scent of <wine></wine> still linger?",
+        "2": "{name}, do you remember the first sip of <wine></wine>?",
+        "3": "{name}, what hour did <wine></wine> belong to?"
+      },
+      "fallback": "{name}, which wine will you open today?"
+    },
+    "communityPeek": {
+      "eyebrow": "Community",
+      "title": "New notes from following",
+      "viewAll": "View all →"
+    },
     "statCountries": "Countries",
     "statWines": "Wines",
     "statNotes": "Notes"

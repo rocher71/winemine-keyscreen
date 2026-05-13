@@ -1,26 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AppHeader } from '@/components/nav/app-header';
 import { BottomNav } from '@/components/nav/bottom-nav';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { useAppMode } from '@/context/app-mode-context';
 import { StatHero } from '@/components/home/stat-hero';
-import { LevelProgressBar } from '@/components/shared/level-progress-bar';
-import { NotificationFeed } from '@/components/home/notification-feed';
 import { RecentNotesStrip } from '@/components/home/recent-notes-strip';
 import { QuickActions } from '@/components/home/quick-actions';
 import { FirstTimeGreeting } from '@/components/home/first-time-greeting';
 import { EmptyStatHero } from '@/components/home/empty-stat-hero';
 import { SuggestedActions } from '@/components/home/suggested-actions';
 import { WineFeed } from '@/components/home/wine-feed';
-import { CommunityShortcutCard } from '@/components/community/community-shortcut-card';
-import { getNotificationsByUser, getUnreadCount } from '@/lib/mock/notifications';
+import { HomeCommunityPeek } from '@/components/home/home-community-peek';
+import { getUnreadCount } from '@/lib/mock/notifications';
 import { getTastingNotesByUser } from '@/lib/mock/tasting-notes';
+import { getWine } from '@/lib/mock/wines';
 import { useLocalizedText } from '@/components/shared/locale-text';
+import { useLocale } from '@/context/locale-context';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 
 export default function HomePage() {
@@ -39,18 +41,38 @@ export default function HomePage() {
   }, [demoMode, router]);
 
   const isHeavy = demoMode === 'heavy';
-  const notifications = getNotificationsByUser(user.id);
   const notes = getTastingNotesByUser(user.id);
   const avatar = useLocalizedText(user.avatarInitial);
   const unread = getUnreadCount(user.id);
+  const { locale } = useLocale();
+
+  /* peak greeting 로테이션 — 최근 시음 와인 최대 4개의 appellation을 locale별로 추출 */
+  const recentWineLabels = useMemo(() => {
+    if (!isHeavy || notes.length === 0) return [] as string[];
+    const sorted = [...notes].sort((a, b) =>
+      a.tastedAt < b.tastedAt ? 1 : -1,
+    );
+    const seen = new Set<string>();
+    const labels: string[] = [];
+    for (const note of sorted) {
+      if (seen.has(note.wineId)) continue;
+      seen.add(note.wineId);
+      const wine = getWine(note.wineId);
+      if (!wine) continue;
+      labels.push(locale === 'ko' ? wine.appellation.ko : wine.appellation.en);
+      if (labels.length >= 4) break;
+    }
+    return labels;
+  }, [isHeavy, notes, locale]);
 
   useRegisterFeatures(
     '/',
     isHeavy
       ? [
+          { id: 'home.peakGreeting', labelKo: '정점 인사말 (로테이션)', labelEn: 'Peak greeting (rotating)', defaultStatus: 'planned' },
           { id: 'home.statHero', labelKo: '통계 헤로', labelEn: 'Stat hero', defaultStatus: 'planned' },
-          { id: 'home.levelProgressBar', labelKo: '레벨 진행 바', labelEn: 'Level progress', defaultStatus: 'planned' },
-          { id: 'home.notificationFeed', labelKo: '알림 피드', labelEn: 'Notification feed', defaultStatus: 'planned' },
+          { id: 'home.mapCameo', labelKo: '와인 지도 cameo', labelEn: 'Wine map cameo', defaultStatus: 'planned' },
+          { id: 'home.communityPeek', labelKo: '커뮤니티 peek', labelEn: 'Community peek', defaultStatus: 'planned' },
           { id: 'home.recentNotesStrip', labelKo: '최근 노트 스트립', labelEn: 'Recent notes', defaultStatus: 'planned' },
           { id: 'home.wineFeed', labelKo: '와인 피드', labelEn: 'Wine feed', defaultStatus: 'planned' },
           { id: 'home.quickActions', labelKo: '빠른 액션', labelEn: 'Quick actions', defaultStatus: 'planned' },
@@ -73,34 +95,22 @@ export default function HomePage() {
       <div className="wm-scroll-area">
         {isHeavy ? (
           <>
-            {/* 에디토리얼 인사말 */}
-            <HeavyGreeting name={user.displayName.ko || user.displayName.en} />
+            {/* E 변형 상단: 정점 인사말 (5초 로테이션) */}
+            <PeakGreeting
+              name={user.displayName.ko || user.displayName.en}
+              wines={recentWineLabels}
+            />
 
             {/* 3-col 통계 카드 */}
             <StatHero user={user} />
 
-            {/* 레벨 진행 바 */}
-            <div
-              data-feature-id="home.levelProgressBar"
-              style={{
-                margin: '14px 16px 0',
-                padding: 16,
-                borderRadius: 14,
-                background: 'var(--color-surface)',
-                border: '1px solid var(--color-border-default)',
-              }}
-            >
-              <LevelProgressBar xp={user.xp} onClick={() => router.push('/badges')} />
-              <div style={{ marginTop: 10, fontSize: 11, color: 'var(--color-text-muted)', fontFamily: 'var(--font-inter)' }}>
-                노트 작성으로 +5 XP · 새 국가 첫 등록 시 +20 XP
-              </div>
-            </div>
-
-            {/* 세계 지도 cameo */}
+            {/* 세계 지도 cameo — 커뮤니티 peek 바로 위 */}
             <MapCameo countries={user.stats.countriesExplored} regions={user.stats.regionsExplored} />
 
-            {/* 알림 피드 */}
-            <NotificationFeed items={notifications} />
+            {/* E 변형: 커뮤니티 peek */}
+            <HomeCommunityPeek />
+
+            {/* ↓ 이하 현재 코드 내용 (스크롤) */}
 
             {/* 최근 노트 */}
             <RecentNotesStrip notes={notes} />
@@ -109,7 +119,6 @@ export default function HomePage() {
             <WineFeed />
 
             <div style={{ height: 12 }} />
-            <CommunityShortcutCard />
             <QuickActions user={user} />
           </>
         ) : (
@@ -127,29 +136,83 @@ export default function HomePage() {
   );
 }
 
-/* 에디토리얼 인사말 컴포넌트 */
-function HeavyGreeting({ name }: { name: string }) {
+/* E 변형 — 최근 시음 와인을 5초마다 페이드하며 다른 질문으로 교체 */
+const PEAK_QUESTION_COUNT = 4;
+const PEAK_ROTATE_MS = 5000;
+
+function PeakGreeting({
+  name,
+  wines,
+}: {
+  name: string;
+  wines: string[];
+}) {
+  const t = useTranslations('home.peakGreeting');
+  const [idx, setIdx] = useState(0);
+
+  const cycleLength = Math.max(PEAK_QUESTION_COUNT, wines.length);
+
+  useEffect(() => {
+    if (wines.length === 0) return;
+    const id = setInterval(() => {
+      setIdx((i) => (i + 1) % cycleLength);
+    }, PEAK_ROTATE_MS);
+    return () => clearInterval(id);
+  }, [wines.length, cycleLength]);
+
+  const wineName = wines.length > 0 ? wines[idx % wines.length] : null;
+  const questionKey = `questions.${idx % PEAK_QUESTION_COUNT}` as const;
+
   return (
-    <div style={{ padding: '18px 20px 0' }}>
-      <div style={{
-        fontFamily: 'var(--font-inter)',
-        fontSize: 10,
-        color: '#C9A84C',
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-        marginBottom: 6,
-        fontWeight: 500,
-      }}>
-        오늘의 셀러
+    <div
+      data-feature-id="home.peakGreeting"
+      style={{ padding: '18px 20px 0' }}
+    >
+      <div
+        style={{
+          fontFamily: 'var(--font-inter)',
+          fontSize: 10,
+          color: '#C9A84C',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          marginBottom: 6,
+          fontWeight: 500,
+        }}
+      >
+        {t('eyebrow')}
       </div>
-      <div style={{
-        fontFamily: 'var(--font-playfair)',
-        fontSize: 22,
-        color: 'var(--color-cream)',
-        lineHeight: 1.25,
-        letterSpacing: '-0.01em',
-      }}>
-        {name}님, 오늘은 어떤 와인을 여실 건가요?
+      <div
+        style={{
+          position: 'relative',
+          minHeight: 56,
+          fontFamily: 'var(--font-playfair)',
+          fontSize: 22,
+          color: 'var(--color-cream)',
+          lineHeight: 1.25,
+          letterSpacing: '-0.01em',
+        }}
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          >
+            {wineName
+              ? t.rich(questionKey, {
+                  name,
+                  wine: (chunks) => (
+                    <span style={{ color: '#C9A84C', fontStyle: 'italic' }}>
+                      {wineName}
+                      {chunks}
+                    </span>
+                  ),
+                })
+              : t('fallback', { name })}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

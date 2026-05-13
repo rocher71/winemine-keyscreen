@@ -87,6 +87,21 @@
         "explore": "탐험"
       }
     },
+    "peakGreeting": {
+      "eyebrow": "오늘의 셀러",
+      "questions": {
+        "0": "{name}님, 어젯밤 <wine></wine>의 정점은 어땠나요?",
+        "1": "{name}님, <wine></wine>의 향이 아직 남아 있나요?",
+        "2": "{name}님, <wine></wine>의 첫 한 모금을 기억하시나요?",
+        "3": "{name}님, <wine></wine>은 어떤 시간과 함께였나요?"
+      },
+      "fallback": "{name}님, 오늘은 어떤 와인을 여실 건가요?"
+    },
+    "communityPeek": {
+      "eyebrow": "커뮤니티",
+      "title": "팔로잉의 새 노트",
+      "viewAll": "모두 보기 →"
+    },
     "statCountries": "방문 국가",
     "statWines": "마신 와인",
     "statNotes": "작성 노트"
