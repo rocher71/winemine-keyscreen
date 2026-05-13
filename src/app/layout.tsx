@@ -1,4 +1,4 @@
-import { Playfair_Display, Inter, Noto_Sans_KR } from 'next/font/google';
+import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import { AppProviders } from '@/context/app-providers';
 import { PageBackground } from '@/components/shared/page-background';
@@ -10,15 +10,18 @@ import { FeatureFlagPanel } from '@/components/feature-flag-panel/feature-flag-p
 
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const notoKr = Noto_Sans_KR({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-noto-kr',
-});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={`${playfair.variable} ${inter.variable} ${notoKr.variable}`}>
+    <html lang="ko" className={`${playfair.variable} ${inter.variable}`}>
+      <head>
+        {/* Spoqa Han Sans Neo — 한글 전용 (Thin·Light·Regular·Medium·Bold) */}
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/css/SpoqaHanSansNeo.css"
+        />
+      </head>
       <body>
         <AppProviders>
           <LocaleBridge>

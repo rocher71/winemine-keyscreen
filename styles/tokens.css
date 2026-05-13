@@ -47,11 +47,11 @@ body {
   background-color: var(--color-bg-deepest);
   color: var(--color-text-primary);
   /*
-   * var(--font-inter)는 next/font Inter (Latin)
-   * 'Noto Sans KR'은 Google Fonts (한글)
-   * 브라우저가 글리프 단위로 폰트를 선택한다.
+   * var(--font-inter)는 next/font Inter (Latin) — 영문 자형 전담
+   * 'Spoqa Han Sans Neo'는 jsDelivr CDN (한글 전용 fallback)
+   * Inter가 Latin 자형을 커버하므로 Spoqa는 한글에만 작동한다.
    */
-  font-family: var(--font-inter), 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: var(--font-inter), 'Spoqa Han Sans Neo', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   word-break: keep-all;
