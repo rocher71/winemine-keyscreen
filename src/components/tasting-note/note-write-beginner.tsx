@@ -34,6 +34,7 @@ export function NoteWriteBeginner({ variant, wineName, producer, wine = null }: 
   const { user } = useMockUser();
   const [priceCapture, setPriceCapture] = useState(false);
   const [price, setPrice] = useState('');
+  const [shareToCommunity, setShareToCommunity] = useState(false);
 
   // beginner mode는 blind 불가 — white로 fallback
   const safeVariant: FormVariant = variant === 'blind' ? 'white' : variant;
@@ -67,7 +68,7 @@ export function NoteWriteBeginner({ variant, wineName, producer, wine = null }: 
         expertFields: null,
         photoUrl: null,
         priceKrw,
-        isPublic: true,
+        isPublic: shareToCommunity,
         createdAt: new Date().toISOString(),
       });
     }
@@ -76,8 +77,10 @@ export function NoteWriteBeginner({ variant, wineName, producer, wine = null }: 
       variant: 'xp',
       xp,
       message: {
-        ko: `입문자 노트 +${xp} XP`,
-        en: `Beginner note +${xp} XP`,
+        ko: shareToCommunity
+          ? `노트 공유 +${xp} XP`
+          : `입문자 노트 +${xp} XP`,
+        en: shareToCommunity ? `Note shared +${xp} XP` : `Beginner note +${xp} XP`,
       },
     });
     window.setTimeout(() => router.back(), 1000);
@@ -92,6 +95,12 @@ export function NoteWriteBeginner({ variant, wineName, producer, wine = null }: 
         price={price}
         onToggle={setPriceCapture}
         onPriceChange={setPrice}
+      />
+
+      <ShareToCommunityToggle
+        on={shareToCommunity}
+        onToggle={setShareToCommunity}
+        locale={locale}
       />
 
       <button
@@ -175,6 +184,54 @@ export function PriceCapture({ on, price, onToggle, onPriceChange }: PriceCaptur
           />
         </div>
       ) : null}
+    </section>
+  );
+}
+
+export function ShareToCommunityToggle({
+  on,
+  onToggle,
+  locale,
+}: {
+  on: boolean;
+  onToggle: (v: boolean) => void;
+  locale: 'ko' | 'en';
+}) {
+  return (
+    <section
+      style={{
+        background: 'var(--color-surface)',
+        border: `1px solid ${on ? 'var(--color-gold)' : 'var(--color-border)'}`,
+        borderRadius: 12,
+        padding: 14,
+      }}
+    >
+      <label
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 12,
+          cursor: 'pointer',
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 13, color: 'var(--color-cream)', fontWeight: 600 }}>
+            {locale === 'en' ? 'Share to community' : '커뮤니티에 공유'}
+          </div>
+          <div style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 }}>
+            {locale === 'en'
+              ? 'Others can see this note on the community Notes tab.'
+              : '커뮤니티의 시음 노트 탭에서 이 노트가 보여요.'}
+          </div>
+        </div>
+        <input
+          type="checkbox"
+          checked={on}
+          onChange={(e) => onToggle(e.target.checked)}
+          style={{ width: 18, height: 18, accentColor: 'var(--color-wine-red)' }}
+        />
+      </label>
     </section>
   );
 }

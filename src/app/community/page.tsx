@@ -13,9 +13,17 @@ import { useLocale } from '@/context/locale-context';
 import { useTranslations } from 'next-intl';
 import type { CommunityPostType } from '@/types';
 import type { Route } from 'next';
+import { getSharedNotesSorted } from '@/lib/mock/shared-notes';
+import { getCommunityTemplatesSorted } from '@/lib/mock/tasting-templates';
+import { useTastingTemplates } from '@/context/tasting-template-context';
+import { getWine } from '@/lib/mock/wines';
+import { Bookmark, Star } from 'lucide-react';
+import { LocaleText } from '@/components/shared/locale-text';
+import { toast } from '@/hooks/use-toast';
 
-type Tab = 'following' | 'all' | 'trending';
+type Tab = 'following' | 'all' | 'trending' | 'notes' | 'templates';
 type TypeFilter = 'all' | CommunityPostType;
+type SortMode = 'popular' | 'latest';
 
 const TYPE_FILTERS: TypeFilter[] = ['all', 'note', 'question', 'column', 'news', 'album'];
 
@@ -24,6 +32,9 @@ export default function CommunityPage() {
   const { locale } = useLocale();
   const [tab, setTab] = useState<Tab>('following');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
+  const [noteSort, setNoteSort] = useState<SortMode>('popular');
+  const [tplSort, setTplSort] = useState<SortMode>('popular');
+  const { isSaved, saveTemplate, unsaveTemplate } = useTastingTemplates();
 
   const posts = getCommunityPosts();
 
@@ -41,6 +52,8 @@ export default function CommunityPage() {
     { id: 'following', label: t('tabs.following') },
     { id: 'all',       label: t('tabs.all') },
     { id: 'trending',  label: t('tabs.trending') },
+    { id: 'notes',     label: locale === 'en' ? 'Notes' : '시음 노트' },
+    { id: 'templates', label: locale === 'en' ? 'Templates' : '양식' },
   ];
 
   const typeFilterLabels: Record<TypeFilter, string> = {
@@ -120,13 +133,16 @@ export default function CommunityPage() {
           </button>
         </div>
 
-        {/* Tab bar */}
+        {/* Tab bar — 5탭이라 가로 스크롤 */}
         <div
           style={{
             display: 'flex',
             gap: 22,
             padding: '6px 20px 0',
             borderBottom: '0.5px solid var(--color-border-default)',
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            whiteSpace: 'nowrap',
           }}
         >
           {tabs.map((tb) => (
@@ -429,6 +445,224 @@ export default function CommunityPage() {
           </>
         )}
 
+        {/* ───── NOTES TAB — 공유된 테이스팅 노트 ───── */}
+        {tab === 'notes' && (
+          <>
+            <SortToggle sort={noteSort} onChange={setNoteSort} locale={locale} />
+            <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {getSharedNotesSorted(noteSort).map((n) => {
+                const wine = getWine(n.wineId);
+                return (
+                  <Link
+                    key={n.id}
+                    href={`/notes/${n.id}` as Route}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <div
+                      style={{
+                        padding: 14,
+                        background: 'var(--color-bg-surface)',
+                        border: '1px solid var(--color-border-default)',
+                        borderRadius: 14,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 8,
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div
+                          style={{
+                            width: 26,
+                            height: 26,
+                            borderRadius: 999,
+                            background: levelGrad(n.authorLevel),
+                            border: '1px solid rgba(201,168,76,0.3)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontFamily: 'var(--font-playfair)',
+                            fontSize: 11,
+                            color: 'var(--color-cream)',
+                            fontWeight: 700,
+                            flexShrink: 0,
+                          }}
+                        >
+                          {(locale === 'ko' ? n.authorName.ko : n.authorName.en).charAt(0)}
+                        </div>
+                        <span style={{ fontSize: 12, color: 'var(--color-cream)', fontWeight: 600 }}>
+                          <LocaleText value={n.authorName} />
+                        </span>
+                        <span style={{ flex: 1 }} />
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 3,
+                            fontSize: 11,
+                            color: 'var(--color-gold)',
+                            fontWeight: 600,
+                          }}
+                        >
+                          <Star size={11} fill="var(--color-gold)" strokeWidth={0} />
+                          {n.rating}/100
+                        </span>
+                      </div>
+
+                      {wine && (
+                        <div
+                          style={{
+                            fontFamily: 'var(--font-playfair)',
+                            fontSize: 14,
+                            color: 'var(--color-cream)',
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          {wine.name}
+                          <span style={{ fontSize: 11, color: 'var(--color-text-muted)', marginLeft: 6 }}>
+                            {wine.vintage}
+                          </span>
+                        </div>
+                      )}
+
+                      <div
+                        style={{
+                          fontSize: 12.5,
+                          color: 'var(--color-text-secondary)',
+                          lineHeight: 1.6,
+                          fontStyle: 'italic',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <LocaleText value={n.memo} />
+                      </div>
+
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: 12,
+                          fontSize: 11,
+                          color: 'var(--color-text-muted)',
+                        }}
+                      >
+                        <span>♥ {n.likeCount}</span>
+                        <span>{locale === 'en' ? `${n.saveCount} saves` : `${n.saveCount} 저장`}</span>
+                        <span style={{ flex: 1 }} />
+                        <span>{n.createdAt.slice(0, 10)}</span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* ───── TEMPLATES TAB — 공유된 노트 양식 ───── */}
+        {tab === 'templates' && (
+          <>
+            <SortToggle sort={tplSort} onChange={setTplSort} locale={locale} />
+            <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {getCommunityTemplatesSorted(tplSort).map((tpl) => {
+                const saved = isSaved(tpl.id);
+                return (
+                  <div
+                    key={tpl.id}
+                    style={{
+                      padding: 14,
+                      background: 'var(--color-bg-surface)',
+                      border: '1px solid var(--color-border-default)',
+                      borderRadius: 14,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 8,
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div
+                          style={{
+                            fontFamily: 'var(--font-playfair)',
+                            fontSize: 15,
+                            color: 'var(--color-cream)',
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          <LocaleText value={tpl.title} />
+                        </div>
+                        <div style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 4 }}>
+                          {locale === 'en' ? 'by ' : 'by '}
+                          <LocaleText value={tpl.authorName ?? { ko: '', en: '' }} />
+                          {' · '}
+                          {tpl.fields.length} {locale === 'en' ? 'fields' : '필드'}
+                          {' · '}
+                          {tpl.savesCount} {locale === 'en' ? 'saves' : '저장'}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (saved) {
+                            unsaveTemplate(tpl.id);
+                            toast({
+                              message: {
+                                ko: '저장 해제됐어요',
+                                en: 'Removed from saved',
+                              },
+                            });
+                          } else {
+                            saveTemplate(tpl.id);
+                            toast({
+                              message: {
+                                ko: '이제 이 양식으로도 노트를 쓸 수 있어요',
+                                en: 'You can now write notes with this template',
+                              },
+                            });
+                          }
+                        }}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '6px 12px',
+                          borderRadius: 999,
+                          background: saved ? 'rgba(201,168,76,0.18)' : 'transparent',
+                          border: `1px solid ${saved ? 'var(--color-gold)' : 'var(--color-border-default)'}`,
+                          color: saved ? 'var(--color-gold)' : 'var(--color-text-secondary)',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Bookmark size={12} strokeWidth={1.75} fill={saved ? 'var(--color-gold)' : 'none'} />
+                        {saved ? (locale === 'en' ? 'Saved' : '저장됨') : (locale === 'en' ? 'Save' : '저장')}
+                      </button>
+                    </div>
+                    {tpl.description && (
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: 'var(--color-text-secondary)',
+                          lineHeight: 1.55,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <LocaleText value={tpl.description} />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
         <div style={{ height: 32 }} />
       </div>
 
@@ -459,4 +693,56 @@ export default function CommunityPage() {
       <BottomNav />
     </>
   );
+}
+
+function SortToggle({
+  sort,
+  onChange,
+  locale,
+}: {
+  sort: SortMode;
+  onChange: (s: SortMode) => void;
+  locale: 'ko' | 'en';
+}) {
+  const options: Array<{ id: SortMode; label: string }> = [
+    { id: 'popular', label: locale === 'en' ? 'Popular' : '인기순' },
+    { id: 'latest', label: locale === 'en' ? 'Latest' : '최신순' },
+  ];
+  return (
+    <div style={{ padding: '12px 20px 10px', display: 'flex', gap: 6 }}>
+      {options.map((opt) => {
+        const active = opt.id === sort;
+        return (
+          <button
+            key={opt.id}
+            type="button"
+            onClick={() => onChange(opt.id)}
+            style={{
+              padding: '6px 14px',
+              borderRadius: 999,
+              background: active ? 'var(--color-wine-red)' : 'transparent',
+              border: `1px solid ${active ? 'var(--color-wine-red)' : 'var(--color-border-default)'}`,
+              color: active ? 'var(--color-cream)' : 'var(--color-text-muted)',
+              fontFamily: 'var(--font-inter)',
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function levelGrad(level: 1 | 2 | 3 | 4 | 5): string {
+  switch (level) {
+    case 1: return 'linear-gradient(135deg, #555560, #2a2a35)';
+    case 2: return 'linear-gradient(135deg, #4a6fa5, #1a2a45)';
+    case 3: return 'linear-gradient(135deg, #b8b8c0, #3a3a48)';
+    case 4: return 'linear-gradient(135deg, #C9A84C, #0F0718)';
+    case 5: return 'linear-gradient(135deg, #8B1A2A, #3a0810)';
+  }
 }

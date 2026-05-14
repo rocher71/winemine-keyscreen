@@ -77,7 +77,7 @@ export default function NewPostPage() {
   ]);
 
   return (
-    <div style={{ position: 'relative', paddingBottom: 40 }}>
+    <>
       {/* Header */}
       <div
         style={{
@@ -86,6 +86,7 @@ export default function NewPostPage() {
           alignItems: 'center',
           gap: 8,
           borderBottom: '0.5px solid var(--color-border-default)',
+          flexShrink: 0,
         }}
       >
         <button
@@ -119,6 +120,7 @@ export default function NewPostPage() {
         <div style={{ width: 36 }} />
       </div>
 
+      <div className="wm-scroll-area" style={{ paddingBottom: 40 }}>
       <div style={{ padding: '24px 20px 0' }}>
         <div
           style={{
@@ -261,6 +263,7 @@ export default function NewPostPage() {
           <ChevronRight size={16} strokeWidth={1.75} color="var(--color-gold)" />
         </div>
       </Link>
-    </div>
+      </div>
+    </>
   );
 }

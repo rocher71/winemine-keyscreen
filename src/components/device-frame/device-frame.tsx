@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { StatusBar } from './status-bar';
 import { DynamicIsland } from './dynamic-island';
 import { HomeIndicator } from './home-indicator';
+import { PushBanner } from './push-banner';
 
 /**
  * winemine 키스크린 디바이스 프레임.
@@ -52,6 +53,9 @@ export function DeviceFrame({ children }: { children: ReactNode }) {
           </div>
 
           <div className="wm-route-outlet">{children}</div>
+
+          {/* iOS 스타일 푸시 알림 배너 (Dynamic Island 아래) */}
+          <PushBanner />
         </div>
       </div>
     </div>

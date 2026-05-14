@@ -28,7 +28,7 @@ export default function CommentsPage({
   const user = post ? getCommunityUser(post.userId) : null;
 
   return (
-    <div style={{ position: 'relative', paddingBottom: 100 }}>
+    <>
       <BackHeader
         title={{
           ko: `댓글 ${post?.comments ?? 0}`,
@@ -36,6 +36,7 @@ export default function CommentsPage({
         }}
       />
 
+      <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
       {/* Compact post header */}
       {post && user && (
         <div
@@ -125,15 +126,16 @@ export default function CommentsPage({
         <CommentRow userId="minho" ago="48분 전" text={locale === 'en' ? "Alsace Riesling goes well with Korean food too." : "알자스 리슬링도 한식과 좋아요. 단맛이 살짝 도는 게 잘 어울려요."} reactions={6} locale={locale} />
         <CommentRow userId="suyeon" ago="1시간 전" text={locale === 'en' ? "Congratulations on the wedding!" : "결혼식 정말 축하드려요"} reactions={3} locale={locale} />
       </div>
+      </div>
 
       {/* Compose footer */}
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           left: 0,
           right: 0,
           bottom: 0,
-          padding: '10px 16px 30px',
+          padding: '10px 16px 20px',
           background: 'var(--color-bg-deep)',
           borderTop: '0.5px solid var(--color-border-default)',
           display: 'flex',
@@ -176,6 +178,6 @@ export default function CommentsPage({
           <ChevronRight size={16} strokeWidth={2} />
         </button>
       </div>
-    </div>
+    </>
   );
 }

@@ -22,6 +22,7 @@ import {
   type Delta,
   type OpeningGuideEntry,
 } from '@/lib/tasting-note-lexicon';
+import { Wine, Star } from 'lucide-react';
 import { useLocale } from '@/context/locale-context';
 
 export interface OpeningTimelineMeta {
@@ -185,13 +186,16 @@ export function OpeningTimeline({
             cursor: 'pointer',
           }}
         >
-          {state.openedAt
-            ? locale === 'ko'
-              ? '🍷 코르크 오픈됨'
-              : '🍷 Cork opened'
-            : locale === 'ko'
-              ? '코르크 오픈 시각 기록'
-              : 'Record opening time'}
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            {state.openedAt && <Wine size={13} strokeWidth={1.5} color="var(--color-cream)" />}
+            {state.openedAt
+              ? locale === 'ko'
+                ? '코르크 오픈됨'
+                : 'Cork opened'
+              : locale === 'ko'
+                ? '코르크 오픈 시각 기록'
+                : 'Record opening time'}
+          </span>
         </button>
         <label
           style={{
@@ -330,7 +334,10 @@ export function OpeningTimeline({
                 cursor: 'pointer',
               }}
             >
-              ★ {locale === 'ko' ? '정점' : 'Peak'}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <Star size={11} strokeWidth={1.5} fill="currentColor" />
+                {locale === 'ko' ? '정점' : 'Peak'}
+              </span>
             </button>
           ) : null}
         </div>

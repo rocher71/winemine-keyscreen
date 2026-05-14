@@ -3,6 +3,8 @@
 import { BackHeader } from '@/components/nav/back-header';
 import { CommUserAvatar } from '@/components/community/comm-user-avatar';
 import { getCommunityUser } from '@/lib/mock/community-posts';
+import Link from 'next/link';
+import type { Route } from 'next';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 import { useLocale } from '@/context/locale-context';
 import { useTranslations } from 'next-intl';
@@ -50,8 +52,9 @@ export default function DiscoverPage() {
   ]);
 
   return (
-    <div style={{ paddingBottom: 40 }}>
+    <>
       <BackHeader title={{ ko: '팔로우 추천', en: 'Follow Suggestions' }} />
+      <div className="wm-scroll-area" style={{ paddingBottom: 40 }}>
 
       <div style={{ padding: '14px 22px 0' }}>
         <div
@@ -120,15 +123,17 @@ export default function DiscoverPage() {
 
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span
+                  <Link
+                    href={`/profile/${row.userId}` as Route}
                     style={{
                       fontFamily: 'var(--font-playfair)',
                       fontSize: 14,
                       color: 'var(--color-cream)',
+                      textDecoration: 'none',
                     }}
                   >
                     {user.name}
-                  </span>
+                  </Link>
                   {/* Level pill */}
                   <span
                     style={{
@@ -209,6 +214,7 @@ export default function DiscoverPage() {
           );
         })}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

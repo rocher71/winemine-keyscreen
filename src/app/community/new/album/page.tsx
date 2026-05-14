@@ -20,7 +20,7 @@ export default function NewAlbumPage() {
   ]);
 
   return (
-    <div style={{ position: 'relative', paddingBottom: 40 }}>
+    <>
       {/* Header */}
       <div
         style={{
@@ -29,6 +29,7 @@ export default function NewAlbumPage() {
           alignItems: 'center',
           gap: 8,
           borderBottom: '0.5px solid var(--color-border-default)',
+          flexShrink: 0,
         }}
       >
         <button
@@ -75,6 +76,7 @@ export default function NewAlbumPage() {
         </button>
       </div>
 
+      <div className="wm-scroll-area" style={{ paddingBottom: 40 }}>
       {/* Photo grid */}
       <div
         style={{
@@ -295,6 +297,7 @@ export default function NewAlbumPage() {
           />
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

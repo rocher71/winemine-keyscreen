@@ -701,11 +701,10 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
 
         {/* 액션 버튼 */}
         <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            type="button"
-            onClick={() => router.push(`/notes/new/write?from=newEntry&wineId=${encodeURIComponent(wine.id)}&edit=1` as Route)}
+          <Link
+            href={`/notes/${note.id}` as Route}
             style={{
-              flex: 1,
+              flex: 1.4,
               padding: '8px 0',
               borderRadius: 8,
               background: 'transparent',
@@ -715,9 +714,29 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               fontSize: 12,
               fontWeight: 600,
               cursor: 'pointer',
+              textDecoration: 'none',
+              textAlign: 'center',
             }}
           >
-            노트 편집
+            노트 보기
+          </Link>
+          <button
+            type="button"
+            onClick={() => router.push(`/notes/new/write?from=newEntry&wineId=${encodeURIComponent(wine.id)}&edit=1` as Route)}
+            style={{
+              flex: 1,
+              padding: '8px 0',
+              borderRadius: 8,
+              background: 'var(--color-bg-deep)',
+              border: '1px solid var(--color-border-default)',
+              color: 'var(--color-text-secondary)',
+              fontFamily: 'var(--font-inter)',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            편집
           </button>
           <Link
             href={`/wine/${wine.id}` as Route}

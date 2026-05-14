@@ -11,10 +11,26 @@
  * - 각 단계 tip 박스 (GlossaryTooltip)
  */
 
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
+import {
+  Cherry,
+  Citrus,
+  Apple,
+  Flower2,
+  Flame,
+  Candy,
+  Sprout,
+  Wheat,
+  Sparkles,
+  Smile,
+  HelpCircle,
+  Star,
+} from 'lucide-react';
 import { useLocale } from '@/context/locale-context';
 import { GlossaryTooltip } from '@/components/glossary/glossary-tooltip';
 import type { FormVariant } from '@/lib/tasting-note-lexicon';
+
+type IconCmp = ComponentType<{ size?: number; strokeWidth?: number; color?: string }>;
 
 export interface BeginnerNoteProps {
   variant: FormVariant;
@@ -31,21 +47,21 @@ const SIMPLE_OPTIONS: { id: SimpleScale; ko: string; en: string }[] = [
   { id: 'high', ko: '높음', en: 'High' },
 ];
 
-const AROMA_CARDS: { id: string; ko: string; en: string; emoji: string }[] = [
-  { id: 'berry', ko: '베리', en: 'Berry', emoji: '🍓' },
-  { id: 'citrus', ko: '시트러스', en: 'Citrus', emoji: '🍋' },
-  { id: 'stoneFruit', ko: '복숭아·살구', en: 'Stone fruit', emoji: '🍑' },
-  { id: 'floral', ko: '꽃', en: 'Floral', emoji: '🌹' },
-  { id: 'spice', ko: '향신료', en: 'Spice', emoji: '🌶️' },
-  { id: 'sweet', ko: '꿀·캐러멜', en: 'Honey/Caramel', emoji: '🍯' },
-  { id: 'earth', ko: '흙·허브', en: 'Earth/Herb', emoji: '🌱' },
-  { id: 'yeast', ko: '빵·이스트', en: 'Bread/Yeast', emoji: '🍞' },
+const AROMA_CARDS: { id: string; ko: string; en: string; Icon: IconCmp }[] = [
+  { id: 'berry', ko: '베리', en: 'Berry', Icon: Cherry },
+  { id: 'citrus', ko: '시트러스', en: 'Citrus', Icon: Citrus },
+  { id: 'stoneFruit', ko: '복숭아·살구', en: 'Stone fruit', Icon: Apple },
+  { id: 'floral', ko: '꽃', en: 'Floral', Icon: Flower2 },
+  { id: 'spice', ko: '향신료', en: 'Spice', Icon: Flame },
+  { id: 'sweet', ko: '꿀·캐러멜', en: 'Honey/Caramel', Icon: Candy },
+  { id: 'earth', ko: '흙·허브', en: 'Earth/Herb', Icon: Sprout },
+  { id: 'yeast', ko: '빵·이스트', en: 'Bread/Yeast', Icon: Wheat },
 ];
 
-const IMPRESSION_OPTIONS: { id: Impression; ko: string; en: string; emoji: string }[] = [
-  { id: 'star', ko: '와! 최고!', en: 'Wow!', emoji: '🤩' },
-  { id: 'smile', ko: '괜찮아요', en: 'Nice', emoji: '🙂' },
-  { id: 'thinking', ko: '음... 글쎄', en: 'Hmm...', emoji: '🤔' },
+const IMPRESSION_OPTIONS: { id: Impression; ko: string; en: string; Icon: IconCmp }[] = [
+  { id: 'star', ko: '와! 최고!', en: 'Wow!', Icon: Sparkles },
+  { id: 'smile', ko: '괜찮아요', en: 'Nice', Icon: Smile },
+  { id: 'thinking', ko: '음... 글쎄', en: 'Hmm...', Icon: HelpCircle },
 ];
 
 const FINISH_OPTIONS: { id: 'short' | 'medium' | 'long'; ko: string; en: string }[] = [
@@ -144,7 +160,7 @@ export function BeginnerNote({ variant, wineName, producer }: BeginnerNoteProps)
                 }}
                 aria-pressed={active}
               >
-                <span style={{ fontSize: 28 }}>{opt.emoji}</span>
+                <opt.Icon size={26} strokeWidth={1.5} color={active ? 'var(--color-gold)' : 'var(--color-cream)'} />
                 <span style={{ fontSize: 12, fontWeight: 600 }}>
                   {locale === 'ko' ? opt.ko : opt.en}
                 </span>
@@ -234,7 +250,7 @@ export function BeginnerNote({ variant, wineName, producer }: BeginnerNoteProps)
                 }}
                 aria-pressed={active}
               >
-                <span style={{ fontSize: 22 }}>{card.emoji}</span>
+                <card.Icon size={20} strokeWidth={1.5} color={active ? 'var(--color-gold)' : 'var(--color-cream)'} />
                 <span style={{ fontSize: 10 }}>
                   {locale === 'ko' ? card.ko : card.en}
                 </span>
@@ -284,13 +300,14 @@ export function BeginnerNote({ variant, wineName, producer }: BeginnerNoteProps)
               style={{
                 background: 'transparent',
                 border: 0,
-                fontSize: 32,
                 cursor: 'pointer',
                 color: n <= rating ? 'var(--color-gold)' : 'var(--color-border)',
+                display: 'inline-flex',
+                padding: 2,
               }}
               aria-label={`${n} stars`}
             >
-              ★
+              <Star size={28} strokeWidth={1.5} fill={n <= rating ? 'var(--color-gold)' : 'none'} />
             </button>
           ))}
         </div>

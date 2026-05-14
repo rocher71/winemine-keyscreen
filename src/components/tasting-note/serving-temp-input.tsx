@@ -10,6 +10,7 @@
  * Controlled component — 부모가 `value` 보유.
  */
 
+import { Check, AlertTriangle } from 'lucide-react';
 import { useLocale } from '@/context/locale-context';
 import type { ServingTempRange } from '@/types';
 
@@ -93,9 +94,16 @@ export function ServingTempInput({ value, onChange, recommended }: ServingTempIn
           style={{
             color: inRange ? 'var(--color-gold)' : 'var(--color-wine-red-hover, #A02030)',
             fontWeight: 600,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 4,
           }}
         >
-          {inRange ? '✓ ' : '⚠ '}
+          {inRange ? (
+            <Check size={12} strokeWidth={2} />
+          ) : (
+            <AlertTriangle size={12} strokeWidth={1.75} />
+          )}
           {COPY[bucket][locale]}
         </span>
       </div>

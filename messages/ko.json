@@ -102,6 +102,11 @@
       "title": "팔로잉의 새 노트",
       "viewAll": "모두 보기 →"
     },
+    "draftResume": {
+      "title": "작성 중인 노트",
+      "progress": "{value}%",
+      "cta": "이어 쓰기"
+    },
     "statCountries": "방문 국가",
     "statWines": "마신 와인",
     "statNotes": "작성 노트"
@@ -443,7 +448,6 @@
     "addCellar": "셀러 항목 추가",
     "urlPreview": "현재 URL",
     "copy": "복사",
-    "pushSimulated": "익명 사용자가 즐겨찾기 와인을 구매했어요",
     "xpAdded": "+50 XP 적립",
     "cellarAdded": "셀러에 와인이 추가됐어요"
   },
@@ -707,7 +711,7 @@
     "evolution": {
       "cork": {
         "open": "코르크 오픈 시각 기록",
-        "opened": "🍷 코르크 오픈됨"
+        "opened": "코르크 오픈됨"
       },
       "decant": {
         "label": "디캔터 사용"

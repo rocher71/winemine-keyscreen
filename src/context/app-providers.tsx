@@ -7,6 +7,7 @@ import { LocaleProvider } from './locale-context';
 import { FavoritesProvider } from './favorites-context';
 import { FeatureFlagProvider } from './feature-flag-context';
 import { UserDataProvider } from './user-data-context';
+import { TastingTemplateProvider } from './tasting-template-context';
 
 /**
  * 4개 Context를 한 번에 wrapping.
@@ -21,7 +22,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
           <LocaleProvider>
             <FavoritesProvider>
               <UserDataProvider>
-                <FeatureFlagProvider>{children}</FeatureFlagProvider>
+                <TastingTemplateProvider>
+                  <FeatureFlagProvider>{children}</FeatureFlagProvider>
+                </TastingTemplateProvider>
               </UserDataProvider>
             </FavoritesProvider>
           </LocaleProvider>

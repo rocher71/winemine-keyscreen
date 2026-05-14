@@ -42,6 +42,10 @@ export default function SettingsPage() {
             label={t('items.experience')}
             value={expLabel}
           />
+          <SettingRow
+            href={'/settings/tasting-template' as Route}
+            label={locale === 'en' ? 'Tasting note templates' : '테이스팅 노트 양식'}
+          />
         </div>
 
         <SectionDivider title={t('sections.notifications')} />

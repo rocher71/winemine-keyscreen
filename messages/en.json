@@ -102,6 +102,11 @@
       "title": "New notes from following",
       "viewAll": "View all →"
     },
+    "draftResume": {
+      "title": "Draft in progress",
+      "progress": "{value}%",
+      "cta": "Resume"
+    },
     "statCountries": "Countries",
     "statWines": "Wines",
     "statNotes": "Notes"
@@ -443,7 +448,6 @@
     "addCellar": "Add cellar item",
     "urlPreview": "Current URL",
     "copy": "Copy",
-    "pushSimulated": "An anonymous user bought a favourite wine",
     "xpAdded": "+50 XP added",
     "cellarAdded": "A wine was added to your cellar"
   },
@@ -707,7 +711,7 @@
     "evolution": {
       "cork": {
         "open": "Record opening time",
-        "opened": "🍷 Cork opened"
+        "opened": "Cork opened"
       },
       "decant": {
         "label": "Decanted"

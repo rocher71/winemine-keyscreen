@@ -257,7 +257,7 @@ export function RecapModal({
               fontWeight: 600,
             }}
           >
-            ✦ winemine ✦ winemine ✦ winemine ✦ winemine ✦
+            · winemine · winemine · winemine · winemine ·
           </div>
 
           <ComposableMap

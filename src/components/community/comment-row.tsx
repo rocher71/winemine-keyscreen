@@ -1,6 +1,7 @@
 'use client';
 
 import { Wine } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { CommUserAvatar } from './comm-user-avatar';
 import { getCommunityUser } from '@/lib/mock/community-posts';
 
@@ -24,6 +25,7 @@ export function CommentRow({
   locale = 'ko',
 }: Props) {
   const user = getCommunityUser(userId);
+  const router = useRouter();
   if (!user) return null;
 
   return (
@@ -41,15 +43,27 @@ export function CommentRow({
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* Name + level + expert badge */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-          <span
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              router.push(`/profile/${userId}`);
+            }}
             style={{
               fontSize: 11,
               color: 'var(--color-cream)',
               fontWeight: 600,
+              textDecoration: 'none',
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
             }}
           >
             {user.name}
-          </span>
+          </button>
 
           {/* Level pill */}
           <span

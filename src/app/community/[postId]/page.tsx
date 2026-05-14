@@ -49,7 +49,7 @@ export default function PostDetailPage({
   const user = getCommunityUser(post.userId);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100%', paddingBottom: 80 }}>
+    <>
       {/* ─── NOTE ─── */}
       {post.type === 'note' && (
         <>
@@ -72,6 +72,7 @@ export default function PostDetailPage({
             </button>
           </BackHeader>
 
+          <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
           <article style={{ padding: '14px 20px 0' }}>
             <PostTypeBadge type={post.type} locale={locale} />
             <div style={{ marginTop: 12 }}>
@@ -80,9 +81,12 @@ export default function PostDetailPage({
                   <CommUserAvatar userId={post.userId} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)' }}>
+                      <Link
+                        href={`/profile/${post.userId}` as Route}
+                        style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)', textDecoration: 'none' }}
+                      >
                         {user.name}
-                      </span>
+                      </Link>
                     </div>
                     <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>
                       {post.ago}
@@ -260,35 +264,23 @@ export default function PostDetailPage({
               {locale === 'en' ? `See all ${post.comments} comments` : `댓글 ${post.comments}개 전체 보기`}
             </Link>
           </div>
+          </div>
         </>
       )}
 
       {/* ─── COLUMN ─── */}
       {post.type === 'column' && (
         <>
-          <div
-            style={{
-              position: 'absolute',
-              top: 54,
-              left: 0,
-              right: 0,
-              padding: '8px 16px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              zIndex: 10,
-            }}
-          >
-            <BackHeader title="" />
-            <div style={{ display: 'flex', gap: 6 }}>
-              <button style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(5,2,10,0.6)', border: 'none', color: 'var(--color-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <Bookmark size={18} strokeWidth={1.75} />
-              </button>
-              <button style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(5,2,10,0.6)', border: 'none', color: 'var(--color-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                <Share2 size={18} strokeWidth={1.75} />
-              </button>
-            </div>
-          </div>
+          <BackHeader title="">
+            <button style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(5,2,10,0.6)', border: 'none', color: 'var(--color-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <Bookmark size={18} strokeWidth={1.75} />
+            </button>
+            <button style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(5,2,10,0.6)', border: 'none', color: 'var(--color-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <Share2 size={18} strokeWidth={1.75} />
+            </button>
+          </BackHeader>
 
+          <div className="wm-scroll-area" style={{ paddingBottom: 20 }}>
           {/* Cover hero */}
           <div style={{ height: 280, position: 'relative', background: 'linear-gradient(180deg, #5a1a28, var(--color-bg-deep))' }}>
             <svg width="100%" height="280" viewBox="0 0 390 280" preserveAspectRatio="xMidYMid slice">
@@ -327,9 +319,12 @@ export default function PostDetailPage({
             <div style={{ padding: '16px 20px 0', display: 'flex', alignItems: 'center', gap: 10 }}>
               <CommUserAvatar userId={post.userId} />
               <div>
-                <span style={{ fontSize: 13, color: 'var(--color-cream)', fontFamily: 'var(--font-playfair)' }}>
+                <Link
+                  href={`/profile/${post.userId}` as Route}
+                  style={{ fontSize: 13, color: 'var(--color-cream)', fontFamily: 'var(--font-playfair)', textDecoration: 'none' }}
+                >
                   {user.name}
-                </span>
+                </Link>
                 <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>
                   {post.ago} · {locale === 'en' ? 'About 8 min read' : '약 8분 읽기'}
                 </div>
@@ -383,6 +378,7 @@ export default function PostDetailPage({
               ))}
             </div>
           </div>
+          </div>
         </>
       )}
 
@@ -395,15 +391,19 @@ export default function PostDetailPage({
             </button>
           </BackHeader>
 
+          <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
           <article style={{ padding: '14px 20px 0' }}>
             <PostTypeBadge type="question" locale={locale} />
             {user && (
               <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <CommUserAvatar userId={post.userId} />
                 <div>
-                  <span style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)' }}>
+                  <Link
+                    href={`/profile/${post.userId}` as Route}
+                    style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)', textDecoration: 'none' }}
+                  >
                     {user.name}
-                  </span>
+                  </Link>
                   <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>{post.ago}</div>
                 </div>
               </div>
@@ -463,6 +463,7 @@ export default function PostDetailPage({
             <CommentRow userId="duckhu" ago="35분 전" text={locale === 'en' ? "Don't skip Crémant de Bourgogne. Perfect to open with." : "크레망 부르고뉴를 빼지 마세요. 한 잔으로 시작하기에 너무 좋아요."} reactions={14} locale={locale} />
             <CommentRow userId="mineral" ago="42분 전" text={locale === 'en' ? "Picard Bourgogne Aligoté is fantastic value." : "피카르의 부르고뉴 알리고떼 정말 좋습니다. 가격 대비 만족도 최고예요."} reactions={9} locale={locale} />
           </div>
+          </div>
         </>
       )}
 
@@ -475,6 +476,7 @@ export default function PostDetailPage({
             </button>
           </BackHeader>
 
+          <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
           <article style={{ padding: '14px 20px 0' }}>
             <div style={{ marginBottom: 12 }}>
               <PostTypeBadge type="album" locale={locale} />
@@ -483,7 +485,7 @@ export default function PostDetailPage({
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                 <CommUserAvatar userId={post.userId} />
                 <div>
-                  <span style={{ fontSize: 13, color: 'var(--color-cream)', fontFamily: 'var(--font-playfair)' }}>{user.name}</span>
+                  <Link href={`/profile/${post.userId}` as Route} style={{ fontSize: 13, color: 'var(--color-cream)', fontFamily: 'var(--font-playfair)', textDecoration: 'none' }}>{user.name}</Link>
                   <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>{post.ago}</div>
                 </div>
               </div>
@@ -535,6 +537,7 @@ export default function PostDetailPage({
             <CommentRow userId="suyeon" ago="2시간 전" text={locale === 'en' ? "Labels perfectly aligned. Jealous." : "라벨 정렬이 너무 깔끔하네요. 부럽다..."} reactions={6} locale={locale} />
             <CommentRow userId="jiwon" ago="3시간 전" text={locale === 'en' ? "What's going in that empty slot?" : "저 빈자리에 뭐 들어갈 예정인지 궁금"} reactions={3} locale={locale} />
           </div>
+          </div>
         </>
       )}
 
@@ -546,13 +549,14 @@ export default function PostDetailPage({
               <Share2 size={18} strokeWidth={1.75} />
             </button>
           </BackHeader>
+          <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
           <article style={{ padding: '14px 20px 0' }}>
             <PostTypeBadge type="news" locale={locale} />
             {user && (
               <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <CommUserAvatar userId={post.userId} />
                 <div>
-                  <span style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)' }}>{user.name}</span>
+                  <Link href={`/profile/${post.userId}` as Route} style={{ fontFamily: 'var(--font-playfair)', fontSize: 13, color: 'var(--color-cream)', textDecoration: 'none' }}>{user.name}</Link>
                   <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2 }}>{post.ago}</div>
                 </div>
               </div>
@@ -571,17 +575,19 @@ export default function PostDetailPage({
             <CommentRow userId="jiwon" ago="4시간 전" text={locale === 'en' ? "Already booked. The allocation goes fast." : "예약 했어요. 물량 빨리 없어지더라고요."} reactions={6} locale={locale} />
             <CommentRow userId="suyeon" ago="5시간 전" text={locale === 'en' ? "Is Ramonet included?" : "라몽네 있나요?"} reactions={3} locale={locale} />
           </div>
+          </div>
         </>
       )}
 
-      {/* Compose footer (common) */}
+      {/* Compose footer (common — column variant은 footer 없음) */}
+      {post.type !== 'column' && (
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           left: 0,
           right: 0,
           bottom: 0,
-          padding: '10px 16px 30px',
+          padding: '10px 16px 20px',
           background: 'linear-gradient(to top, var(--color-bg-deep) 70%, rgba(10,5,15,0))',
           borderTop: '0.5px solid var(--color-border-default)',
           display: 'flex',
@@ -624,6 +630,7 @@ export default function PostDetailPage({
           <ChevronRight size={16} strokeWidth={2} />
         </button>
       </div>
-    </div>
+      )}
+    </>
   );
 }

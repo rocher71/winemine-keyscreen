@@ -50,6 +50,21 @@ Error:               #EF4444
 - 항상 **소문자 `winemine`** (대문자/분리 금지)
 - Playfair Display, letter-spacing: -0.02em
 
+### 절대 금지 — Emoji 사용 금지
+이 프로젝트는 어떠한 UI 요소에도 **emoji를 사용하지 않는다**. (예: 🍷 🍓 🤩 🙂 🤔 📸 📷 ✦ 등)
+
+- 이모지가 들어갈 자리에는 항상 **lucide-react 아이콘**을 사용한다.
+  - 별점 → `Star` (fill로 채움 상태 표현)
+  - 와인 → `Wine` / `WineOff`
+  - 카메라 → `Camera`
+  - 체크 → `Check`
+  - 경고 → `AlertTriangle`
+  - 아로마 카테고리 → `Cherry`/`Citrus`/`Apple`/`Flower2`/`Flame`/`Candy`/`Sprout`/`Wheat` 등
+  - 인상 → `Sparkles`/`Smile`/`HelpCircle` 등
+- 텍스트 디자인 요소(`·`, `→`)는 허용. 단, variation selector(U+FE0F) 붙은 dingbat은 emoji로 렌더되므로 금지.
+- mock 데이터, JSON, 코드 코멘트, 본문 텍스트 모두 동일하게 적용.
+- 새 컴포넌트 작성 시 `grep -P "[\\x{1F300}-\\x{1FAFF}\\x{2600}-\\x{27BF}\\x{1F900}-\\x{1F9FF}]"`로 self-check.
+
 ---
 
 ## 기술 스택 권장 (Phase 1 기준)

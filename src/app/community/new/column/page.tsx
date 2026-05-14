@@ -25,7 +25,7 @@ export default function NewColumnPage() {
   ];
 
   return (
-    <div style={{ position: 'relative', paddingBottom: 70 }}>
+    <>
       {/* Header */}
       <div
         style={{
@@ -34,6 +34,7 @@ export default function NewColumnPage() {
           alignItems: 'center',
           gap: 8,
           borderBottom: '0.5px solid var(--color-border-default)',
+          flexShrink: 0,
         }}
       >
         <button
@@ -81,6 +82,7 @@ export default function NewColumnPage() {
         </button>
       </div>
 
+      <div className="wm-scroll-area" style={{ paddingBottom: 90 }}>
       {/* Cover image slot */}
       <div
         style={{
@@ -172,15 +174,16 @@ export default function NewColumnPage() {
           <X size={14} strokeWidth={1.75} />
         </button>
       </div>
+      </div>
 
       {/* Bottom format toolbar */}
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           left: 0,
           right: 0,
           bottom: 0,
-          padding: '10px 12px 30px',
+          padding: '10px 12px 20px',
           background: 'var(--color-bg-deep)',
           borderTop: '0.5px solid var(--color-border-default)',
           display: 'flex',
@@ -217,6 +220,6 @@ export default function NewColumnPage() {
           <ChevronDown size={16} strokeWidth={1.75} />
         </button>
       </div>
-    </div>
+    </>
   );
 }

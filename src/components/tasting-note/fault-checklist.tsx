@@ -9,6 +9,7 @@
  */
 
 import { useState } from 'react';
+import { Check } from 'lucide-react';
 import { FAULTS, type Fault } from '@/lib/tasting-note-lexicon';
 import { useLocale } from '@/context/locale-context';
 import { GlossaryTooltip } from '@/components/glossary/glossary-tooltip';
@@ -112,12 +113,12 @@ export function FaultChecklist({ selected, onToggle }: FaultChecklistProps) {
                       border: `1.5px solid ${isOn ? 'var(--color-wine-red)' : 'var(--color-muted)'}`,
                       background: isOn ? 'var(--color-wine-red)' : 'transparent',
                       color: 'var(--color-cream)',
-                      fontSize: 11,
-                      lineHeight: '14px',
-                      textAlign: 'center',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
-                    {isOn ? '✓' : ''}
+                    {isOn ? <Check size={12} strokeWidth={2.5} /> : null}
                   </span>
                 </div>
                 <div

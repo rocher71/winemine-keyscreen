@@ -7,9 +7,14 @@ import { useAppMode } from '@/context/app-mode-context';
 import { useExperience } from '@/context/experience-context';
 import { useLocale } from '@/context/locale-context';
 import { toast } from '@/hooks/use-toast';
+import { pushBanner } from '@/hooks/use-push-banner';
 import { PrimaryButton } from '@/components/shared/primary-button';
 import { Copy } from 'lucide-react';
+import { NOTIFICATIONS } from '@/lib/mock/notifications';
 import type { DemoMode, Experience, Locale } from '@/types';
+
+/** 푸시 시뮬 풀: 즐겨찾기 와인 구매 알림 (mock notifications에서 추출) */
+const PUSH_SAMPLES = NOTIFICATIONS.filter((n) => n.kind === 'favoritePurchase');
 
 /**
  * 데스크톱 좌측 사이드 패널 (≥1024px). 모바일/태블릿에서는 숨김.
@@ -45,9 +50,13 @@ export function DemoControls() {
   };
 
   const onSimulatePush = () => {
-    toast({
-      variant: 'default',
-      message: { ko: t('pushSimulated'), en: t('pushSimulated') },
+    /* 풀에서 랜덤 픽 — 매 클릭마다 다른 와인이 등장해 실제 푸시 느낌 */
+    const sample =
+      PUSH_SAMPLES[Math.floor(Math.random() * PUSH_SAMPLES.length)];
+    if (!sample) return;
+    pushBanner({
+      title: sample.title,
+      body: sample.body,
     });
   };
 

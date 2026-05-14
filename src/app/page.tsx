@@ -11,6 +11,7 @@ import { BottomNav } from '@/components/nav/bottom-nav';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { useAppMode } from '@/context/app-mode-context';
 import { StatHero } from '@/components/home/stat-hero';
+import { DraftNoteResume } from '@/components/home/draft-note-resume';
 import { RecentNotesStrip } from '@/components/home/recent-notes-strip';
 import { QuickActions } from '@/components/home/quick-actions';
 import { FirstTimeGreeting } from '@/components/home/first-time-greeting';
@@ -70,6 +71,7 @@ export default function HomePage() {
     isHeavy
       ? [
           { id: 'home.peakGreeting', labelKo: '정점 인사말 (로테이션)', labelEn: 'Peak greeting (rotating)', defaultStatus: 'planned' },
+          { id: 'home.draftResume', labelKo: '작성 중인 노트 이어쓰기', labelEn: 'Resume draft note', defaultStatus: 'planned' },
           { id: 'home.statHero', labelKo: '통계 헤로', labelEn: 'Stat hero', defaultStatus: 'planned' },
           { id: 'home.mapCameo', labelKo: '와인 지도 cameo', labelEn: 'Wine map cameo', defaultStatus: 'planned' },
           { id: 'home.communityPeek', labelKo: '커뮤니티 peek', labelEn: 'Community peek', defaultStatus: 'planned' },
@@ -101,7 +103,10 @@ export default function HomePage() {
               wines={recentWineLabels}
             />
 
-            {/* 3-col 통계 카드 */}
+            {/* B 변형에서 가져온 — 작성 중인 노트 이어쓰기 CTA */}
+            <DraftNoteResume />
+
+            {/* 3-col 통계 카드 (컴팩트) */}
             <StatHero user={user} />
 
             {/* 세계 지도 cameo — 커뮤니티 peek 바로 위 */}

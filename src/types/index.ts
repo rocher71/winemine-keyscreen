@@ -322,10 +322,67 @@ export interface TastingNote {
   mode: TastingNoteMode;
   beginnerFields: BeginnerFields | null;
   expertFields: ExpertFields | null;
+  /** custom template으로 작성된 경우 templateId + customFields 채움 (mode === 'custom') */
+  templateId?: string | null;
+  customFields?: Record<string, CustomFieldValue> | null;
   photoUrl: string | null;
   priceKrw: number | null;
   isPublic: boolean;
   createdAt: string;
+}
+
+/* ─────────────────────── Tasting Template (커스텀 노트 양식) ─────────────────────── */
+
+export type CustomFieldValue =
+  | { kind: 'slider'; value: number }
+  | { kind: 'wsetScale'; value: WSETScale }
+  | { kind: 'chipsSingle'; value: string }
+  | { kind: 'chipsMulti'; value: string[] }
+  | { kind: 'text'; value: string }
+  | { kind: 'number'; value: number }
+  | { kind: 'rating'; value: number }
+  | { kind: 'checkbox'; value: boolean };
+
+export type TemplateFieldType =
+  | 'slider'        // 1~max (default 5)
+  | 'wsetScale'     // low | mediumMinus | medium | mediumPlus | high
+  | 'chipsSingle'   // pick one from options
+  | 'chipsMulti'    // pick multiple from options
+  | 'text'          // memo
+  | 'number'        // raw number
+  | 'rating'        // 0~5 star
+  | 'checkbox';     // boolean
+
+export interface TemplateFieldOption {
+  id: string;
+  label: LocalizedString;
+}
+
+export interface TemplateField {
+  id: string;
+  type: TemplateFieldType;
+  label: LocalizedString;
+  description?: LocalizedString;
+  options?: TemplateFieldOption[];
+  min?: number;
+  max?: number;
+}
+
+export type TastingTemplateKind = 'builtinBeginner' | 'builtinExpert' | 'custom';
+
+export interface TastingTemplate {
+  id: string;
+  kind: TastingTemplateKind;
+  title: LocalizedString;
+  description: LocalizedString | null;
+  /** custom 템플릿 작성자 (builtin은 null) */
+  authorUserId: string | null;
+  authorName: LocalizedString | null;
+  /** 커뮤니티 공유 여부 */
+  isPublic: boolean;
+  savesCount: number;
+  createdAt: string;
+  fields: TemplateField[];
 }
 
 /* ─────────────────────── Purchase / Store ─────────────────────── */

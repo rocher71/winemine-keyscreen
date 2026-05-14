@@ -1,9 +1,12 @@
 'use client';
 
 import { Moon, Wine } from 'lucide-react';
+import Link from 'next/link';
+import type { Route } from 'next';
 import { BackHeader } from '@/components/nav/back-header';
 import { CommUserAvatar } from '@/components/community/comm-user-avatar';
 import { WINES } from '@/lib/mock/wines';
+import { getCommunityUser } from '@/lib/mock/community-posts';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 import { useLocale } from '@/context/locale-context';
 import { useTranslations } from 'next-intl';
@@ -36,8 +39,9 @@ export default function TonightPage() {
   ]);
 
   return (
-    <div style={{ paddingBottom: 40 }}>
+    <>
       <BackHeader title={{ ko: '', en: '' }} />
+      <div className="wm-scroll-area" style={{ paddingBottom: 40 }}>
 
       {/* Hero */}
       <div style={{ padding: '12px 22px 0' }}>
@@ -232,9 +236,17 @@ export default function TonightPage() {
               <CommUserAvatar userId={e.userId} size={28} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontSize: 11, color: 'var(--color-cream)', fontWeight: 600 }}>
-                    {e.userId}
-                  </span>
+                  <Link
+                    href={`/profile/${e.userId}` as Route}
+                    style={{
+                      fontSize: 11,
+                      color: 'var(--color-cream)',
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {getCommunityUser(e.userId)?.name ?? e.userId}
+                  </Link>
                   <span style={{ fontSize: 10, color: 'var(--color-text-muted)' }}>
                     · {e.place} · {e.hour}
                   </span>
@@ -277,6 +289,7 @@ export default function TonightPage() {
           );
         })}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import type { CSSProperties } from 'react';
+import { useRouter } from 'next/navigation';
 import { getCommunityUser } from '@/lib/mock/community-posts';
 
 /**
@@ -34,13 +35,16 @@ function levelBorderColor(level: number): string {
 type Props = {
   userId: string;
   size?: number;
+  /** 프로필 링크를 비활성화하고 싶을 때 (예: 본인 작성 컴포저 미리보기) */
+  asLink?: boolean;
 };
 
-export function CommUserAvatar({ userId, size = 36 }: Props) {
+export function CommUserAvatar({ userId, size = 36, asLink = true }: Props) {
   const user = getCommunityUser(userId);
+  const router = useRouter();
   if (!user) return null;
 
-  const style: CSSProperties = {
+  const baseStyle: CSSProperties = {
     width: size,
     height: size,
     borderRadius: 999,
@@ -54,7 +58,25 @@ export function CommUserAvatar({ userId, size = 36 }: Props) {
     fontFamily: 'var(--font-playfair)',
     fontSize: Math.round(size * 0.42),
     fontWeight: 700,
+    textDecoration: 'none',
   };
 
-  return <div style={style}>{user.initial}</div>;
+  if (asLink) {
+    /* button + programmatic navigation — 부모 Link 카드 안에서도 안전 (중첩 <a> 회피) */
+    return (
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          router.push(`/profile/${userId}`);
+        }}
+        aria-label={`${user.name} 프로필`}
+        style={{ ...baseStyle, padding: 0, cursor: 'pointer' }}
+      >
+        {user.initial}
+      </button>
+    );
+  }
+  return <div style={baseStyle}>{user.initial}</div>;
 }

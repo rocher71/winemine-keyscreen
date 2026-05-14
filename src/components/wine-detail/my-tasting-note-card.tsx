@@ -51,6 +51,15 @@ export function MyTastingNoteCard({ wine }: Props) {
 
   return (
     <section
+      onClick={() => router.push(`/notes/${note.id}`)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          router.push(`/notes/${note.id}`);
+        }
+      }}
       style={{
         margin: '0 16px 16px',
         padding: 16,
@@ -61,6 +70,7 @@ export function MyTastingNoteCard({ wine }: Props) {
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
+        cursor: 'pointer',
       }}
     >
       {/* 헤더 */}
@@ -82,7 +92,10 @@ export function MyTastingNoteCard({ wine }: Props) {
         </div>
         <button
           type="button"
-          onClick={() => router.push(`/notes/new/write?from=newEntry&wineId=${wine.id}&edit=1`)}
+          onClick={(e) => {
+            e.stopPropagation();
+            router.push(`/notes/new/write?from=newEntry&wineId=${wine.id}&edit=1`);
+          }}
           style={{
             all: 'unset',
             display: 'inline-flex',

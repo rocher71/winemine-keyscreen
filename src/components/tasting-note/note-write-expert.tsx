@@ -12,6 +12,7 @@
 
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Camera, Check, Star } from 'lucide-react';
 import { WSETSlider } from './wset-slider';
 import { AromaWheel } from './aroma-wheel';
 import { CaudalieMeter } from './caudalie-meter';
@@ -24,7 +25,7 @@ import { BubblePanel } from './bubble-panel';
 import { ServingTempInput } from './serving-temp-input';
 import { PeakEtaInput } from './peak-eta-input';
 import { RegionalAromaHints } from './regional-aroma-hints';
-import { PriceCapture } from './note-write-beginner';
+import { PriceCapture, ShareToCommunityToggle } from './note-write-beginner';
 import { GlossaryTooltip } from '@/components/glossary/glossary-tooltip';
 import { useLocale } from '@/context/locale-context';
 import { useUserData } from '@/context/user-data-context';
@@ -251,6 +252,7 @@ export function NoteWriteExpert({
   const [state, dispatch] = useReducer(reducer, undefined, () => initialState(initialVariant, wine));
   const [priceCapture, setPriceCapture] = useState(false);
   const [price, setPrice] = useState('');
+  const [shareToCommunity, setShareToCommunity] = useState(false);
 
   useEffect(() => {
     if (initialVariant !== state.variant) {
@@ -315,7 +317,7 @@ export function NoteWriteExpert({
         },
         photoUrl: state.photoAttached ? '/sample-labels/placeholder.svg' : null,
         priceKrw,
-        isPublic: true,
+        isPublic: shareToCommunity,
         createdAt: new Date().toISOString(),
       });
     }
@@ -324,8 +326,8 @@ export function NoteWriteExpert({
       variant: 'xp',
       xp,
       message: {
-        ko: `전문가 노트 +${xp} XP`,
-        en: `Expert note +${xp} XP`,
+        ko: shareToCommunity ? `노트 공유 +${xp} XP` : `전문가 노트 +${xp} XP`,
+        en: shareToCommunity ? `Note shared +${xp} XP` : `Expert note +${xp} XP`,
       },
     });
     window.setTimeout(() => router.back(), 1000);
@@ -543,6 +545,12 @@ export function NoteWriteExpert({
             onPriceChange={setPrice}
           />
 
+          <ShareToCommunityToggle
+            on={shareToCommunity}
+            onToggle={setShareToCommunity}
+            locale={locale}
+          />
+
           <button
             type="button"
             onClick={handleSave}
@@ -736,7 +744,13 @@ function PhotoToggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => 
       aria-pressed={on}
     >
       <span>{locale === 'ko' ? '사진 추가 (+5 XP)' : 'Add photo (+5 XP)'}</span>
-      <span style={{ fontSize: 18 }}>{on ? '✓' : '📷'}</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+        {on ? (
+          <Check size={16} strokeWidth={2} color="var(--color-gold)" />
+        ) : (
+          <Camera size={16} strokeWidth={1.5} color="var(--color-cream)" />
+        )}
+      </span>
     </button>
   );
 }
@@ -786,14 +800,14 @@ function RatingRow({
               style={{
                 background: 'transparent',
                 border: 0,
-                fontSize: 30,
                 cursor: 'pointer',
                 color: n <= rating ? 'var(--color-gold)' : 'var(--color-border)',
-                padding: 0,
+                padding: 2,
+                display: 'inline-flex',
               }}
               aria-label={`${n} stars`}
             >
-              ★
+              <Star size={26} strokeWidth={1.5} fill={n <= rating ? 'var(--color-gold)' : 'none'} />
             </button>
           ))}
         </div>

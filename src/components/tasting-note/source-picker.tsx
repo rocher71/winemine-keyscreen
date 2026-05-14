@@ -9,6 +9,7 @@
  * Controlled — 부모(`/notes/new` 페이지)가 라우팅 결정.
  */
 
+import { Wine, Camera } from 'lucide-react';
 import { useLocale } from '@/context/locale-context';
 import type { TastingNoteSource } from '@/types';
 
@@ -65,7 +66,7 @@ export function SourcePicker({ cellarCount, onPick }: SourcePickerProps) {
             gap: 6,
           }}
         >
-          <div style={{ fontSize: 30 }}>🍷</div>
+          <Wine size={28} strokeWidth={1.5} color="var(--color-gold)" />
           <div
             style={{
               fontSize: 16,
@@ -100,7 +101,7 @@ export function SourcePicker({ cellarCount, onPick }: SourcePickerProps) {
             gap: 6,
           }}
         >
-          <div style={{ fontSize: 30 }}>📸</div>
+          <Camera size={28} strokeWidth={1.5} color="var(--color-wine-red)" />
           <div
             style={{
               fontSize: 16,
