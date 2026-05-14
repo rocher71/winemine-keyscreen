@@ -32,6 +32,7 @@ export function CommFeedCard({ post, mine = null }: Props) {
           borderRadius: 14,
           background: 'var(--color-bg-surface)',
           border: '1px solid var(--color-border-default)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
         }}
       >
         {/* Type badge */}
@@ -154,7 +155,11 @@ export function CommFeedRow({ post }: { post: CommunityPost }) {
       <div
         style={{
           padding: '12px 16px',
-          borderBottom: '0.5px solid var(--color-border-default)',
+          margin: '0 16px 6px',
+          borderRadius: 12,
+          background: 'var(--color-bg-surface)',
+          border: '1px solid var(--color-border-default)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
           display: 'flex',
           flexDirection: 'column',
           gap: 8,

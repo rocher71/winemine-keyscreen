@@ -18,6 +18,7 @@
   --color-bg-deep:         #2E1F3F;
   --color-bg-map:          #3A2440;
   --color-surface:         #3D2A4A;
+  --color-bg-surface:      #3D2A4A;
 
   /* ── Text ──────────────────────────────── */
   --color-text-primary:    #F8F4ED;
@@ -77,6 +78,7 @@
   --color-bg-deep:         #F2EAD9;
   --color-bg-map:          #EDE2CC;
   --color-surface:         #FFFFFF;
+  --color-bg-surface:      #FFFFFF;
 
   /* Text */
   --color-text-primary:    #2A1A14;

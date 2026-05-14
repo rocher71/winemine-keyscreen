@@ -270,7 +270,7 @@ export default function CommunityPage() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', paddingTop: 6 }}>
               {filteredPosts.map((p) => (
                 <CommFeedRow key={p.id} post={p} />
               ))}
