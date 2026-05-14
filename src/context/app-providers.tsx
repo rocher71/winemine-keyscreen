@@ -8,6 +8,7 @@ import { FavoritesProvider } from './favorites-context';
 import { FeatureFlagProvider } from './feature-flag-context';
 import { UserDataProvider } from './user-data-context';
 import { TastingTemplateProvider } from './tasting-template-context';
+import { ThemeProvider } from './theme-context';
 
 /**
  * 4개 Context를 한 번에 wrapping.
@@ -17,19 +18,21 @@ import { TastingTemplateProvider } from './tasting-template-context';
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={null}>
-      <AppModeProvider>
-        <ExperienceProvider>
-          <LocaleProvider>
-            <FavoritesProvider>
-              <UserDataProvider>
-                <TastingTemplateProvider>
-                  <FeatureFlagProvider>{children}</FeatureFlagProvider>
-                </TastingTemplateProvider>
-              </UserDataProvider>
-            </FavoritesProvider>
-          </LocaleProvider>
-        </ExperienceProvider>
-      </AppModeProvider>
+      <ThemeProvider>
+        <AppModeProvider>
+          <ExperienceProvider>
+            <LocaleProvider>
+              <FavoritesProvider>
+                <UserDataProvider>
+                  <TastingTemplateProvider>
+                    <FeatureFlagProvider>{children}</FeatureFlagProvider>
+                  </TastingTemplateProvider>
+                </UserDataProvider>
+              </FavoritesProvider>
+            </LocaleProvider>
+          </ExperienceProvider>
+        </AppModeProvider>
+      </ThemeProvider>
     </Suspense>
   );
 }

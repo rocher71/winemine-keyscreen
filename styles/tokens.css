@@ -7,36 +7,81 @@
  */
 
 :root {
-  /* ── Primary ───────────────────────────── */
+  /* ── Primary (테마 무관 — 와인 정체성 유지) ───── */
   --color-wine-red:        #8B1A2A;
   --color-wine-red-hover:  #A02030;
   --color-gold:            #C9A84C;
   --color-cream:           #F5F0E8;
 
-  /* ── Background ────────────────────────── */
-  --color-bg-deepest:      #1B1126;
-  --color-bg-deep:         #221729;
-  --color-bg-map:          #2A1A30;
-  --color-surface:         #2D1E38;
+  /* ── Background (다크 default — 이전보다 ~30% 밝게) ── */
+  --color-bg-deepest:      #251837;
+  --color-bg-deep:         #2E1F3F;
+  --color-bg-map:          #3A2440;
+  --color-surface:         #3D2A4A;
 
   /* ── Text ──────────────────────────────── */
   --color-text-primary:    #F8F4ED;
-  --color-text-secondary:  #E2D6C0;
-  --color-text-muted:      #B8A998;
-  --color-text-disabled:   #6E5F7E;
+  --color-text-secondary:  #EBE0CB;
+  --color-text-muted:      #CABDA8;
+  --color-text-disabled:   #7E6E8E;
 
   /* ── Border ────────────────────────────── */
-  --color-border:          #41264E;
+  --color-border:          #5A3D6A;
+  --color-border-default:  #5A3D6A;
   --color-border-active:   #A02030;
 
   /* ── Semantic ──────────────────────────── */
   --color-error:           #EF4444;
 
+  /* ── 페이지 배경 그라데이션 (테마별 분기 가능) ── */
+  --gradient-page-bg:      linear-gradient(135deg, #251837 0%, #2E1F3F 100%);
+
   /* ── Backward-compat aliases (used in fallbacks) ── */
-  --color-deepest-dark:    #1B1126;
-  --color-deep-dark:       #221729;
-  --color-map-dark:        #2A1A30;
-  --color-secondary:       #E2D6C0;
+  --color-deepest-dark:    #251837;
+  --color-deep-dark:       #2E1F3F;
+  --color-map-dark:        #3A2440;
+  --color-secondary:       #EBE0CB;
+}
+
+/* ── 라이트 테마 — html[data-theme='light']에서 활성 ─── */
+:root[data-theme='light'] {
+  /* Primary는 그대로(와인 강조색 일관성) */
+  --color-wine-red:        #8B1A2A;
+  --color-wine-red-hover:  #6F1422;
+  --color-gold:            #B89438;
+  /* `--color-cream`은 컴포넌트 다수에서 텍스트 primary로 사용 — 라이트에선
+   * 다크 와인 브라운으로 재정의해 텍스트 가독성 확보.
+   * 일부 배경/fill 사용처(토글 핸들, 별 채움 등)는 자연스러운 와인 톤이 됨. */
+  --color-cream:           #2A1A14;
+
+  /* Background — 와인 톤 살린 크림 화이트 */
+  --color-bg-deepest:      #FAF5EC;
+  --color-bg-deep:         #F2EAD9;
+  --color-bg-map:          #EDE2CC;
+  --color-surface:         #FFFFFF;
+
+  /* Text */
+  --color-text-primary:    #2A1A14;
+  --color-text-secondary:  #5A463C;
+  --color-text-muted:      #8B7766;
+  --color-text-disabled:   #C0B0A0;
+
+  /* Border */
+  --color-border:          #E0D2BC;
+  --color-border-default:  #E0D2BC;
+  --color-border-active:   #8B1A2A;
+
+  /* Semantic */
+  --color-error:           #C92020;
+
+  /* 페이지 배경 그라데이션 — 라이트 톤 */
+  --gradient-page-bg:      linear-gradient(135deg, #FAF5EC 0%, #F2EAD9 100%);
+
+  /* Backward-compat aliases */
+  --color-deepest-dark:    #FAF5EC;
+  --color-deep-dark:       #F2EAD9;
+  --color-map-dark:        #EDE2CC;
+  --color-secondary:       #5A463C;
 }
 
 * {

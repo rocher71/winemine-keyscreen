@@ -2,20 +2,22 @@
 @import "../../styles/tokens.css";
 
 @theme {
+  /* @theme는 Tailwind v4 빌드 시 static 평가되어 클래스로 변환되므로
+   * 다크 default 값만 둔다. 런타임 테마 전환은 :root 변수(tokens.css)가 담당. */
   --color-wine-red: #8B1A2A;
   --color-wine-red-hover: #A02030;
   --color-gold: #C9A84C;
   --color-gold-soft: #D4B85C;
   --color-cream: #F8F4ED;
-  --color-bg-deepest: #1B1126;
-  --color-bg-deep: #221729;
-  --color-bg-map: #2A1A30;
-  --color-surface: #2D1E38;
+  --color-bg-deepest: #251837;
+  --color-bg-deep: #2E1F3F;
+  --color-bg-map: #3A2440;
+  --color-surface: #3D2A4A;
   --color-text-primary: #F8F4ED;
-  --color-text-secondary: #E2D6C0;
-  --color-text-muted: #B8A998;
-  --color-text-disabled: #6E5F7E;
-  --color-border-default: #41264E;
+  --color-text-secondary: #EBE0CB;
+  --color-text-muted: #CABDA8;
+  --color-text-disabled: #7E6E8E;
+  --color-border-default: #5A3D6A;
   --color-border-active: #A02030;
   --color-error: #EF4444;
   --color-success: #22C55E;
@@ -30,7 +32,7 @@
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(135deg, #1B1126 0%, #221729 100%);
+  background: var(--gradient-page-bg);
   pointer-events: none;
 }
 

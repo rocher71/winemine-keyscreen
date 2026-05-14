@@ -8,6 +8,7 @@ import { BackHeader } from '@/components/nav/back-header';
 import { SectionDivider } from '@/components/settings/section-divider';
 import { useLocale } from '@/context/locale-context';
 import { useExperience } from '@/context/experience-context';
+import { useTheme } from '@/context/theme-context';
 import { toast } from '@/hooks/use-toast';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 
@@ -15,6 +16,7 @@ export default function SettingsPage() {
   const t = useTranslations('settings');
   const { locale } = useLocale();
   const { experience } = useExperience();
+  const { theme } = useTheme();
 
   useRegisterFeatures('/settings', [
     { id: 'settings.appSection', labelKo: '앱 섹션', labelEn: 'App section', defaultStatus: 'planned' },
@@ -45,6 +47,19 @@ export default function SettingsPage() {
           <SettingRow
             href={'/settings/tasting-template' as Route}
             label={locale === 'en' ? 'Tasting note templates' : '테이스팅 노트 양식'}
+          />
+          <SettingRow
+            href={'/settings/appearance' as Route}
+            label={locale === 'en' ? 'Appearance' : '외관'}
+            value={
+              theme === 'light'
+                ? locale === 'en'
+                  ? 'Light'
+                  : '라이트'
+                : locale === 'en'
+                  ? 'Dark'
+                  : '다크'
+            }
           />
         </div>
 
