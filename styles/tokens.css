@@ -47,6 +47,10 @@
   /* BottomNav 카메라 FAB — 다크는 와인레드 그라데이션 */
   --gradient-fab:          linear-gradient(135deg, #8B1A2A, #5b1424);
   --shadow-fab:            0 6px 20px rgba(139,26,42,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
+  /* 지도 위 글래스 오버레이 (chip filter, 줌 버튼, 통계 박스, 빈 상태 패널) */
+  --color-glass-bg:        rgba(10,5,15,0.72);
+  --color-glass-bg-strong: rgba(15,7,24,0.92);
+  --color-glass-border:    rgba(255,255,255,0.15);
 
   /* ── Backward-compat aliases (used in fallbacks) ── */
   --color-deepest-dark:    #251837;
@@ -102,6 +106,10 @@
   /* BottomNav 카메라 FAB — 라이트 모드 골드 그라데이션 (와인레드 부담 제거) */
   --gradient-fab:          linear-gradient(135deg, #C9A84C, #A07F2E);
   --shadow-fab:            0 6px 20px rgba(184,148,56,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+  /* 지도 위 글래스 오버레이 — 라이트는 흰 글래스 */
+  --color-glass-bg:        rgba(255,255,255,0.85);
+  --color-glass-bg-strong: rgba(255,255,255,0.95);
+  --color-glass-border:    rgba(42,26,20,0.12);
 
   /* Backward-compat aliases */
   --color-deepest-dark:    #FAF5EC;
