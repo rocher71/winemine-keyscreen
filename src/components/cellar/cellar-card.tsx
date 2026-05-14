@@ -34,7 +34,7 @@ export function CellarCard({ item, wine }: Props) {
       <div
         style={{
           padding: '14px 0 8px',
-          background: `linear-gradient(160deg, ${wine.bottleColor}28 0%, #1a0a1e 80%)`,
+          background: `linear-gradient(160deg, ${wine.bottleColor}28 0%, var(--color-bottle-shelf) 80%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

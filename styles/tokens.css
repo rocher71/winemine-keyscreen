@@ -42,6 +42,8 @@
   --color-map-ocean:       transparent;
   /* 카드 내부 sub-section 배경 (살짝 잠긴 톤) */
   --color-bg-sunken:       rgba(0,0,0,0.28);
+  /* 와인병 placeholder 박스의 그라데이션 endpoint — 병이 놓인 선반 톤 */
+  --color-bottle-shelf:    #1a0a1e;
 
   /* ── Backward-compat aliases (used in fallbacks) ── */
   --color-deepest-dark:    #251837;
@@ -90,6 +92,8 @@
   --color-map-ocean:       transparent;
   /* 카드 내부 sub-section 배경 — 라이트 톤 (살짝 어두운 종이 톤) */
   --color-bg-sunken:       rgba(42,26,20,0.06);
+  /* 와인병 placeholder 박스 — 흰색 카드 톤 */
+  --color-bottle-shelf:    #FFFFFF;
 
   /* Backward-compat aliases */
   --color-deepest-dark:    #FAF5EC;
