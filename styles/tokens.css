@@ -44,6 +44,9 @@
   --color-bg-sunken:       rgba(0,0,0,0.28);
   /* 와인병 placeholder 박스의 그라데이션 endpoint — 병이 놓인 선반 톤 */
   --color-bottle-shelf:    #1a0a1e;
+  /* BottomNav 카메라 FAB — 다크는 와인레드 그라데이션 */
+  --gradient-fab:          linear-gradient(135deg, #8B1A2A, #5b1424);
+  --shadow-fab:            0 6px 20px rgba(139,26,42,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
 
   /* ── Backward-compat aliases (used in fallbacks) ── */
   --color-deepest-dark:    #251837;
@@ -54,14 +57,15 @@
 
 /* ── 라이트 테마 — html[data-theme='light']에서 활성 ─── */
 :root[data-theme='light'] {
-  /* Primary — 라이트 종이 톤 위에서 너무 칙칙하지 않도록 한 단계 밝힘.
-   * 와인 보르도 정체성은 유지하되 라이트 배경 대비 가독성 확보. */
-  --color-wine-red:        #A53449;
-  --color-wine-red-hover:  #8B1A2A;
+  /* 화이트 와인 컨셉 — 강조 색을 골드로 통일.
+   * 다크에서는 wine-red가 메인 강조이지만, 라이트(종이 톤 + 흰 카드)에서는
+   * 와인레드가 칙칙하게 보여서 골드로 통합. 와인 정체성은 다크 모드가 담당. */
+  --color-wine-red:        #B89438;
+  --color-wine-red-hover:  #9D7E2E;
   --color-gold:            #B89438;
   /* `--color-cream`은 컴포넌트 다수에서 텍스트 primary로 사용 — 라이트에선
    * 다크 와인 브라운으로 재정의해 텍스트 가독성 확보.
-   * 일부 배경/fill 사용처(토글 핸들, 별 채움 등)는 자연스러운 와인 톤이 됨. */
+   * 골드 배경 chip의 글씨도 자연스럽게 dark brown으로 떠 contrast 확보. */
   --color-cream:           #2A1A14;
 
   /* Background — 와인 톤 살린 크림 화이트 */
@@ -76,10 +80,10 @@
   --color-text-muted:      #8B7766;
   --color-text-disabled:   #C0B0A0;
 
-  /* Border */
+  /* Border — 활성 보더도 골드로(라이트 통일) */
   --color-border:          #E0D2BC;
   --color-border-default:  #E0D2BC;
-  --color-border-active:   #8B1A2A;
+  --color-border-active:   #B89438;
 
   /* Semantic */
   --color-error:           #C92020;
@@ -95,6 +99,9 @@
   --color-bg-sunken:       rgba(42,26,20,0.06);
   /* 와인병 placeholder 박스 — 흰색 카드 톤 */
   --color-bottle-shelf:    #FFFFFF;
+  /* BottomNav 카메라 FAB — 라이트 모드 골드 그라데이션 (와인레드 부담 제거) */
+  --gradient-fab:          linear-gradient(135deg, #C9A84C, #A07F2E);
+  --shadow-fab:            0 6px 20px rgba(184,148,56,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
 
   /* Backward-compat aliases */
   --color-deepest-dark:    #FAF5EC;
