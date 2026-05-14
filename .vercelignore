@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+.claude
+.vercel
+_workspace
+data/raw
+*.tsbuildinfo
+.DS_Store
+.env*.local
