@@ -308,6 +308,13 @@
     height: 84px;
     flex-shrink: 0;
   }
+  /* 커뮤니티 글쓰기 FAB — 모바일에선 viewport 우하단 고정.
+   * 데스크톱은 inline absolute(frame-inner 기준) 그대로 둠. */
+  .wm-community-fab {
+    position: fixed !important;
+    bottom: 104px !important;
+    right: 18px !important;
+  }
 }
 @media (min-width: 1024px) {
   .wm-side-panel-left {

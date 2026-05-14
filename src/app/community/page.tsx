@@ -666,9 +666,10 @@ export default function CommunityPage() {
         <div style={{ height: 32 }} />
       </div>
 
-      {/* FAB compose */}
+      {/* FAB compose — 데스크톱은 frame inner 안 absolute, 모바일은 viewport fixed */}
       <Link
         href={'/community/new' as Route}
+        className="wm-community-fab"
         style={{
           position: 'absolute',
           right: 18,
@@ -676,13 +677,13 @@ export default function CommunityPage() {
           width: 56,
           height: 56,
           borderRadius: 999,
-          background: 'linear-gradient(135deg, var(--color-wine-red), #6b0f1e)',
+          background: 'var(--gradient-fab)',
           border: '1px solid var(--color-gold)',
           color: 'var(--color-cream)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 10px 24px rgba(139,26,42,0.45)',
+          boxShadow: 'var(--shadow-fab)',
           textDecoration: 'none',
           zIndex: 20,
         }}
