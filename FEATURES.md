@@ -1,17 +1,17 @@
 # winemine 키스크린 — 현재 구현된 기능 목록
 
-> 기준일: 2026-05-13 (최종 업데이트)
+> 기준일: 2026-05-14 (최종 업데이트)
 > 대상: `src/` 전체 코드 기반 실제 구현 확인
 
 ---
 
-## 라우트 일람 (33개)
+## 라우트 일람 (39개)
 
 | 경로 | 설명 |
 |------|------|
 | `/` | 홈 |
 | `/map` | 세계 지도 |
-| `/cellar` | 셀러 리스트 |
+| `/cellar` | 셀러 리스트 (셀러 / 마신 와인 탭) |
 | `/cellar/[id]` | 셀러 아이템 상세 |
 | `/wine/[id]` | 와인 상세 |
 | `/wine/[id]/story` | 와이너리 스토리 |
@@ -19,6 +19,7 @@
 | `/wine/[id]/community-peak` | 커뮤니티 음용 적기 상세 |
 | `/notes/new` | 노트 출처 선택 |
 | `/notes/new/write` | 노트 작성 |
+| `/notes/[noteId]` | 노트 read-only 상세 (내 노트·공유 노트 공용) |
 | `/capture` | 라벨 스캔 |
 | `/profile` | 내 프로필 |
 | `/profile/[userId]` | 타 유저 프로필 |
@@ -34,7 +35,11 @@
 | `/settings/language` | 언어 설정 |
 | `/settings/experience` | 경험 수준 설정 |
 | `/settings/notifications` | 알림 설정 |
-| `/community` | 커뮤니티 피드 |
+| `/settings/appearance` | 테마 (다크/라이트) |
+| `/settings/tasting-template` | 테이스팅 노트 양식 관리 |
+| `/settings/tasting-template/new` | 양식 신규 작성 |
+| `/settings/tasting-template/[templateId]/edit` | 양식 편집 |
+| `/community` | 커뮤니티 피드 (5탭) |
 | `/community/discover` | 취향 맞는 유저 발견 |
 | `/community/tonight` | 지금 마시는 사람들 |
 | `/community/new` | 새 글 작성 선택 |
@@ -42,6 +47,7 @@
 | `/community/new/album` | 앨범 작성 |
 | `/community/[postId]` | 포스트 상세 |
 | `/community/[postId]/comments` | 댓글 |
+| `/community/templates` | 커뮤니티 노트 양식 둘러보기 |
 
 ---
 
@@ -50,15 +56,15 @@
 ### 홈 (`/`)
 
 **heavy 모드 (기존 사용자)**
-- 에디토리얼 인사말 ("오늘의 셀러" eyebrow + Playfair 개인화 인사)
+- PeakGreeting — 골드 eyebrow + Playfair 본문. 사용자 이름과 최근 시음 와인 아펠라시옹을 5초 간격으로 페이드 로테이션(최대 4종)
+- DraftNoteResume — 작성 중인 노트가 있을 때만 노출되는 "이어쓰기" CTA
 - StatHero — 방문 국가 / 마신 와인 / 작성 노트 3열 카드 그리드 (아이콘 포함)
-- LevelProgressBar — 골드 glow 그라데이션 진척도 바 + XP 힌트 텍스트 (클릭 시 `/badges`)
-- 세계지도 cameo — 방문 국가 도트 정적 미니맵 + `/map` 링크
-- NotificationFeed — 최근 알림 미리보기 스트립
+- MapCameo — 정적 SVG 미니 세계지도 + 방문 국가/지역 카운트, `/map` 진입
+- HomeCommunityPeek — 팔로잉의 최신 커뮤니티 포스트 2건 dense row, `/community` 진입
 - RecentNotesStrip — WMBottle + WMGlassRating 카드형 수평 스크롤
-- WineFeed — 추천/트렌딩/탐험 탭 + WMBottle SVG + WMGlassRating 리스트
-- CommunityShortcutCard — 커뮤니티 진입 숏컷
+- WineFeed — 3탭 (Featured 큐레이션 12종 / Trending 최근 구매 등록 순 / Explore region 다양화)
 - QuickActions — 주요 액션 바로가기 버튼들
+- LevelProgressBar — 골드 glow 진척도 바 (`/badges` 진입)
 
 **first-time 모드 (신규 사용자)**
 - FirstTimeGreeting — 사용자 이름 포함 환영 메시지
@@ -77,12 +83,13 @@
 - react-simple-maps 기반 인터랙티브 세계 지도 (dynamic import, SSR 비활성)
 - heavy 모드: 마신 와인 + 셀러 와인 국가를 Wine Red로 채색
 - first-time 모드: 빈 지도 + 카메라 SVG + 골드 테두리 "첫 스캔" 유도 패널
-- **필터 바**: 전체 / 마신 와인 / 셀러 / 즐겨찾기 칩 + 슬라이더 아이콘 버튼
+- 필터 바: 전체 / 마신 와인 / 셀러 / 즐겨찾기 칩 + 슬라이더 아이콘 버튼
 - 국가 클릭 시 CountryDetailPanel (BottomSheet):
   - 국가명 + 병 수 뱃지 + 지역 수 / 마신 수 스탯 미니 그리드
   - 지역 리스트 → 와인 리스트 드릴다운 (WMBottle 와인 행)
 - MapLegend — 색상 범례
 - AppHeader 사용 (지도 페이지도 로고·알림·레벨칩 표시)
+- 라이트 모드 분기 — 글래스 오버레이 가독성 보정
 
 ---
 
@@ -100,7 +107,7 @@
 - 빈 상태 EmptyState (보유 와인 없을 때)
 - 검색·필터 결과 없음 상태 (NoResults + 초기화 버튼)
 
-**마신 와인 탭** ← 신규
+**마신 와인 탭**
 - 테이스팅 노트 기반 시음 기록 리스트 (wineId 기준 dedup, 최근 노트 1건)
 - 검색 (이름·생산자·지역·빈티지)
 - TastedWineRow — WMBottle + 와인 메타 + 내 테이스팅 노트 인라인 미리보기:
@@ -125,9 +132,9 @@
 ### 와인 상세 (`/wine/[id]`)
 
 - BackHeader + 즐겨찾기 토글 버튼 (FavoriteToggle, localStorage 연동)
-- WineHeader — 라디얼 그라데이션 히어로 + **WMBottle** 중앙 배치(88×290) + 와인 타입 dot + 메타
+- WineHeader — 라디얼 그라데이션 히어로 + WMBottle 중앙 배치(88×290) + 와인 타입 dot + 메타
 - MyTastingNoteCard — localStorage 기반 내 노트 카드 (있을 때만 노출, 커뮤니티 비교 인사이트 포함)
-- **WriteNoteCta** — 내 노트 없을 때 자동 표시되는 "노트 작성" CTA 카드 ← 신규
+- WriteNoteCta — 내 노트 없을 때 자동 표시되는 "노트 작성" CTA 카드
 - ExternalRatingsCard — Vivino·Wine Searcher·CellarTracker 점수 표시
 - AveragePricePill — 평균 가격 (₩ 단위) 칩
 - PriceChart (compact) — Recharts LineChart 가격 추이 그래프
@@ -180,7 +187,11 @@
 
 ### 노트 작성 (`/notes/new/write`)
 
-경험 모드에 따라 두 가지 폼 분기:
+쿼리스트링 `templateId`로 폼이 분기된다:
+- 명시 없음 + experience=beginner → BeginnerNote
+- 명시 없음 + experience=expert → ExpertNote
+- builtin-beginner / builtin-expert ID → 위와 동일
+- 커스텀 / 커뮤니티 양식 ID → DynamicTemplateForm (필드 정의에 따라 동적 렌더)
 
 **입문자 모드 (BeginnerNote)**
 - 와인명·생산자 표시
@@ -193,20 +204,49 @@
 - 사진 첨부 (PlaceholderToast)
 
 **전문가 모드 (ExpertNote)**
-- WSET 4축 슬라이더 — 산도·탄닌·알코올·바디 (WSETSlider)
+- WSET 5축 슬라이더 — 단맛·산미·바디·알코올·타닌
+- 향·풍미 강도, 타닌 텍스처/숙성도, 마무리 길이
 - 아로마 휠 (AromaWheel) — UC Davis 계통 3레벨 선택
 - 여운 측정기 (CaudalieMeter) — 1~30초 슬라이더
 - 결함 체크리스트 (FaultChecklist)
-- 오프닝 타임라인 (OpeningTimeline) — 디캔팅 권장 시간
+- 오프닝 타임라인 (OpeningTimeline) — 디캔팅·체크포인트·peak 도달
 - 탄닌 패널 (TanninPanel) — red 전용
-- 기포 패널 (BubblePanel) — sparkling 전용
+- 기포 패널 (BubblePanel) — sparkling 전용 (크기·지속성·무스·제조 방식·도사주)
 - 지역 아로마 힌트 (RegionalAromaHints) — 산지별 대표 아로마 칩
 - 자동 묘사 박스 (AutoDescription)
 - 블라인드 모드 (BlindMode) — 와인 정보 숨김 + 추측 입력
-- 음용 적기 ETA 입력 (PeakEtaInput)
+- 음용 적기 ETA 입력 (PeakEtaInput) — 절정 연도 + 신뢰도 + 메모
 - 서빙 온도 입력 (ServingTempInput)
-- 100점 환산 평점
+- 100점 환산 평점 + 재구매 의향 (boolean)
 - 별도 자유 메모
+
+**DynamicTemplateForm 지원 필드 타입**
+- slider (1~5), wsetScale, rating(별점 0~5), chipsSingle, chipsMulti, text(긴 메모), number, checkbox
+
+수정 모드: `?edit=1&templateId=...`로 진입 시 원본 노트의 모드/템플릿을 그대로 재현
+
+---
+
+### 노트 상세 read-only (`/notes/[noteId]`)
+
+내 노트(`note_…`)와 공유 노트(`sn-…`) 양쪽 지원.
+
+- 와인 헤더(사진 또는 그라데이션) — `/wine/[id]` 진입
+- 작성자 + 메타 카드: 레벨 그라데이션 아바타, 날짜, /100점, 가격(있을 때), 사용된 템플릿 배지
+- 메모 본문 (Playfair italic)
+- 내 노트일 때 BackHeader에 Edit 버튼 (Share 버튼은 모두 노출)
+- 노트 차원 요약 카드 (Expert):
+  - WSET 차원 (단맛·산미·바디·알코올·타닌)
+  - 구조 (향·풍미 강도 + 타닌 텍스처/숙성도 + 마무리 길이)
+  - 풍미 노트 자유 입력
+  - 버블 (크기·지속성·무스·방식·도사주) — sparkling 전용
+  - 여운·온도 (caudalies + 시음 온도)
+  - 아로마 — 카테고리별 chips 그룹
+  - 오프닝 타임라인 (오픈 시각·디캔팅·peak 도달·체크포인트)
+  - 음용 적기 추정 (절정 연도·신뢰도·메모)
+  - 결함
+  - 재구매 의향 (Yes / Not this time)
+- Beginner 노트는 4차원 미니 그리드(단/산/바/타닌, /5)
 
 ---
 
@@ -299,16 +339,17 @@
 - 용어명 (한·영) + 카테고리 배지
 - 정의 본문
 - 관련 용어 링크
+- 인라인 GlossaryTooltip 헬퍼와 공유
 
 ---
 
 ### 온보딩 (`/onboarding`)
 
 4단계 스텝 플로우:
-1. **Welcome** — 서비스 소개 + 시작 버튼
-2. **Language** — 한국어 / English 선택 (locale-context 즉시 반영)
-3. **Experience** — 입문자 / 전문가 선택 (experience-context 즉시 반영)
-4. **Done** — 완료 화면 + "시작하기" 버튼
+1. Welcome — 서비스 소개 + 시작 버튼
+2. Language — 한국어 / English 선택 (locale-context 즉시 반영)
+3. Experience — 입문자 / 전문가 선택 (experience-context 즉시 반영)
+4. Done — 완료 화면 + "시작하기" 버튼
 
 - 완료 후 `localStorage.winemine.onboardingComplete = 'true'` 저장 → 홈으로 이동
 - heavy 모드 또는 완료된 유저 접근 시 `/`로 리다이렉트
@@ -318,9 +359,9 @@
 ### 설정 (`/settings`, `/settings/*`)
 
 **설정 홈**
-- 앱 섹션: 언어 설정 / 경험 수준 설정 (현재 값 표시)
+- 앱 섹션: 언어 설정 / 경험 수준 설정 / **테이스팅 노트 양식** / **외관(테마)** — 각 현재 값 표시
 - 알림 섹션: 알림 설정 링크
-- 계정 섹션: 닉네임 변경 (PlaceholderToast) / 로그아웃 (PlaceholderToast) / 계정 삭제 (PlaceholderToast)
+- 계정 섹션: 닉네임 변경 (PlaceholderToast) / 로그아웃 (PlaceholderToast)
 - 정보 섹션: 버전·약관·개인정보처리방침
 
 **언어 설정 (`/settings/language`)**
@@ -334,6 +375,67 @@
 **알림 설정 (`/settings/notifications`)**
 - ToggleRow 목록 — 음용 적기 알림 / 가격 변동 / 커뮤니티 활동 등
 
+**외관 (`/settings/appearance`)**
+- RadioList — 다크 (와인 바 짙은 보라) / 라이트 (크림 종이 + 골드 강조)
+- ThemeContext 즉시 반영 + 토스트
+- 라이트 모드는 화이트 와인 컨셉, 메인 강조색 골드 통일 (가독성 라운드 1·2 반영)
+
+**테이스팅 노트 양식 (`/settings/tasting-template`)**
+4섹션 구성:
+1. winemine 제공 — builtin beginner / builtin expert (read-only)
+2. 내가 만든 양식 — Pencil(편집) / Trash(삭제) / Globe 뱃지(공개 토글)
+3. 저장한 커뮤니티 양식 — Bookmark(저장 해제)
+4. + 새 양식 만들기 → `/settings/tasting-template/new`
+5. "커뮤니티 양식 둘러보기" → `/community/templates`
+
+**양식 빌더 (`/settings/tasting-template/new`, `/[templateId]/edit`)**
+- 제목·설명 (ko/en 양쪽 입력)
+- 필드 단위 add / remove / 위↑아래↓
+- 필드 라벨(ko/en) + 옵션 편집
+- 지원 필드 타입: slider, wsetScale, rating(별점), chipsSingle, chipsMulti, text, number, checkbox
+- "커뮤니티에 공유" isPublic 토글
+- 편집 모드: 기존 템플릿 로드 → 수정/삭제
+
+---
+
+### 커뮤니티 (`/community`)
+
+**피드 (`/community`)** — 5탭
+- **Following** — Tonight 티저 배너 + 팔로잉 피드 CommFeedCard
+- **All** — 타입 필터 칩(all/note/question/column/news/album) + CommFeedRow 컴팩트 리스트
+- **Trending** — 키워드 hash 칩(부르고뉴 22빈티지·레 루지엥·디캔팅 시간 등 + 횟수) + 랭킹 카드 (TrendingUp/Flame/ChevronUp 아이콘)
+- **Notes** — 공유된 시음 노트 카드 (작성자 레벨 그라데이션 아바타·평점/100·메모·♥/저장/날짜)
+- **Templates** — 커뮤니티 노트 양식 카드 (제목·작성자·필드수·저장수·저장 토글)
+- 인기/최신 SortToggle (Notes·Templates 탭에서)
+- 우하단 PenLine FAB (모바일에서 viewport 우하단 고정, 데스크톱은 frame 내 absolute, 골드 그라데이션 + 골드 보더)
+
+**오늘 밤 마시는 사람들 (`/community/tonight`)**
+- 지금 와인 마시는 유저 실시간 피드
+- 미니 지도 위 지역 도트 (청담·한남·판교 등)
+- 유저 아바타 + 와인명 + 장소 + 시간 + 분위기
+
+**취향 맞는 유저 발견 (`/community/discover`)**
+- 취향 일치도 % 상위 유저 리스트
+- 공통 산지·품종 태그 미리보기
+
+**포스트 상세 (`/community/[postId]`)**
+- 포스트 본문 + 작성자 정보 + 연결 와인 카드
+- 좋아요 / 댓글 수 / ReactionBar
+
+**댓글 (`/community/[postId]/comments`)**
+- 댓글 리스트 (작성자 레벨 칩 + 타임스탬프)
+- 댓글 입력 폼 (PlaceholderToast)
+
+**글 작성 (`/community/new`)**
+- 글 타입 선택: 시음 노트 / 질문 / 칼럼 / 뉴스 / 앨범
+- 칼럼 작성 (`/community/new/column`) — 제목·본문·태그·와인 연결
+- 앨범 작성 (`/community/new/album`) — 사진 업로드 + 캡션
+
+**커뮤니티 양식 둘러보기 (`/community/templates`)**
+- 인기/최신 SortToggle
+- 양식 카드 + 저장/저장 해제 (Bookmark) — 저장 시 노트 작성 picker에 즉시 노출
+- 토스트: "이제 이 양식으로도 노트를 쓸 수 있어요"
+
 ---
 
 ## 크로스커팅 동작 규칙
@@ -345,6 +447,13 @@
 - **영어 모드에서 한글은 단 한 글자도 화면에 노출되지 않아야 한다** — 와인명·생산자·지역·알림 문구·뱃지 설명·용어 정의 등 모든 사용자 노출 문자열에 적용. 한국어 모드에서 영어 병기(예: 지역명 병기)는 허용.
 - LocalizedString `{ ko, en }` 패턴으로 모든 도메인 데이터 이중화. `LocaleText` 컴포넌트가 locale에 따라 분기 렌더.
 
+### 테마 (Theme)
+
+- 다크 / 라이트 두 가지. `/settings/appearance`에서 전환.
+- 다크는 와인 바 짙은 보라 톤(기본), 라이트는 크림 종이 + 골드 강조(화이트 와인 컨셉).
+- ThemeContext + localStorage로 즉시 전환.
+- 지도 글래스 오버레이는 라이트 모드 별도 분기.
+
 ### 레벨·뱃지 표시 규칙 (커뮤니티 콘텐츠)
 
 모든 사용자 생성 콘텐츠에는 작성자의 레벨 칩(LevelPill)이 함께 노출된다. 적용 범위:
@@ -354,7 +463,8 @@
 | 커뮤니티 리뷰 (ReviewCard) | 작성자 행 우측 |
 | 가격 구매 기록 (PriceDetailTable) | 작성자 익명화 행 (`LevelName #anonId`) |
 | 커뮤니티 음용 적기 추정 (ContributorsList) | 추정자 행 |
-| 테이스팅 노트 공개 시 (향후 Phase 3) | 피드 카드 작성자 영역 |
+| 공유 시음 노트 (Community Notes 탭) | 작성자 레벨 그라데이션 아바타 |
+| 댓글 (CommentRow) | 작성자 행 |
 
 → 전문성이 높은 레벨의 리뷰·추정값이 시각적으로 구분되어 신뢰도 맥락 제공.
 
@@ -382,6 +492,13 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 - 알림은 `/notifications` 리스트에도 수신함에 쌓임
 - 빈티지·희소성 높은 와인일수록 가격 추이 모니터링 용도로 활용
 
+### 노트 공유 / 저장 / Edit
+
+- 내 노트(`note_…`)는 본인만 Edit 버튼 노출
+- 공유 노트(`sn-…`)는 작성자 read-only 카드 + 평점·메모만
+- 모든 노트는 Share 버튼 노출
+- 양식 ID는 localStorage(TastingTemplateContext)로 저장/관리
+
 ---
 
 ## 공통 인프라 컴포넌트
@@ -390,8 +507,9 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 |----------|------|
 | DeviceFrame | iPhone 390×844 목업 프레임 + Dynamic Island + Home Indicator |
 | StatusBar | 상단 상태바 (시간·신호·배터리) |
-| AppHeader | 홈 계열 상단 헤더 (로고·알림·아바타) |
-| BackHeader | 서브 페이지 뒤로가기 헤더 |
+| PushBanner | 데모용 푸시 알림 배너 |
+| AppHeader | 홈 계열 상단 헤더 (로고·알림·레벨 칩) |
+| BackHeader | 서브 페이지 뒤로가기 헤더 (액션 슬롯 지원) |
 | BottomNav | 하단 5탭 네비게이션 (홈·지도·스캔·프로필·셀러) |
 | BottomSheet | 슬라이드업 모달 |
 | ConfirmDialog | 확인/취소 다이얼로그 |
@@ -403,45 +521,11 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 | LevelPill | 레벨 배지 칩 |
 | LevelProgressBar | XP 진척도 바 |
 | WineLabelArt | SVG 와인 라벨 아트 플레이스홀더 |
-| **WMBottle** | 와인 병 SVG 일러스트 (포일캡·골드칼라·라벨 텍스트·빈티지) ← 신규 |
-| **WMGlassRating** | 와인잔 5개 아이콘 평점 (half 지원, Star 대체) ← 신규 |
+| WMBottle | 와인 병 SVG 일러스트 (포일캡·골드칼라·라벨 텍스트·빈티지) |
+| WMGlassRating | 와인잔 5개 아이콘 평점 (half 지원, Star 대체) |
 | ReviewBadge | 외부 평점 배지 |
 | PrimaryButton | 주요 CTA 버튼 |
 | PageBackground | 페이지 배경 그라디언트 |
-
----
-
-### 커뮤니티 (`/community`)
-
-**피드 (`/community`)**
-- 탭: 팔로잉 / 전체 / 트렌딩
-- 타입 필터 칩: all / note / question / column / news / album
-- CommFeedCard — 포스트 카드 (타입 배지·작성자 아바타·좋아요)
-- CommFeedRow — 컴팩트 행 뷰
-- 상단 Today's Pick 카드 (골드 테두리 하이라이트)
-- CommunityShortcutCard — 홈에서 진입하는 커뮤니티 숏컷 카드
-
-**오늘 밤 마시는 사람들 (`/community/tonight`)**
-- 지금 와인 마시는 유저 실시간 피드
-- 미니 지도 위 지역 도트 (청담·한남·판교 등)
-- 유저 아바타 + 와인명 + 장소 + 시간 + 분위기
-
-**취향 맞는 유저 발견 (`/community/discover`)**
-- 취향 일치도 % 상위 유저 리스트
-- 공통 산지·품종 태그 미리보기
-
-**포스트 상세 (`/community/[postId]`)**
-- 포스트 본문 + 작성자 정보 + 연결 와인 카드
-- 좋아요 / 댓글 수
-
-**댓글 (`/community/[postId]/comments`)**
-- 댓글 리스트 (작성자 레벨 칩 + 타임스탬프)
-- 댓글 입력 폼 (PlaceholderToast)
-
-**글 작성 (`/community/new`)**
-- 글 타입 선택: 시음 노트 / 질문 / 칼럼 / 뉴스 / 앨범
-- 칼럼 작성 (`/community/new/column`) — 제목·본문·태그·와인 연결
-- 앨범 작성 (`/community/new/album`) — 사진 업로드 + 캡션
 
 ---
 
@@ -461,8 +545,10 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 | AppModeContext | localStorage + URL param `?demo=` | first-time / heavy 모드 전환 |
 | ExperienceContext | localStorage | beginner / expert 경험 수준 |
 | LocaleContext | localStorage | ko / en 언어 |
+| ThemeContext | localStorage | dark / light 테마 |
 | FavoritesContext | localStorage | 즐겨찾기 와인 목록 |
 | UserDataContext | localStorage | 사용자 추가 셀러·노트 (mock 머지) |
+| TastingTemplateContext | localStorage | 내 커스텀 양식 + 저장한 커뮤니티 양식 |
 | FeatureFlagContext | in-memory | 라우트별 기능 status 관리 |
 
 ---
@@ -474,7 +560,8 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 | wines.ts | 와인 카탈로그 (30종+, LocalizedString) |
 | users.ts | 사용자 2명 — heavy(풍부) / first-time(빈 컬렉션) |
 | cellar.ts | 셀러 아이템 목록 |
-| tasting-notes.ts | 테이스팅 노트 |
+| tasting-notes.ts | 내 테이스팅 노트 |
+| shared-notes.ts | 커뮤니티 공개 노트 풀 (작성자 익명) |
 | purchases.ts | 구매 기록 (가격 추이 데이터) |
 | stores.ts | 와인 판매점 14개 |
 | notifications.ts | 알림 목록 |
@@ -485,8 +572,10 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 | wine-stories.ts | 와이너리 스토리 본문 |
 | external-ratings.ts | Vivino·WS·CT 외부 평점 |
 | community-peaks.ts | 커뮤니티 음용 적기 추정 데이터 |
+| community-posts.ts | 커뮤니티 포스트 풀 |
 | label-photos.ts | 라벨 사진 메타데이터 |
 | glossary.ts | 와인 용어 사전 |
+| tasting-templates.ts | builtin beginner/expert + 커뮤니티 양식 풀 + 정렬 헬퍼 |
 
 ---
 
@@ -501,16 +590,17 @@ PriceChart(compact) 또는 "가격 추이 상세보기" 버튼
 | community-peak-aggregator.ts | 커뮤니티 추정 → 히스토그램 집계 |
 | tasting-note-lexicon.ts | UC Davis 아로마 휠·WSET 디스크립터·결함 카탈로그 |
 | recommended-wines.ts | 입문용 추천 와인 (STARTING_WINE + 6개국) |
+| profile-helpers.ts | 사용자 resolve 유틸 (mock + 사용자) |
 
 ---
 
 ## 기술 스택
 
 - **Next.js 15** App Router (TypeScript strict)
-- **Tailwind CSS v4**
-- **next-intl** — 한/영 i18n (`messages/ko.json`, `messages/en.json`)
+- **Tailwind CSS v4** + CSS 변수 토큰 시스템 (다크/라이트 분기)
+- **next-intl** — 한/영 i18n (`messages/ko.json`, `messages/en.json`, 각 841줄)
 - **react-simple-maps v3** — 세계 지도 (dynamic import, SSR 비활성)
-- **Recharts** — PriceChart LineChart
-- **Framer Motion** — 온보딩·트랜지션 애니메이션
-- **lucide-react** — 아이콘
-- **localStorage** — 데모 상태 영속화 (demo 모드·locale·experience·즐겨찾기·사용자 추가 데이터)
+- **Recharts** — PriceChart LineChart, PeakDistribution 히스토그램
+- **Framer Motion** — PeakGreeting 페이드·온보딩 전환 애니메이션
+- **lucide-react** — 아이콘 (이모지 사용 금지)
+- **localStorage** — 데모 상태 영속화 (demo 모드·locale·experience·theme·즐겨찾기·사용자 추가 데이터·tasting templates)
