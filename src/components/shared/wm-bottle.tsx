@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { CSSProperties } from 'react';
 
 type WMBottleProps = {
@@ -31,9 +32,9 @@ export function WMBottle({
   height = 160,
   style,
 }: WMBottleProps) {
-  const id = `wmbottle-${Math.random().toString(36).slice(2, 8)}`;
-  const gradId = `${id}-g`;
-  const shineId = `${id}-sh`;
+  const uid = useId();
+  const gradId = `${uid}-g`;
+  const shineId = `${uid}-sh`;
 
   const short = (s: string, n: number) => (s.length > n ? s.slice(0, n) + '…' : s);
 

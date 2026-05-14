@@ -184,6 +184,16 @@
   }
 }
 
+/* 지도 필터 바: 데스크톱은 absolute nav(83px) + 여백, 모바일은 spacer가 nav 높이를 flex flow에서 차지하므로 작은 값으로. */
+.wm-map-filter-bar {
+  bottom: 100px;
+}
+@media (max-width: 767px) {
+  .wm-map-filter-bar {
+    bottom: 16px;
+  }
+}
+
 /* 포커스 — 2px Gold outline, offset 2px (접근성 가이드라인) */
 :focus-visible {
   outline: 2px solid var(--color-gold);

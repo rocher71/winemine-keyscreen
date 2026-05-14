@@ -107,9 +107,9 @@ export default function MapPage() {
 
         {/* 필터 버블 — 지도 위 좌하단 */}
         <div
+          className="wm-map-filter-bar"
           style={{
             position: 'absolute',
-            bottom: 100,
             left: 12,
             display: 'flex',
             gap: 6,

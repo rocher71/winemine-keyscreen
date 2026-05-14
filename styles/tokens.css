@@ -39,7 +39,7 @@
   --gradient-bottom-nav:   linear-gradient(to top, #251837 70%, rgba(37,24,55,0));
   /* 세계 지도 국가 fill (방문 안 한 국가) */
   --color-map-country:     #3A2440;
-  --color-map-ocean:       transparent;
+  --color-map-ocean:       #100720;
   /* 카드 내부 sub-section 배경 (살짝 잠긴 톤) */
   --color-bg-sunken:       rgba(0,0,0,0.28);
   /* 와인병 placeholder 박스의 그라데이션 endpoint — 병이 놓인 선반 톤 */

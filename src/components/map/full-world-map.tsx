@@ -157,7 +157,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
         projectionConfig={{ scale: 90, center: WORLD_CENTER }}
         width={390}
         height={520}
-        style={{ width: '100%', height: '100%', background: 'var(--color-bg-map)' }}
+        style={{ width: '100%', height: '100%', background: 'var(--color-map-ocean)' }}
       >
         <ZoomableGroup
           zoom={position.zoom}
@@ -176,7 +176,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                 const count     = wineCountByIso.get(iso) ?? 0;
                 const isFrance  = iso === FRANCE_ISO;
                 const fill      = isAntarctica
-                  ? 'var(--color-bg-map)'
+                  ? 'var(--color-map-ocean)'
                   : isFrance && franceFocused
                   ? 'rgba(139,26,42,0.18)'
                   : fillForCount(count);

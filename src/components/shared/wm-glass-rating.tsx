@@ -1,3 +1,5 @@
+import { useId } from 'react';
+
 /**
  * 와인잔 아이콘 5개로 이루어진 평점 표시 컴포넌트.
  * 디자인 시안의 WMGlassRating을 React로 이식.
@@ -23,7 +25,8 @@ function WineGlassIcon({
   color: string;
 }) {
   const dimColor = 'rgba(255,255,255,0.18)';
-  const halfId = `wg-half-${Math.random().toString(36).slice(2, 6)}`;
+  const uid = useId();
+  const halfId = `${uid}-half`;
 
   return (
     <svg
