@@ -1,5 +1,12 @@
+import type { Viewport } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#05020A',
+};
 import { AppProviders } from '@/context/app-providers';
 import { PageBackground } from '@/components/shared/page-background';
 import { DeviceFrame } from '@/components/device-frame/device-frame';

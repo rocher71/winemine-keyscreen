@@ -282,7 +282,9 @@
 
 /* ── 데스크톱 사이드 패널 (DemoControls / FeatureFlagPanel) ── */
 
-.wm-side-panel {
+.wm-side-panel,
+.wm-side-panel-left,
+.wm-side-panel-right {
   display: none;
 }
 @media (min-width: 1024px) {
