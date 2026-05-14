@@ -19,8 +19,10 @@
 
 import type {
   BeginnerFields,
+  ConfidenceLevel,
   EvolutionRecord,
   ExpertFields,
+  LocalizedString,
   TastingNote,
 } from '@/types';
 
@@ -51,17 +53,23 @@ function mkExp(args: {
   caudalies: number;
   servingTemp?: number | null;
   faults?: ExpertFields['faults'];
+  sweetness?: ExpertFields['sweetness'];
   intensity?: ExpertFields['intensity'];
+  flavorIntensity?: ExpertFields['flavorIntensity'];
   body?: ExpertFields['body'];
   tannin?: ExpertFields['tannin'];
+  tanninTexture?: ExpertFields['tanninTexture'];
   acidity?: ExpertFields['acidity'];
   finishLength?: ExpertFields['finishLength'];
   peakEstimateYear?: number | null;
+  peakEstimateConfidence?: ConfidenceLevel | null;
+  peakEstimateNote?: LocalizedString | null;
+  evolution?: EvolutionRecord;
   memoKo: string;
   memoEn: string;
   priceKrw?: number | null;
 }): TastingNote {
-  const evolution = defaultEvolution(args.tastedAt, args.caudalies >= 10);
+  const evolution = args.evolution ?? defaultEvolution(args.tastedAt, args.caudalies >= 10);
   return {
     id: args.id,
     userId: 'me-heavy',
@@ -72,13 +80,13 @@ function mkExp(args: {
     mode: 'expert',
     beginnerFields: null,
     expertFields: {
-      sweetness: 'low',
+      sweetness: args.sweetness ?? 'low',
       acidity: args.acidity ?? 'mediumPlus',
       body: args.body ?? 'mediumPlus',
       tannin: args.tannin ?? 'medium',
-      tanninTexture: 'silky',
+      tanninTexture: args.tanninTexture ?? 'silky',
       intensity: args.intensity ?? 'mediumPlus',
-      flavorIntensity: args.intensity ?? 'mediumPlus',
+      flavorIntensity: args.flavorIntensity ?? args.intensity ?? 'mediumPlus',
       finishLength: args.finishLength ?? 'long',
       aromaWheel: args.aromas,
       faults: args.faults ?? [],
@@ -88,8 +96,9 @@ function mkExp(args: {
       memo: { ko: args.memoKo, en: args.memoEn },
       servingTempCelsius: args.servingTemp ?? 17,
       peakEstimateYear: args.peakEstimateYear ?? null,
-      peakEstimateConfidence: args.peakEstimateYear ? 'medium' : null,
-      peakEstimateNote: null,
+      peakEstimateConfidence:
+        args.peakEstimateConfidence ?? (args.peakEstimateYear ? 'medium' : null),
+      peakEstimateNote: args.peakEstimateNote ?? null,
     },
     photoUrl: null,
     priceKrw: args.priceKrw ?? null,
@@ -981,17 +990,32 @@ export const TASTING_NOTES: TastingNote[] = [
     source: 'newEntry',
     tastedAt: '2026-04-30',
     rating: 91,
+    /* 풀 채움 쇼케이스 — 모든 expert 필드가 채워졌을 때 조회 화면이 어떻게 보이는지 확인용. */
     aromas: [
-      { categoryId: 'fruity', terms: ['lime', 'apple', 'apricot'] },
-      { categoryId: 'earthy', terms: ['wet-stone'] },
-      { categoryId: 'chemical', terms: ['petrol'] },
+      { categoryId: 'fruity',    terms: ['lime', 'apple', 'apricot', 'peach'] },
+      { categoryId: 'floral',    terms: ['orange-blossom', 'honeysuckle'] },
+      { categoryId: 'earthy',    terms: ['wet-stone'] },
+      { categoryId: 'chemical',  terms: ['petrol'] },
     ],
     caudalies: 11,
+    sweetness: 'mediumMinus',
     body: 'medium',
     acidity: 'high',
+    tannin: 'low',
+    tanninTexture: 'silky',
+    intensity: 'high',
+    flavorIntensity: 'mediumPlus',
     finishLength: 'long',
     servingTemp: 9,
+    /* 가벼운 환원취(reduction) — 라이슬링 Kabinett에서 종종 나타나는 미묘한 노트.
+     * 91점 평가에 영향은 없지만 결함 카드가 어떻게 보이는지 확인 가능. */
+    faults: ['reduction'],
     peakEstimateYear: 2035,
+    peakEstimateConfidence: 'high',
+    peakEstimateNote: {
+      ko: '베흘레너 존넨우어의 데보니안 슬레이트가 8~10년차에 미네랄 깊이 정점. TBA가 아닌 Kabinett은 청량감 유지가 핵심.',
+      en: 'Wehlener Sonnenuhr Devonian slate peaks in mineral depth at year 8–10. For Kabinett (not TBA), retaining brightness is key.',
+    },
     memoKo: '카비넷의 잔당과 산미의 균형. 베흘레너의 슬레이트가 잡힌다.',
     memoEn: 'The Kabinett balance of sugar and acid. Wehlener slate comes through.',
     priceKrw: 92_000,
