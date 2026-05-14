@@ -286,13 +286,31 @@ export interface EvolutionRecord {
   peakAt: number;
 }
 
+export type TanninRipeness = 'ripe' | 'unripe' | 'overripe';
+
+/** 스파클링 전용 — note-write-expert의 BubblePanel/DOSAGE 입력 매핑 */
+export interface BubbleFields {
+  /** lexicon BubbleSize */
+  size: string;
+  /** lexicon BubblePersistence */
+  persistence: string;
+  /** lexicon MousseTexture */
+  mousse: string;
+  /** lexicon SparklingMethod */
+  method: string;
+}
+
 export interface ExpertFields {
   sweetness: WSETScale;
   acidity: WSETScale;
   body: WSETScale;
+  /** 알코올 강도 (작성 폼 step 3) */
+  alcohol: WSETScale;
   tannin: WSETScale;
   /** TanninTexture id (lexicon.ts) */
   tanninTexture: string;
+  /** 타닌 숙성도 — 레드만 의미 있음, 화이트/스파클링은 null */
+  tanninRipeness: TanninRipeness | null;
   intensity: WSETScale;
   flavorIntensity: WSETScale;
   finishLength: FinishLength;
@@ -304,6 +322,14 @@ export interface ExpertFields {
   /** 0~100 */
   rating: number;
   memo: LocalizedString;
+  /** 작성 폼 step 3의 자유 입력 풍미 노트 (memo와 분리) */
+  flavorNotes: LocalizedString;
+  /** 작성 폼 마지막의 재구매 의향 토글 */
+  wouldBuyAgain: boolean | null;
+  /** 스파클링 와인일 때만 채움 */
+  bubbles: BubbleFields | null;
+  /** SparklingDosage id (lexicon) — 스파클링만 */
+  dosage: string | null;
   /** 베타 피드백 — 시음 온도 */
   servingTempCelsius: number | null;
   /** 베타 피드백 — peak ETA */

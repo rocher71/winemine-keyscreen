@@ -19,10 +19,12 @@
 
 import type {
   BeginnerFields,
+  BubbleFields,
   ConfidenceLevel,
   EvolutionRecord,
   ExpertFields,
   LocalizedString,
+  TanninRipeness,
   TastingNote,
 } from '@/types';
 
@@ -54,13 +56,19 @@ function mkExp(args: {
   servingTemp?: number | null;
   faults?: ExpertFields['faults'];
   sweetness?: ExpertFields['sweetness'];
+  alcohol?: ExpertFields['alcohol'];
   intensity?: ExpertFields['intensity'];
   flavorIntensity?: ExpertFields['flavorIntensity'];
   body?: ExpertFields['body'];
   tannin?: ExpertFields['tannin'];
   tanninTexture?: ExpertFields['tanninTexture'];
+  tanninRipeness?: TanninRipeness | null;
   acidity?: ExpertFields['acidity'];
   finishLength?: ExpertFields['finishLength'];
+  flavorNotes?: LocalizedString;
+  wouldBuyAgain?: boolean | null;
+  bubbles?: BubbleFields | null;
+  dosage?: string | null;
   peakEstimateYear?: number | null;
   peakEstimateConfidence?: ConfidenceLevel | null;
   peakEstimateNote?: LocalizedString | null;
@@ -68,6 +76,8 @@ function mkExp(args: {
   memoKo: string;
   memoEn: string;
   priceKrw?: number | null;
+  photoUrl?: string | null;
+  isPublic?: boolean;
 }): TastingNote {
   const evolution = args.evolution ?? defaultEvolution(args.tastedAt, args.caudalies >= 10);
   return {
@@ -83,8 +93,10 @@ function mkExp(args: {
       sweetness: args.sweetness ?? 'low',
       acidity: args.acidity ?? 'mediumPlus',
       body: args.body ?? 'mediumPlus',
+      alcohol: args.alcohol ?? 'medium',
       tannin: args.tannin ?? 'medium',
       tanninTexture: args.tanninTexture ?? 'silky',
+      tanninRipeness: args.tanninRipeness ?? null,
       intensity: args.intensity ?? 'mediumPlus',
       flavorIntensity: args.flavorIntensity ?? args.intensity ?? 'mediumPlus',
       finishLength: args.finishLength ?? 'long',
@@ -94,15 +106,19 @@ function mkExp(args: {
       caudalies: args.caudalies,
       rating: args.rating,
       memo: { ko: args.memoKo, en: args.memoEn },
+      flavorNotes: args.flavorNotes ?? { ko: '', en: '' },
+      wouldBuyAgain: args.wouldBuyAgain ?? null,
+      bubbles: args.bubbles ?? null,
+      dosage: args.dosage ?? null,
       servingTempCelsius: args.servingTemp ?? 17,
       peakEstimateYear: args.peakEstimateYear ?? null,
       peakEstimateConfidence:
         args.peakEstimateConfidence ?? (args.peakEstimateYear ? 'medium' : null),
       peakEstimateNote: args.peakEstimateNote ?? null,
     },
-    photoUrl: null,
+    photoUrl: args.photoUrl ?? null,
     priceKrw: args.priceKrw ?? null,
-    isPublic: true,
+    isPublic: args.isPublic ?? true,
     createdAt: args.tastedAt,
   };
 }
@@ -1001,12 +1017,19 @@ export const TASTING_NOTES: TastingNote[] = [
     sweetness: 'mediumMinus',
     body: 'medium',
     acidity: 'high',
+    alcohol: 'low',
     tannin: 'low',
     tanninTexture: 'silky',
+    tanninRipeness: null,
     intensity: 'high',
     flavorIntensity: 'mediumPlus',
     finishLength: 'long',
     servingTemp: 9,
+    flavorNotes: {
+      ko: '라임 제스트의 톡 쏘는 시트러스와 베흘레너 슬레이트의 미네랄리티가 음악적으로 직조된다. 잔당이 산미를 다듬어 끝맛이 깔끔하다.',
+      en: 'Sharp lime zest interweaves musically with Wehlener slate minerality. Residual sugar tames the acidity for a crisp finish.',
+    },
+    wouldBuyAgain: true,
     /* 가벼운 환원취(reduction) — 라이슬링 Kabinett에서 종종 나타나는 미묘한 노트.
      * 91점 평가에 영향은 없지만 결함 카드가 어떻게 보이는지 확인 가능. */
     faults: ['reduction'],
@@ -1019,6 +1042,7 @@ export const TASTING_NOTES: TastingNote[] = [
     memoKo: '카비넷의 잔당과 산미의 균형. 베흘레너의 슬레이트가 잡힌다.',
     memoEn: 'The Kabinett balance of sugar and acid. Wehlener slate comes through.',
     priceKrw: 92_000,
+    photoUrl: '/sample-labels/placeholder.svg',
   }),
   mkExp({
     id: 'note_050',
@@ -1135,21 +1159,41 @@ export const TASTING_NOTES: TastingNote[] = [
     source: 'newEntry',
     tastedAt: '2026-05-10',
     rating: 94,
+    /* 풀 채움 쇼케이스(레드) — 모든 expert 필드가 채워진 상태를 확인. */
     aromas: [
-      { categoryId: 'floral', terms: ['rose'] },
-      { categoryId: 'fruity', terms: ['red-cherry'] },
-      { categoryId: 'earthy', terms: ['tar', 'leather', 'truffle'] },
+      { categoryId: 'floral',  terms: ['rose', 'violet'] },
+      { categoryId: 'fruity',  terms: ['red-cherry'] },
+      { categoryId: 'spicy',   terms: ['white-pepper'] },
+      { categoryId: 'earthy',  terms: ['tar', 'leather', 'truffle'] },
     ],
     caudalies: 16,
+    sweetness: 'low',
     body: 'mediumPlus',
     tannin: 'high',
+    tanninTexture: 'silky',
+    tanninRipeness: 'ripe',
     acidity: 'high',
+    alcohol: 'mediumPlus',
     finishLength: 'veryLong',
     intensity: 'high',
+    flavorIntensity: 'high',
+    servingTemp: 17,
+    flavorNotes: {
+      ko: '장미와 타르의 클래식한 네비올로 부케 위로, 트러플과 가죽의 3차 향이 두텁게 깔린다. 산미와 타닌이 길게 평행으로 달리며 마무리.',
+      en: 'Classic Nebbiolo bouquet of rose and tar, layered with deep tertiary truffle and leather. Acid and tannin run in long parallel on the finish.',
+    },
+    wouldBuyAgain: true,
+    faults: [],
     peakEstimateYear: 2036,
+    peakEstimateConfidence: 'high',
+    peakEstimateNote: {
+      ko: '15~20년차에 부케가 트러플·드라이허브로 폭발. 흰 라벨이라 Riserva보다 일찍 음용 적기 진입.',
+      en: 'Bouquet erupts into truffle and dried herb at year 15–20. White-label enters peak earlier than Riserva.',
+    },
     memoKo: '지아코사 바르바레스코. 흰 라벨이지만 깊이는 리세르바급.',
     memoEn: 'Giacosa Barbaresco. White-label, yet the depth rivals a Riserva.',
     priceKrw: 380_000,
+    photoUrl: '/sample-labels/placeholder.svg',
   }),
   /* ── LWIN-EXPANSION 추가 (056~065) — winesTasted 50+ 보장 ── */
   mkExp({

@@ -33,6 +33,7 @@ import { useMockUser } from '@/hooks/use-mock-user';
 import { toast } from '@/hooks/use-toast';
 import { XP_ACTIONS } from '@/lib/xp';
 import {
+  AROMA_LEXICON,
   SWEETNESS_LABELS,
   ACIDITY_LABELS,
   BODY_LABELS,
@@ -278,6 +279,33 @@ export function NoteWriteExpert({
       const priceKrw = priceCapture && price.trim() ? Number(price.replace(/[^0-9]/g, '')) || null : null;
       const peakYear =
         state.peakEstimateYearsToPeak != null ? wine.vintage + state.peakEstimateYearsToPeak : null;
+
+      /* aromaSelected(lexId 배열)을 lexicon의 category로 grouping해서 AromaWheelSelection[] 생성 */
+      const grouped: Record<string, string[]> = {};
+      for (const id of state.aromaSelected) {
+        const entry = AROMA_LEXICON.find((e) => e.id === id);
+        const cat = entry?.category ?? 'fruity';
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(id);
+      }
+      const aromaWheel = Object.entries(grouped).map(([categoryId, terms]) => ({ categoryId, terms }));
+
+      /* EvolutionPoint(lexicon) → EvolutionTimepoint(types) 변환 */
+      const timepoints = state.evolution.timepoints.map((tp) => ({
+        minutes: tp.minutesAfterOpen,
+        deltaAroma: tp.aromaIntensityDelta,
+        deltaTannin: tp.tanninSoftnessDelta,
+        deltaBody: tp.bodyDelta,
+        score: tp.overallScore * 20, // 1~5 → 20~100
+      }));
+      const peakAt =
+        state.evolution.peakIndex != null
+          ? (timepoints[state.evolution.peakIndex]?.minutes ?? 0)
+          : 0;
+
+      const isSparkling = state.variant === 'sparkling';
+      const isRed = state.variant === 'red';
+
       addTastingNote({
         id: `user-note-${Date.now()}`,
         userId: user.id,
@@ -291,29 +319,40 @@ export function NoteWriteExpert({
           sweetness: state.sweetness,
           acidity: state.acidity,
           body: state.body,
+          alcohol: state.alcohol,
           tannin: state.tannin.intensity,
-          tanninTexture: state.tannin.texture as never,
+          tanninTexture: state.tannin.texture,
+          tanninRipeness: isRed ? state.tannin.ripeness : null,
           intensity: state.aromaIntensity,
           flavorIntensity: state.flavorIntensity,
           finishLength:
             state.caudalies < 3 ? 'short' : state.caudalies < 6 ? 'medium' : state.caudalies < 10 ? 'long' : 'veryLong',
-          aromaWheel: state.aromaSelected.length
-            ? [{ categoryId: 'fruity', terms: state.aromaSelected }]
-            : [],
+          aromaWheel,
           faults: state.faults,
           evolution: {
-            openedAt: new Date().toISOString(),
-            decant: false,
-            timepoints: [],
-            peakAt: 0,
+            openedAt: state.evolution.openedAt ?? new Date().toISOString(),
+            decant: state.evolution.decanted,
+            timepoints,
+            peakAt,
           },
           caudalies: state.caudalies,
           rating: state.rating,
           memo: { ko: '', en: '' },
+          flavorNotes: { ko: state.flavorNotes, en: state.flavorNotes },
+          wouldBuyAgain: state.wouldBuyAgain,
+          bubbles: isSparkling
+            ? {
+                size: state.bubbles.size,
+                persistence: state.bubbles.persistence,
+                mousse: state.bubbles.mousse,
+                method: state.bubbles.method,
+              }
+            : null,
+          dosage: isSparkling ? state.dosage : null,
           servingTempCelsius: state.servingTempCelsius,
           peakEstimateYear: peakYear,
           peakEstimateConfidence: state.peakEstimateConfidence,
-          peakEstimateNote: null,
+          peakEstimateNote: state.peakEstimateNote,
         },
         photoUrl: state.photoAttached ? '/sample-labels/placeholder.svg' : null,
         priceKrw,

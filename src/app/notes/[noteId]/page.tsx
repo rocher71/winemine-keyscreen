@@ -110,6 +110,8 @@ export default function ViewNotePage({
 
   const { wine } = data;
   const dateStr = data.tastedAt.slice(0, 10);
+  const notePhotoUrl = data.kind === 'mine' ? data.note.photoUrl : null;
+  const notePriceKrw = data.kind === 'mine' ? data.note.priceKrw : null;
 
   return (
     <>
@@ -166,17 +168,35 @@ export default function ViewNotePage({
             alignItems: 'center',
           }}
         >
-          <div
-            aria-hidden
-            style={{
-              width: 44,
-              height: 64,
-              borderRadius: 6,
-              background: `linear-gradient(160deg, ${wine.bottleColor} 0%, #1a0a1e 70%)`,
-              flexShrink: 0,
-              border: '1px solid rgba(201,168,76,0.18)',
-            }}
-          />
+          {notePhotoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={notePhotoUrl}
+              alt=""
+              aria-hidden
+              style={{
+                width: 44,
+                height: 64,
+                borderRadius: 6,
+                objectFit: 'cover',
+                flexShrink: 0,
+                border: '1px solid rgba(201,168,76,0.18)',
+                background: '#1a0a1e',
+              }}
+            />
+          ) : (
+            <div
+              aria-hidden
+              style={{
+                width: 44,
+                height: 64,
+                borderRadius: 6,
+                background: `linear-gradient(160deg, ${wine.bottleColor} 0%, #1a0a1e 70%)`,
+                flexShrink: 0,
+                border: '1px solid rgba(201,168,76,0.18)',
+              }}
+            />
+          )}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
               style={{
@@ -294,6 +314,20 @@ export default function ViewNotePage({
               <Star size={12} fill="var(--color-gold)" strokeWidth={0} />
               {Math.round(data.rating100)}/100
             </span>
+            {notePriceKrw != null && (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  fontSize: 12,
+                  color: 'var(--color-text-secondary)',
+                  fontFamily: 'var(--font-inter)',
+                }}
+              >
+                ₩{notePriceKrw.toLocaleString(locale === 'en' ? 'en-US' : 'ko-KR')}
+              </span>
+            )}
           </div>
         </div>
 
@@ -368,6 +402,7 @@ function DimensionsExpert({
     { label: locale === 'ko' ? '단맛' : 'Sweet', value: fields.sweetness },
     { label: locale === 'ko' ? '산미' : 'Acid', value: fields.acidity },
     { label: locale === 'ko' ? '바디' : 'Body', value: fields.body },
+    { label: locale === 'ko' ? '알코올' : 'Alcohol', value: fields.alcohol },
     { label: locale === 'ko' ? '타닌' : 'Tannin', value: fields.tannin },
   ];
   const structureDims = [
@@ -376,26 +411,87 @@ function DimensionsExpert({
   ];
   const finishLabel = FINISH_LENGTH_LABELS[fields.finishLength];
   const tanninTextureLabel = TANNIN_TEXTURE_LABELS[fields.tanninTexture as keyof typeof TANNIN_TEXTURE_LABELS];
+  const tanninRipenessLabel =
+    fields.tanninRipeness != null
+      ? {
+          ripe: locale === 'en' ? 'Ripe' : '잘 익음',
+          unripe: locale === 'en' ? 'Unripe' : '덜 익음',
+          overripe: locale === 'en' ? 'Overripe' : '과숙',
+        }[fields.tanninRipeness]
+      : null;
+  const flavorNotesFilled =
+    !!(fields.flavorNotes && (fields.flavorNotes.ko || fields.flavorNotes.en));
 
   return (
     <>
-      {/* WSET 4차원 */}
+      {/* WSET 5차원 (단맛·산미·바디·알코올·타닌) */}
       <Card title={locale === 'en' ? 'WSET dimensions' : 'WSET 차원'}>
-        <DimGrid items={wsetDims.map((d) => ({ label: d.label, value: wsetShort(d.value, locale) }))} cols={4} />
+        <DimGrid items={wsetDims.map((d) => ({ label: d.label, value: wsetShort(d.value, locale) }))} cols={5} />
       </Card>
 
-      {/* 향·풍미 강도 + 타닌 텍스처 + 마무리 길이 */}
+      {/* 향·풍미 강도 + 타닌 텍스처/숙성도 + 마무리 길이 */}
       <Card title={locale === 'en' ? 'Structure' : '구조'}>
         <DimGrid items={structureDims.map((d) => ({ label: d.label, value: wsetShort(d.value, locale) }))} cols={2} />
         <Row
           label={locale === 'en' ? 'Tannin texture' : '타닌 질감'}
           value={tanninTextureLabel ? (locale === 'ko' ? tanninTextureLabel.ko : tanninTextureLabel.en) : fields.tanninTexture}
         />
+        {tanninRipenessLabel && (
+          <Row
+            label={locale === 'en' ? 'Tannin ripeness' : '타닌 숙성도'}
+            value={tanninRipenessLabel}
+          />
+        )}
         <Row
           label={locale === 'en' ? 'Finish length' : '마무리 길이'}
           value={`${locale === 'ko' ? finishLabel.ko : finishLabel.en} · ${finishLabel.range}`}
         />
       </Card>
+
+      {/* 풍미 노트 (자유 입력) */}
+      {flavorNotesFilled && (
+        <Card title={locale === 'en' ? 'Flavor notes' : '풍미 노트'}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--color-cream)',
+              lineHeight: 1.6,
+              fontStyle: 'italic',
+              fontFamily: 'var(--font-playfair)',
+            }}
+          >
+            <LocaleText value={fields.flavorNotes} />
+          </div>
+        </Card>
+      )}
+
+      {/* 스파클링 — bubbles + dosage */}
+      {fields.bubbles && (
+        <Card title={locale === 'en' ? 'Bubbles' : '버블'}>
+          <Row
+            label={locale === 'en' ? 'Size' : '크기'}
+            value={fields.bubbles.size}
+          />
+          <Row
+            label={locale === 'en' ? 'Persistence' : '지속성'}
+            value={fields.bubbles.persistence}
+          />
+          <Row
+            label={locale === 'en' ? 'Mousse' : '무스 질감'}
+            value={fields.bubbles.mousse}
+          />
+          <Row
+            label={locale === 'en' ? 'Method' : '제조 방식'}
+            value={fields.bubbles.method}
+          />
+          {fields.dosage && (
+            <Row
+              label={locale === 'en' ? 'Dosage' : '도사주'}
+              value={fields.dosage}
+            />
+          )}
+        </Card>
+      )}
 
       {/* 카우달리 + 시음 온도 */}
       <Card title={locale === 'en' ? 'Mouthfeel' : '여운·온도'}>
@@ -589,6 +685,27 @@ function DimensionsExpert({
                 </span>
               );
             })}
+          </div>
+        </Card>
+      )}
+
+      {/* 재구매 의향 — boolean 표시 */}
+      {fields.wouldBuyAgain != null && (
+        <Card title={locale === 'en' ? 'Would buy again' : '재구매 의향'}>
+          <div
+            style={{
+              fontSize: 14,
+              fontFamily: 'var(--font-playfair)',
+              color: fields.wouldBuyAgain ? 'var(--color-gold)' : 'var(--color-text-secondary)',
+            }}
+          >
+            {fields.wouldBuyAgain
+              ? locale === 'en'
+                ? 'Yes — will reorder'
+                : '네, 다시 살 거예요'
+              : locale === 'en'
+                ? 'Not this time'
+                : '이번엔 한 번이면 충분'}
           </div>
         </Card>
       )}
