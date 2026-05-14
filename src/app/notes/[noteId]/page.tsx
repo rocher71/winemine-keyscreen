@@ -336,7 +336,7 @@ export default function ViewNotePage({
           style={{
             margin: '16px 16px 0',
             padding: 16,
-            background: 'rgba(15,7,24,0.6)',
+            background: 'var(--color-bg-sunken)',
             border: '1px solid var(--color-border-default)',
             borderRadius: 14,
           }}
@@ -548,7 +548,7 @@ function DimensionsExpert({
                             fontSize: 11,
                             fontFamily: 'var(--font-inter)',
                             color: 'var(--color-cream)',
-                            background: 'rgba(15,7,24,0.4)',
+                            background: 'var(--color-bg-sunken)',
                           }}
                         >
                           {label}

@@ -54,9 +54,10 @@
 
 /* ── 라이트 테마 — html[data-theme='light']에서 활성 ─── */
 :root[data-theme='light'] {
-  /* Primary는 그대로(와인 강조색 일관성) */
-  --color-wine-red:        #8B1A2A;
-  --color-wine-red-hover:  #6F1422;
+  /* Primary — 라이트 종이 톤 위에서 너무 칙칙하지 않도록 한 단계 밝힘.
+   * 와인 보르도 정체성은 유지하되 라이트 배경 대비 가독성 확보. */
+  --color-wine-red:        #A53449;
+  --color-wine-red-hover:  #8B1A2A;
   --color-gold:            #B89438;
   /* `--color-cream`은 컴포넌트 다수에서 텍스트 primary로 사용 — 라이트에선
    * 다크 와인 브라운으로 재정의해 텍스트 가독성 확보.
