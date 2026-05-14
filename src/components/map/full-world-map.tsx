@@ -52,9 +52,9 @@ const COTE_LABELS = [
 ] as const;
 
 /* ── 헬퍼 ─────────────────────────────────────────────────────────── */
-/** 빈 국가(시음 0병) 기본 fill — 바다(bg-map)보다 분명히 밝은 자색.
- *  랜딩 페이지 hero map의 land 톤과 일치하도록 매칭. */
-const EMPTY_LAND_FILL = '#3D2456';
+/** 빈 국가(시음 0병) 기본 fill — 테마 토큰 사용.
+ *  다크: 와인 보라(#3A2440)  /  라이트: 더스티 라벤더(#C8B8D8). */
+const EMPTY_LAND_FILL = 'var(--color-map-country)';
 
 function fillForCount(count: number): string {
   if (count <= 0) return EMPTY_LAND_FILL;

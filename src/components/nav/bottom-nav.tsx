@@ -124,7 +124,7 @@ export function BottomNav() {
     left: 0,
     right: 0,
     padding: '8px 12px 28px',
-    background: 'linear-gradient(to top, #1B1126 70%, rgba(27,17,38,0))',
+    background: 'var(--gradient-bottom-nav)',
     display: 'flex',
     alignItems: 'flex-end',
     gap: 0,

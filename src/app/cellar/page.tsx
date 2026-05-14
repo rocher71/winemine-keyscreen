@@ -680,7 +680,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               gridTemplateColumns: 'repeat(4, 1fr)',
               gap: 4,
               padding: '8px 10px',
-              background: 'rgba(15,7,24,0.5)',
+              background: 'var(--color-bg-sunken)',
               borderRadius: 8,
               marginBottom: 8,
             }}
