@@ -287,6 +287,26 @@
 .wm-side-panel-right {
   display: none;
 }
+
+/* ── BottomNav: 모바일에선 viewport bottom에 고정 ────────────────
+ * 데스크톱에선 BottomNav가 frame-inner 내부 absolute로 떠 있음(inline style).
+ * 모바일에선 frame-inner의 overflow-y:auto 스크롤과 무관하게 항상 보이도록
+ * position:fixed로 viewport 기준 고정. inline style의 specificity를 이기려면
+ * !important 필요. spacer는 nav가 fixed라 normal flow에서 빠진 만큼의
+ * 높이를 콘텐츠 끝에 확보해서 마지막 줄이 가려지지 않게 한다. */
+.wm-bottom-nav-spacer {
+  display: none;
+}
+@media (max-width: 767px) {
+  .wm-bottom-nav {
+    position: fixed !important;
+  }
+  .wm-bottom-nav-spacer {
+    display: block;
+    height: 84px;
+    flex-shrink: 0;
+  }
+}
 @media (min-width: 1024px) {
   .wm-side-panel-left {
     display: flex;

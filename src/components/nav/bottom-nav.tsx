@@ -133,7 +133,13 @@ export function BottomNav() {
   };
 
   return (
+    <>
+      {/* 모바일에선 BottomNav가 position:fixed라 normal flow 빠짐 →
+       * 마지막 콘텐츠가 nav에 가려지지 않도록 in-flow spacer 삽입.
+       * 데스크톱에선 CSS로 spacer 숨김. */}
+      <div className="wm-bottom-nav-spacer" aria-hidden />
     <nav
+      className="wm-bottom-nav"
       aria-label={locale === 'en' ? 'Primary' : '주요 내비게이션'}
       style={containerStyle}
     >
@@ -172,6 +178,7 @@ export function BottomNav() {
       {/* 커뮤니티 */}
       <NavTab tab={TABS[3]} active={activeId === 'community'} locale={locale} />
     </nav>
+    </>
   );
 }
 
