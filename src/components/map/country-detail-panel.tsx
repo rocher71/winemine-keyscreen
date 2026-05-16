@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import type { Route } from 'next';
+import { useLocale } from '@/context/locale-context';
 import { LocaleText } from '@/components/shared/locale-text';
 import { BottomSheet } from '@/components/shared/bottom-sheet';
 import { WMBottle } from '@/components/shared/wm-bottle';
@@ -22,6 +23,7 @@ type Props = {
  */
 export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) {
   const t = useTranslations('map');
+  const { locale } = useLocale();
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
   const countryWines = useMemo(
@@ -85,15 +87,15 @@ export function CountryDetailPanel({ open, isoNumeric, wines, onClose }: Props) 
                     fontWeight: 600,
                   }}
                 >
-                  {countryWines.length}병
+                  {locale === 'ko' ? `${countryWines.length}병` : `${countryWines.length} bottles`}
                 </span>
               </div>
 
               {/* 스탯 미니 그리드 */}
               <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                 {[
-                  { l: '지역', v: String(regions.length) },
-                  { l: '마신', v: String(countryWines.length) },
+                  { l: locale === 'ko' ? '지역' : 'Region', v: String(regions.length) },
+                  { l: locale === 'ko' ? '마신' : 'Tasted', v: String(countryWines.length) },
                 ].map((s, i) => (
                   <div
                     key={i}

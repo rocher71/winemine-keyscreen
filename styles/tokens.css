@@ -41,6 +41,7 @@
   /* 세계 지도 국가 fill (방문 안 한 국가) */
   --color-map-country:     #3A2440;
   --color-map-ocean:       #100720;
+  --color-map-stroke:      rgba(245,240,232,0.18);
   /* 카드 내부 sub-section 배경 (살짝 잠긴 톤) */
   --color-bg-sunken:       rgba(0,0,0,0.28);
   /* 와인병 placeholder 박스의 그라데이션 endpoint — 병이 놓인 선반 톤 */
@@ -98,9 +99,10 @@
   --gradient-page-bg:      linear-gradient(135deg, #FAF5EC 0%, #F2EAD9 100%);
   /* BottomNav 위 fade — 라이트 크림 fade */
   --gradient-bottom-nav:   linear-gradient(to top, #FAF5EC 70%, rgba(250,245,236,0));
-  /* 세계 지도 국가 fill — 더스티 라벤더 */
-  --color-map-country:     #C8B8D8;
-  --color-map-ocean:       transparent;
+  /* 세계 지도 국가 fill — 고지도 양피지 컨셉 */
+  --color-map-country:     #DDD0BB;
+  --color-map-ocean:       #C8D6E4;
+  --color-map-stroke:      rgba(160,140,110,0.40);
   /* 카드 내부 sub-section 배경 — 라이트 톤 (살짝 어두운 종이 톤) */
   --color-bg-sunken:       rgba(42,26,20,0.06);
   /* 와인병 placeholder 박스 — 흰색 카드 톤 */

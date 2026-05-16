@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useTranslations } from 'next-intl';
+import { useLocale } from '@/context/locale-context';
 import { LocaleText } from '@/components/shared/locale-text';
 import { WMBottle } from '@/components/shared/wm-bottle';
 import { WMGlassRating } from '@/components/shared/wm-glass-rating';
@@ -11,6 +12,7 @@ import type { TastingNote } from '@/types';
 
 export function RecentNotesStrip({ notes }: { notes: TastingNote[] }) {
   const t = useTranslations('home');
+  const { locale } = useLocale();
   const items = notes
     .slice()
     .sort((a, b) => (a.tastedAt < b.tastedAt ? 1 : -1))
@@ -29,7 +31,7 @@ export function RecentNotesStrip({ notes }: { notes: TastingNote[] }) {
         }}
       >
         <div style={{ fontSize: 10, color: '#C9A84C', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 2, fontWeight: 500 }}>
-          최근 노트
+          {locale === 'ko' ? '최근 노트' : 'Recent Notes'}
         </div>
         <h2
           style={{

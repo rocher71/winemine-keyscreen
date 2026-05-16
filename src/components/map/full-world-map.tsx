@@ -20,6 +20,7 @@ import {
 } from 'react-simple-maps';
 import { Plus, Minus, RotateCcw } from 'lucide-react';
 import type { Wine } from '@/types';
+import { useLocale } from '@/context/locale-context';
 
 const GEO_URL = '/world-110m.json';
 const FRANCE_ISO = '250';
@@ -53,7 +54,7 @@ const COTE_LABELS = [
 
 /* ── 헬퍼 ─────────────────────────────────────────────────────────── */
 /** 빈 국가(시음 0병) 기본 fill — 테마 토큰 사용.
- *  다크: 와인 보라(#3A2440)  /  라이트: 더스티 라벤더(#C8B8D8). */
+ *  다크: 와인 보라(#3A2440)  /  라이트: 고지도 양피지(#DDD0BB). */
 const EMPTY_LAND_FILL = 'var(--color-map-country)';
 
 function fillForCount(count: number): string {
@@ -78,6 +79,7 @@ type Props = {
 };
 
 export default function FullWorldMap({ wines, onCountrySelect }: Props) {
+  const { locale } = useLocale();
   const [position, setPosition] = useState<{ zoom: number; center: [number, number] }>({
     zoom: 1,
     center: WORLD_CENTER,
@@ -189,7 +191,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
                     style={{
                       default: {
                         fill,
-                        stroke: isAntarctica ? 'transparent' : 'rgba(245,240,232,0.18)',
+                        stroke: isAntarctica ? 'transparent' : 'var(--color-map-stroke)',
                         strokeWidth: 0.45,
                         outline: 'none',
                         cursor: clickable ? 'pointer' : 'default',
@@ -336,7 +338,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
         }}
       >
         {isZoomed && (
-          <button type="button" onClick={reset} style={btnBase} title="세계 지도로 돌아가기">
+          <button type="button" onClick={reset} style={btnBase} title={locale === 'ko' ? '세계 지도로 돌아가기' : 'Back to world map'}>
             <RotateCcw size={14} strokeWidth={2} />
           </button>
         )}
@@ -345,7 +347,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
           onClick={zoomIn}
           style={{ ...btnBase, opacity: position.zoom >= MAX_ZOOM ? 0.35 : 1 }}
           disabled={position.zoom >= MAX_ZOOM}
-          title="확대"
+          title={locale === 'ko' ? '확대' : 'Zoom in'}
         >
           <Plus size={17} strokeWidth={2} />
         </button>
@@ -354,7 +356,7 @@ export default function FullWorldMap({ wines, onCountrySelect }: Props) {
           onClick={zoomOut}
           style={{ ...btnBase, opacity: position.zoom <= MIN_ZOOM ? 0.35 : 1 }}
           disabled={position.zoom <= MIN_ZOOM}
-          title="축소"
+          title={locale === 'ko' ? '축소' : 'Zoom out'}
         >
           <Minus size={17} strokeWidth={2} />
         </button>

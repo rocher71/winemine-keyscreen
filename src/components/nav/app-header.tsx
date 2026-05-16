@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import type { CSSProperties } from 'react';
+import { useLocale } from '@/context/locale-context';
 
 type Props = {
   hasUnreadNotification?: boolean;
@@ -54,7 +55,15 @@ function WMLogoWordmark({ size = 18 }: { size?: number }) {
 }
 
 /** 레벨 칩 (L4 · 골드) */
+const LEVEL_NAMES_KO: Record<number, string> = {
+  1: '브론즈', 2: '실버', 3: '골드', 4: '골드', 5: '마스터',
+};
+const LEVEL_NAMES_EN: Record<number, string> = {
+  1: 'Bronze', 2: 'Silver', 3: 'Gold', 4: 'Gold', 5: 'Master',
+};
+
 function LevelChip({ levelId, initial }: { levelId: number; initial: string }) {
+  const { locale } = useLocale();
   const LEVEL_COLORS: Record<number, string> = {
     1: '#a87341',
     2: '#b8b8c0',
@@ -62,11 +71,9 @@ function LevelChip({ levelId, initial }: { levelId: number; initial: string }) {
     4: '#C9A84C',
     5: '#8B1A2A',
   };
-  const LEVEL_NAMES: Record<number, string> = {
-    1: '브론즈', 2: '실버', 3: '골드', 4: '골드', 5: '마스터',
-  };
+  const levelNames = locale === 'ko' ? LEVEL_NAMES_KO : LEVEL_NAMES_EN;
   const color = LEVEL_COLORS[levelId] ?? '#C9A84C';
-  const name = LEVEL_NAMES[levelId] ?? '';
+  const name = levelNames[levelId] ?? '';
   return (
     <Link
       href={'/profile' as Route}
@@ -121,6 +128,7 @@ function LevelChip({ levelId, initial }: { levelId: number; initial: string }) {
 
 /** 알림 벨 버튼 */
 function BellButton({ hasUnread }: { hasUnread: boolean }) {
+  const { locale } = useLocale();
   const btnStyle: CSSProperties = {
     width: 36,
     height: 36,
@@ -138,7 +146,7 @@ function BellButton({ hasUnread }: { hasUnread: boolean }) {
     flexShrink: 0,
   };
   return (
-    <Link href={'/notifications' as Route} aria-label="알림" style={btnStyle}>
+    <Link href={'/notifications' as Route} aria-label={locale === 'ko' ? '알림' : 'Notifications'} style={btnStyle}>
       {/* Bell SVG (monoline) */}
       <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 16V10a6 6 0 0 1 12 0v6l1.5 2H4.5z" />
@@ -161,6 +169,7 @@ export function AppHeader({
   avatarInitial = 'W',
   levelId = null,
 }: Props) {
+  const { locale } = useLocale();
   return (
     <header
       style={{
@@ -195,7 +204,7 @@ export function AppHeader({
       ) : (
         <Link
           href={'/profile' as Route}
-          aria-label="프로필"
+          aria-label={locale === 'ko' ? '프로필' : 'Profile'}
           style={{
             width: 36,
             height: 36,

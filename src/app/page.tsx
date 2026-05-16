@@ -110,7 +110,7 @@ export default function HomePage() {
             <StatHero user={user} />
 
             {/* 세계 지도 cameo — 커뮤니티 peek 바로 위 */}
-            <MapCameo countries={user.stats.countriesExplored} regions={user.stats.regionsExplored} />
+            <MapCameo countries={user.stats.countriesExplored} regions={user.stats.regionsExplored} locale={locale} />
 
             {/* E 변형: 커뮤니티 peek */}
             <HomeCommunityPeek />
@@ -224,7 +224,7 @@ function PeakGreeting({
 }
 
 /* 홈 세계지도 cameo */
-function MapCameo({ countries, regions }: { countries: number; regions: number }) {
+function MapCameo({ countries, regions, locale }: { countries: number; regions: number; locale: 'ko' | 'en' }) {
   return (
     <Link
       href={'/map' as Route}
@@ -250,10 +250,12 @@ function MapCameo({ countries, regions }: { countries: number; regions: number }
             fontSize: 14,
             color: 'var(--color-cream)',
           }}>
-            당신의 와인 지도
+            {locale === 'ko' ? '당신의 와인 지도' : 'Your Wine Map'}
           </div>
           <div style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2, fontFamily: 'var(--font-inter)' }}>
-            {countries}개국 · {regions}개 지역
+            {locale === 'ko'
+              ? `${countries}개국 · ${regions}개 지역`
+              : `${countries} countries · ${regions} regions`}
           </div>
         </div>
         <span style={{
@@ -263,7 +265,7 @@ function MapCameo({ countries, regions }: { countries: number; regions: number }
           fontFamily: 'var(--font-inter)',
           fontWeight: 600,
         }}>
-          전체 →
+          {locale === 'ko' ? '전체 →' : 'All →'}
         </span>
       </div>
       {/* 지도 미리보기 (정적 placeholder — 실제 지도는 /map에서) */}

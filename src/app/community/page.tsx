@@ -110,7 +110,7 @@ export default function CommunityPage() {
                   ? 'All Stories'
                   : '모든 잔의 이야기'
                 : locale === 'en'
-                ? 'Most Raised Glasses'
+                ? 'Most Toasted'
                 : '가장 많이 든 잔들'}
             </div>
           </div>

@@ -12,19 +12,19 @@ import { useLocale } from '@/context/locale-context';
 import { useTranslations } from 'next-intl';
 
 const TONIGHT_ENTRIES = [
-  { userId: 'jiwon',    wineId: 'bgy-pommard',           place: '청담', placeDetail: '집',          hour: '21:42', vibe: '두 시간 디캔팅 중' },
-  { userId: 'mineral',  wineId: 'bgy-puligny-montrachet', place: '한남', placeDetail: '와인바 ZIN',  hour: '21:30', vibe: '단독 시음' },
-  { userId: 'duckhu',   wineId: 'cha-krug-grande-cuvee',  place: '판교', placeDetail: '집',          hour: '21:15', vibe: '기념일' },
-  { userId: 'haerin',   wineId: 'loi-sancerre',            place: '강남', placeDetail: '리바이스 식당', hour: '20:55', vibe: '식사와 함께' },
-  { userId: 'minho',    wineId: 'bdx-pichon-baron',        place: '성수', placeDetail: '집',          hour: '20:40', vibe: '셀러 정리 후' },
+  { userId: 'jiwon',    wineId: 'bgy-pommard',            place: { ko: '청담', en: 'Cheongdam' }, placeDetail: { ko: '집',           en: 'Home' },              hour: '21:42', vibe: { ko: '두 시간 디캔팅 중', en: 'Decanting for two hours' } },
+  { userId: 'mineral',  wineId: 'bgy-puligny-montrachet', place: { ko: '한남', en: 'Hannam' },    placeDetail: { ko: '와인바 ZIN',   en: 'Wine bar ZIN' },      hour: '21:30', vibe: { ko: '단독 시음',         en: 'Solo tasting' } },
+  { userId: 'duckhu',   wineId: 'cha-krug-grande-cuvee',  place: { ko: '판교', en: 'Pangyo' },    placeDetail: { ko: '집',           en: 'Home' },              hour: '21:15', vibe: { ko: '기념일',             en: 'Anniversary' } },
+  { userId: 'haerin',   wineId: 'loi-sancerre',           place: { ko: '강남', en: 'Gangnam' },   placeDetail: { ko: '리바이스 식당', en: 'Levis restaurant' }, hour: '20:55', vibe: { ko: '식사와 함께',         en: 'With dinner' } },
+  { userId: 'minho',    wineId: 'bdx-pichon-baron',       place: { ko: '성수', en: 'Seongsu' },   placeDetail: { ko: '집',           en: 'Home' },              hour: '20:40', vibe: { ko: '셀러 정리 후',         en: 'After cellar cleanup' } },
 ] as const;
 
 const MAP_DOTS = [
-  { x: 240, y: 90,  label: '청담', n: 4 },
-  { x: 178, y: 95,  label: '한남', n: 3 },
-  { x: 200, y: 175, label: '판교', n: 3 },
-  { x: 280, y: 75,  label: '성수', n: 2 },
-  { x: 175, y: 140, label: '강남', n: 2 },
+  { x: 240, y: 90,  label: { ko: '청담', en: 'Cheongdam' }, n: 4 },
+  { x: 178, y: 95,  label: { ko: '한남', en: 'Hannam' },    n: 3 },
+  { x: 200, y: 175, label: { ko: '판교', en: 'Pangyo' },    n: 3 },
+  { x: 280, y: 75,  label: { ko: '성수', en: 'Seongsu' },   n: 2 },
+  { x: 175, y: 140, label: { ko: '강남', en: 'Gangnam' },   n: 2 },
 ] as const;
 
 export default function TonightPage() {
@@ -123,7 +123,7 @@ export default function TonightPage() {
           </text>
           {/* Dots */}
           {MAP_DOTS.map((d) => (
-            <g key={d.label}>
+            <g key={d.label.en}>
               <circle cx={d.x} cy={d.y} r={d.n * 2 + 4} fill="#C9A84C" opacity="0.18" filter="url(#dotglow)" />
               <circle cx={d.x} cy={d.y} r={Math.min(8, 3 + d.n)} fill="#C9A84C" />
               <text
@@ -145,7 +145,7 @@ export default function TonightPage() {
                 fontSize="8"
                 fill="#F5F0E8"
               >
-                {d.label}
+                {locale === 'ko' ? d.label.ko : d.label.en}
               </text>
             </g>
           ))}
@@ -248,7 +248,7 @@ export default function TonightPage() {
                     {getCommunityUser(e.userId)?.name ?? e.userId}
                   </Link>
                   <span style={{ fontSize: 10, color: 'var(--color-text-muted)' }}>
-                    · {e.place} · {e.hour}
+                    · {locale === 'ko' ? e.place.ko : e.place.en} · {e.hour}
                   </span>
                 </div>
                 <div
@@ -267,7 +267,7 @@ export default function TonightPage() {
                 <div
                   style={{ fontSize: 10, color: 'var(--color-text-muted)', marginTop: 2, fontStyle: 'italic' }}
                 >
-                  {e.vibe}
+                  {locale === 'ko' ? e.vibe.ko : e.vibe.en}
                 </div>
               </div>
               <button

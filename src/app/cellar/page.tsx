@@ -14,6 +14,7 @@ import { getWine } from '@/lib/mock/wines';
 import { getTastingNotesByUser } from '@/lib/mock/tasting-notes';
 import { getUnreadCount } from '@/lib/mock/notifications';
 import { useLocalizedText } from '@/components/shared/locale-text';
+import { useLocale } from '@/context/locale-context';
 import { useRegisterFeatures } from '@/context/feature-flag-context';
 import { toast } from '@/hooks/use-toast';
 import { CellarCard } from '@/components/cellar/cellar-card';
@@ -39,6 +40,7 @@ const TYPE_FILTERS: TypeFilter[] = ['all', 'red', 'white', 'sparkling', 'rosé',
 export default function CellarListPage() {
   const t = useTranslations('cellar');
   const { user } = useMockUser();
+  const { locale } = useLocale();
   const avatar = useLocalizedText(user.avatarInitial);
   const unread = getUnreadCount(user.id);
 
@@ -171,7 +173,7 @@ export default function CellarListPage() {
           >
             {([
               { key: 'cellar' as CellarTab, label: t('title'), count: rawItems.length },
-              { key: 'tasted' as CellarTab, label: '마신 와인', count: tastedItems.length },
+              { key: 'tasted' as CellarTab, label: locale === 'ko' ? '마신 와인' : 'Tasted', count: tastedItems.length },
             ] as const).map(({ key, label, count }) => {
               const active = tab === key;
               return (
@@ -241,7 +243,7 @@ export default function CellarListPage() {
 
         {/* 마신 와인 탭 */}
         {tab === 'tasted' && (
-          <TastedWinesList items={tastedItems} query={query} setQuery={setQuery} />
+          <TastedWinesList items={tastedItems} query={query} setQuery={setQuery} locale={locale} />
         )}
 
         {/* 내 셀러 탭 */}
@@ -453,10 +455,12 @@ function TastedWinesList({
   items,
   query,
   setQuery,
+  locale,
 }: {
   items: { note: TastingNote; wine: Wine }[];
   query: string;
   setQuery: (q: string) => void;
+  locale: 'ko' | 'en';
 }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -489,7 +493,7 @@ function TastedWinesList({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="이름·생산자·지역·빈티지"
+            placeholder={locale === 'ko' ? '이름·생산자·지역·빈티지' : 'Name, producer, region, vintage'}
             style={{
               flex: 1,
               background: 'transparent',
@@ -528,18 +532,18 @@ function TastedWinesList({
 
       {/* 결과 수 */}
       <div style={{ padding: '0 20px 10px', fontFamily: 'var(--font-inter)', fontSize: 11, color: 'var(--color-text-muted)' }}>
-        {filtered.length}병 시음 기록
+        {locale === 'ko' ? `${filtered.length}병 시음 기록` : `${filtered.length} tasting records`}
       </div>
 
       {/* 리스트 */}
       {filtered.length === 0 ? (
         <div style={{ padding: '32px 20px', textAlign: 'center', color: 'var(--color-text-muted)', fontFamily: 'var(--font-inter)', fontSize: 13 }}>
-          검색 결과가 없어요
+          {locale === 'ko' ? '검색 결과가 없어요' : 'No results found'}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '0 16px 24px' }}>
           {filtered.map(({ note, wine }) => (
-            <TastedWineRow key={note.id} note={note} wine={wine} />
+            <TastedWineRow key={note.id} note={note} wine={wine} locale={locale} />
           ))}
         </div>
       )}
@@ -547,7 +551,7 @@ function TastedWinesList({
   );
 }
 
-function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
+function TastedWineRow({ note, wine, locale }: { note: TastingNote; wine: Wine; locale: 'ko' | 'en' }) {
   const router = useRouter();
 
   // 0~5 스케일로 통일
@@ -589,7 +593,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-            <WineTypeDotSmall wineType={wine.wineType} />
+            <WineTypeDotSmall wineType={wine.wineType} locale={locale} />
             <span style={{ fontFamily: 'var(--font-inter)', fontSize: 9, color: 'var(--color-text-disabled)', marginLeft: 'auto' }}>
               {dateStr}
             </span>
@@ -629,7 +633,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
             <path d="m4 20 4-1 11-11-3-3L5 16z" />
           </svg>
           <span style={{ fontFamily: 'var(--font-inter)', fontSize: 10, color: '#C9A84C', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            내 시음 노트
+            {locale === 'ko' ? '내 시음 노트' : 'My Tasting Note'}
           </span>
           {/* 모드 뱃지 */}
           <span
@@ -645,7 +649,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               textTransform: 'uppercase',
             }}
           >
-            {isExpert ? '전문가' : '입문자'}
+            {isExpert ? (locale === 'ko' ? '전문가' : 'Expert') : (locale === 'ko' ? '입문자' : 'Beginner')}
           </span>
           {/* 평점 */}
           {ratingDisplay && (
@@ -686,10 +690,10 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
             }}
           >
             {[
-              { l: '산도', v: wsetShortKo(note.expertFields.acidity) },
-              { l: '바디', v: wsetShortKo(note.expertFields.body) },
-              { l: '타닌', v: wsetShortKo(note.expertFields.tannin) },
-              { l: '단맛', v: wsetShortKo(note.expertFields.sweetness) },
+              { l: locale === 'ko' ? '산도' : 'Acidity', v: wsetShort(note.expertFields.acidity, locale) },
+              { l: locale === 'ko' ? '바디' : 'Body',    v: wsetShort(note.expertFields.body, locale) },
+              { l: locale === 'ko' ? '타닌' : 'Tannin',  v: wsetShort(note.expertFields.tannin, locale) },
+              { l: locale === 'ko' ? '단맛' : 'Sweetness', v: wsetShort(note.expertFields.sweetness, locale) },
             ].map((d) => (
               <div key={d.l} style={{ textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-inter)', fontSize: 8, color: 'var(--color-text-muted)', letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: 2 }}>{d.l}</div>
@@ -718,7 +722,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               textAlign: 'center',
             }}
           >
-            노트 보기
+            {locale === 'ko' ? '노트 보기' : 'View Note'}
           </Link>
           <button
             type="button"
@@ -736,7 +740,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               cursor: 'pointer',
             }}
           >
-            편집
+            {locale === 'ko' ? '편집' : 'Edit'}
           </button>
           <Link
             href={`/wine/${wine.id}` as Route}
@@ -755,7 +759,7 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
               textAlign: 'center',
             }}
           >
-            와인 상세
+            {locale === 'ko' ? '와인 상세' : 'Wine Details'}
           </Link>
         </div>
       </div>
@@ -763,11 +767,15 @@ function TastedWineRow({ note, wine }: { note: TastingNote; wine: Wine }) {
   );
 }
 
-function wsetShortKo(scale: string): string {
-  return ({ low: '낮음', mediumMinus: '중−', medium: '중', mediumPlus: '중+', high: '높음' } as Record<string, string>)[scale] ?? scale;
+function wsetShort(scale: string, locale: 'ko' | 'en'): string {
+  const map: Record<'ko' | 'en', Record<string, string>> = {
+    ko: { low: '낮음', mediumMinus: '중−', medium: '중', mediumPlus: '중+', high: '높음' },
+    en: { low: 'Low', mediumMinus: 'Med−', medium: 'Med', mediumPlus: 'Med+', high: 'High' },
+  };
+  return map[locale][scale] ?? scale;
 }
 
-function WineTypeDotSmall({ wineType }: { wineType: string }) {
+function WineTypeDotSmall({ wineType, locale }: { wineType: string; locale: 'ko' | 'en' }) {
   const colorMap: Record<string, string> = {
     red: '#8B1A2A',
     white: '#d6c46b',
@@ -776,12 +784,18 @@ function WineTypeDotSmall({ wineType }: { wineType: string }) {
     fortified: '#5a2218',
     dessert: '#a07030',
   };
-  const labelMap: Record<string, string> = {
-    red: '레드', white: '화이트', sparkling: '스파클링',
-    rosé: '로제', fortified: '주정강화', dessert: '디저트',
+  const labelMap: Record<'ko' | 'en', Record<string, string>> = {
+    ko: {
+      red: '레드', white: '화이트', sparkling: '스파클링',
+      rosé: '로제', fortified: '주정강화', dessert: '디저트',
+    },
+    en: {
+      red: 'Red', white: 'White', sparkling: 'Sparkling',
+      rosé: 'Rosé', fortified: 'Fortified', dessert: 'Dessert',
+    },
   };
   const color = colorMap[wineType] ?? '#8B1A2A';
-  const label = labelMap[wineType] ?? wineType;
+  const label = labelMap[locale][wineType] ?? wineType;
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
       <span style={{ width: 7, height: 7, borderRadius: 999, background: color, display: 'inline-block' }} />

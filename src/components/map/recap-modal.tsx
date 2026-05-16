@@ -16,6 +16,7 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { toPng } from 'html-to-image';
 import type { Wine, TastingNote, User } from '@/types';
 import { toast } from '@/hooks/use-toast';
+import { useLocale } from '@/context/locale-context';
 
 const GEO_URL = '/world-110m.json';
 
@@ -128,6 +129,7 @@ export function RecapModal({
 }) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [exporting, setExporting] = useState(false);
+  const { locale } = useLocale();
 
   const winesById = useMemo(() => new Map(wines.map((w) => [w.id, w])), [wines]);
   const stats = useMemo(() => computeStats(notes, winesById), [notes, winesById]);
@@ -159,9 +161,9 @@ export function RecapModal({
       link.download = `winemine-recap-${year}.png`;
       link.href = dataUrl;
       link.click();
-      toast({ message: '이미지를 저장했어요' });
+      toast({ message: locale === 'ko' ? '이미지를 저장했어요' : 'Image saved' });
     } catch {
-      toast({ message: '이미지 저장에 실패했어요' });
+      toast({ message: locale === 'ko' ? '이미지 저장에 실패했어요' : 'Failed to save image' });
     } finally {
       setExporting(false);
     }
@@ -192,7 +194,7 @@ export function RecapModal({
       <button
         type="button"
         onClick={onClose}
-        aria-label="닫기"
+        aria-label={locale === 'ko' ? '닫기' : 'Close'}
         style={{
           position: 'absolute',
           top: 12,
@@ -400,7 +402,7 @@ export function RecapModal({
           </div>
 
           {/* 와인 타입 비율 바 */}
-          <TypeBar red={stats.redCount} white={stats.whiteCount} other={stats.otherCount} />
+          <TypeBar red={stats.redCount} white={stats.whiteCount} other={stats.otherCount} locale={locale} />
 
           {/* MRZ-style 하단 라인 */}
           <div
@@ -454,11 +456,13 @@ export function RecapModal({
           }}
         >
           <Download size={14} strokeWidth={2.4} />
-          {exporting ? '저장 중…' : '이미지 저장'}
+          {exporting
+            ? (locale === 'ko' ? '저장 중…' : 'Saving…')
+            : (locale === 'ko' ? '이미지 저장' : 'Save image')}
         </button>
         <button
           type="button"
-          onClick={() => toast({ message: '공유 시트는 곧 지원돼요' })}
+          onClick={() => toast({ message: locale === 'ko' ? '공유 시트는 곧 지원돼요' : 'Share sheet coming soon' })}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -475,7 +479,7 @@ export function RecapModal({
           }}
         >
           <Share2 size={14} strokeWidth={2.2} />
-          공유
+          {locale === 'ko' ? '공유' : 'Share'}
         </button>
       </div>
     </div>
@@ -537,7 +541,7 @@ function StatCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function TypeBar({ red, white, other }: { red: number; white: number; other: number }) {
+function TypeBar({ red, white, other, locale }: { red: number; white: number; other: number; locale: 'ko' | 'en' }) {
   const total = red + white + other;
   if (total === 0) return null;
   return (
@@ -565,10 +569,10 @@ function TypeBar({ red, white, other }: { red: number; white: number; other: num
           gap: 10,
         }}
       >
-        <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#8B1A2A', borderRadius: 99, marginRight: 4 }} />레드 {red}</span>
-        <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#E8D89B', borderRadius: 99, marginRight: 4 }} />화이트 {white}</span>
+        <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#8B1A2A', borderRadius: 99, marginRight: 4 }} />{locale === 'ko' ? `레드 ${red}` : `Red ${red}`}</span>
+        <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#E8D89B', borderRadius: 99, marginRight: 4 }} />{locale === 'ko' ? `화이트 ${white}` : `White ${white}`}</span>
         {other > 0 && (
-          <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#C9A84C', borderRadius: 99, marginRight: 4 }} />기타 {other}</span>
+          <span><span style={{ display: 'inline-block', width: 6, height: 6, background: '#C9A84C', borderRadius: 99, marginRight: 4 }} />{locale === 'ko' ? `기타 ${other}` : `Other ${other}`}</span>
         )}
       </div>
     </div>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import type { Route } from 'next';
 import { useMockUser } from '@/hooks/use-mock-user';
 import { useMyNoteForWine } from '@/hooks/use-merged-data';
+import { useLocale } from '@/context/locale-context';
 
 type Props = {
   wineId: string;
@@ -19,6 +20,7 @@ export function WriteNoteCta({ wineId }: Props) {
   const { user } = useMockUser();
   const note = useMyNoteForWine(user.id, wineId);
   const router = useRouter();
+  const { locale } = useLocale();
 
   if (note) return null;
 
@@ -65,7 +67,7 @@ export function WriteNoteCta({ wineId }: Props) {
             marginBottom: 2,
           }}
         >
-          아직 노트가 없어요
+          {locale === 'ko' ? '아직 노트가 없어요' : 'No notes yet'}
         </div>
         <div
           style={{
@@ -75,7 +77,7 @@ export function WriteNoteCta({ wineId }: Props) {
             lineHeight: 1.4,
           }}
         >
-          이 와인의 시음 경험을 기록해보세요
+          {locale === 'ko' ? '이 와인의 시음 경험을 기록해보세요' : 'Record your tasting experience'}
         </div>
       </div>
 
@@ -99,7 +101,7 @@ export function WriteNoteCta({ wineId }: Props) {
           boxShadow: '0 4px 12px rgba(139,26,42,0.35)',
         }}
       >
-        노트 작성
+        {locale === 'ko' ? '노트 작성' : 'Write Note'}
       </button>
     </section>
   );

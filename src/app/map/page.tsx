@@ -18,6 +18,7 @@ import { RecapModal } from '@/components/map/recap-modal';
 import { PrimaryButton } from '@/components/shared/primary-button';
 import { toast } from '@/hooks/use-toast';
 import { useLocalizedText } from '@/components/shared/locale-text';
+import { useLocale } from '@/context/locale-context';
 import { getUnreadCount } from '@/lib/mock/notifications';
 
 const FullWorldMap = dynamic(() => import('@/components/map/full-world-map'), {
@@ -52,6 +53,7 @@ export default function MapPage() {
   const t = useTranslations('map');
   const { user } = useMockUser();
   const { demoMode } = useAppMode();
+  const { locale } = useLocale();
   const router = useRouter();
   const [selectedIso, setSelectedIso] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
@@ -144,7 +146,7 @@ export default function MapPage() {
                   WebkitBackdropFilter: 'blur(8px)',
                 }}
               >
-                {FILTER_LABELS[key].ko}
+                {locale === 'ko' ? FILTER_LABELS[key].ko : FILTER_LABELS[key].en}
               </button>
             );
           })}
@@ -215,7 +217,9 @@ export default function MapPage() {
                 lineHeight: 1.5,
               }}
             >
-              사진 한 장이면 와인 정보가 자동 채워지고, 마신 국가가 지도에 칠해집니다
+              {locale === 'ko'
+                ? '사진 한 장이면 와인 정보가 자동 채워지고, 마신 국가가 지도에 칠해집니다'
+                : 'One photo auto-fills the wine info, and the country you drank from gets painted on the map'}
             </div>
             <div style={{ marginTop: 14 }}>
               <PrimaryButton onClick={() => router.push('/capture')} variant="primary">
@@ -239,7 +243,7 @@ export default function MapPage() {
           <button
             type="button"
             onClick={() => setRecapOpen(true)}
-            aria-label="와인 리포트 생성하기"
+            aria-label={locale === 'ko' ? '와인 리포트 생성하기' : 'Generate wine report'}
             style={{
               position: 'absolute',
               top: 14,
@@ -264,7 +268,7 @@ export default function MapPage() {
             }}
           >
             <Sparkles size={13} strokeWidth={2.2} />
-            와인 리포트 생성하기
+            {locale === 'ko' ? '와인 리포트 생성하기' : 'Generate Wine Report'}
           </button>
         )}
 
