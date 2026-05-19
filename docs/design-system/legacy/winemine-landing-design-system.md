@@ -1,7 +1,9 @@
-# winemine — Design System
+# winemine — Landing Page Design System (Phase 1 · Legacy)
 
-> 랜딩 페이지 빌드(`Phase 1`)에서 검증된 디자인 시스템.
-> 색상, 타이포, 간격, 애니메이션은 앱 프로토타입에 그대로 가져와 일관성을 유지한다.
+> **이 문서는 Phase 1 랜딩 페이지에서 검증된 디자인 시스템이다 (구 `DESIGN_SYSTEM.md`).**
+> 현재 키스크린 앱(Phase 2)의 진실 소스는 [`../README.md`](../README.md) 및 자매 문서들이며,
+> 색 팔레트(예: Deepest Dark `#05020A` → `#251837`)와 컴포넌트 구성이 다르다.
+> 보존 목적으로만 둔다. 새 작업의 레퍼런스로 사용하지 말 것.
 
 ---
 

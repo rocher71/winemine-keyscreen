@@ -555,5 +555,5 @@ RN으로 포팅 시 `react-native-svg`로 거의 1:1 옮길 수 있는 단순 pa
 - `_workspace/burgundy-section-spec.md` — 전문가 측 섹션 (페어링 헤더의 다른 쪽).
 - `WINEMINE_LANDING_SPEC.md` — 전체 랜딩 페이지 사양.
 - `PRODUCT_PLAN.md` — 서비스 비전·타겟·로드맵.
-- `design.md` — 디자인 시스템 단일 참조.
+- `docs/design-system/` — 디자인 시스템 (색상·폰트·컴포넌트 분리). `design.md`는 이 디렉토리로 redirect.
 - `CLAUDE.md` — 프로젝트 컨벤션, 환경 변수, 보안 규칙.

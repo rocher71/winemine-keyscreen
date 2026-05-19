@@ -48,7 +48,7 @@ npm install
 | `WINEMINE_KEYSCREEN_SPEC.md` | 2500줄 스펙 — 라우트·Context·베타 피드백·디자인 시스템·통합 테스트 시나리오 |
 | `FEATURES.md` | 현재 구현된 기능 상세 목록 (라우트 33개 기준) |
 | `README.md` | 프로젝트 개요, 기술 스택, 라우트 구성, 커밋 히스토리 |
-| `DESIGN_SYSTEM.md` | 색상·타이포·간격 디자인 시스템 |
+| `docs/design-system/` | 색상·타이포·컴포넌트 디자인 시스템 (`README.md` · `colors.md` · `typography.md` · `components.md`) |
 | `docs/tasting-note-app-handover.md` | 테이스팅 노트 시스템 9개 컴포넌트 시그니처 |
 | `data/raw/2026-05-12_review.md` | 1차 베타 사용자 피드백 |
 | `CLAUDE.md` | 프로젝트 컨벤션 + 하네스 포인터 + 변경 이력 |

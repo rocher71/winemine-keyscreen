@@ -203,7 +203,7 @@ locale=ko|en    → 전 UI 즉시 전환 (한글 0 누출 원칙)
 |------|------|
 | `WINEMINE_KEYSCREEN_SPEC.md` | 2500줄 전체 스펙 (라우트·컨텍스트·디자인·테스트 시나리오) |
 | `FEATURES.md` | 현재 구현된 기능 상세 목록 |
-| `DESIGN_SYSTEM.md` | 색상·타이포·간격 디자인 시스템 |
+| `docs/design-system/` | 색상·타이포·컴포넌트 디자인 시스템 (`README.md` · `colors.md` · `typography.md` · `components.md`) |
 | `ONBOARDING.md` | 새 세션 진입용 인계 문서 |
 | `CLAUDE.md` | Claude Code 작업 컨벤션 + 하네스 정의 |
 | `docs/tasting-note-app-handover.md` | 테이스팅 노트 컴포넌트 9개 시그니처 |
