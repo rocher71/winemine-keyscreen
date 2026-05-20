@@ -1,4 +1,4 @@
-# pages/ — winemine 키스크린 화면별 명세서
+# screen-specs/ — winemine 키스크린 화면별 명세서
 
 > 기준일: 2026-05-19
 > 대상: `src/app/**/page.tsx`의 모든 라우트(39개)
